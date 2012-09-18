@@ -10,24 +10,25 @@ import javax.persistence.Entity;
  * 
  */
 @Entity
-public class User {
-	private long id;
-	private String name;
+public class User extends AbstractEntity<Long> {
+	private String fullName;
 
-	public long getId() {
-		return id;
+	private String userName;
+
+	private String password;
+
+	private String authority;
+
+	private boolean deleted;
+
+	private boolean disabled;
+
+	public String getFullName() {
+		return fullName;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+	public void setFullName(String name) {
+		this.fullName = name;
 	}
 
 }

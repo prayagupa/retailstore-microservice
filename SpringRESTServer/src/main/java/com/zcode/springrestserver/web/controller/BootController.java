@@ -25,7 +25,7 @@ public class BootController {
 	public @ResponseBody
 	User login() {
 		User user = new User();
-		user.setName("prayag");
+		user.setFullName("prayag");
 
 		return user;
 	}
