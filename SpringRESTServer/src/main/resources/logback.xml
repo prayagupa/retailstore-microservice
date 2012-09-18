@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+
+<appender name="STDOUT"
+   class="ch.qos.logback.core.ConsoleAppender">
+   <encoder>
+     <pattern>
+        %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+      </pattern>
+    </encoder>
+  </appender>
+
+ 
+ <appender name="FILE"
+	class="ch.qos.logback.core.rolling.RollingFileAppender">
+	<file>${log.file}</file>
+	<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+	   <Pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+           </Pattern>
+	</encoder>
+ 
+	<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+		<FileNamePattern>/home/prayag/springrestserver.%i.log.zip</FileNamePattern>
+		<!-- <FileNamePattern>${WORKSPACE_HOME}/ctbs.%i.log.zip</FileNamePattern> -->
+		<MinIndex>1</MinIndex>
+		<MaxIndex>10</MaxIndex>
+	</rollingPolicy>
+ 
+	<triggeringPolicy
+		class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+		<MaxFileSize>2MB</MaxFileSize>
+	</triggeringPolicy>
+ 
+  </appender>
+ 
+  <!-- <logger name="org.hibernate.type" level="ALL" />
+  <logger name="org.hibernate" level="DEBUG" />
+  <logger name="org.springframework" level="DEBUG" /> -->
+  <logger name="org.springframework.data" level="DEBUG" />
+  <logger name="org.springframework.security" level="DEBUG" />
+  <logger name="com.zcode.springrestserver" level="ALL" />
+  <logger name="org.springframework.ws.client.MessageTracing">
+    <level value="ALL"/> 
+   </logger>
+   <logger name="org.springframework.ws.server.MessageTracing">
+    <level value="ALL"/> 
+   </logger>
+  
+ 
+  <root level="INFO">
+	<appender-ref ref="FILE" />
+	 <appender-ref ref="STDOUT" />	
+  </root>
+ 
+</configuration>
