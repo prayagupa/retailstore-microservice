@@ -19,6 +19,10 @@ public class UserAPI implements IUserAPI {
 
 	@Override
 	public User getUserByUsernameAndPassword(String userName, String password) {
-		return userRepository.findByUserNameAndPassword(userName, password);
+		User user = new User();
+		user.setFullName("Prayag");
+		return user;
+		// return userRepository.findByUserNameAndPassword(userName, password);
 	}
+
 }

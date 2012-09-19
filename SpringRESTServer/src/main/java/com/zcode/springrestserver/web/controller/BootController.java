@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.zcode.springrestserver.web.domain.User;
+import com.zcode.springrestserver.client.model.UserModel;
+import com.zcode.springrestserver.web.service.IUserService;
 
 /**
  * @author prayag
@@ -20,13 +21,15 @@ public class BootController {
 	// public String login_() {
 	// return "home";
 	// }
+	IUserService userService;
+
+	public BootController(IUserService userService) {
+		this.userService = userService;
+	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET, headers = "Accept=*/*")
 	public @ResponseBody
-	User login() {
-		User user = new User();
-		user.setFullName("prayag");
-
-		return user;
+	UserModel login() {
+		return userService.login("Prayag", "123456");
 	}
 }

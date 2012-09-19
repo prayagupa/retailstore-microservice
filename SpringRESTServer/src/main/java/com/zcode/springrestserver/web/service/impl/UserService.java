@@ -5,7 +5,7 @@ package com.zcode.springrestserver.web.service.impl;
 
 import com.zcode.springrestserver.client.model.UserModel;
 import com.zcode.springrestserver.client.model.mapper.UserMapper;
-import com.zcode.springrestserver.web.api.impl.UserAPI;
+import com.zcode.springrestserver.web.api.IUserAPI;
 import com.zcode.springrestserver.web.service.IUserService;
 
 /**
@@ -14,9 +14,10 @@ import com.zcode.springrestserver.web.service.IUserService;
  */
 public class UserService implements IUserService {
 
-	private final UserAPI userAPI;
+	// @Autowired
+	private final IUserAPI userAPI;
 
-	public UserService(UserAPI userAPI) {
+	public UserService(IUserAPI userAPI) {
 		this.userAPI = userAPI;
 	}
 
