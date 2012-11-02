@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
@@ -19,8 +21,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
  * @param <PK>
  */
 @MappedSuperclass
-public abstract class AbstractEntity<PK extends Serializable> extends
-		AbstractPersistable<PK> {
+public abstract class AbstractEntity<PK extends Serializable> extends AbstractPersistable<PK> {
 
 	private static final long serialVersionUID = 8453654076725018243L;
 
@@ -58,6 +59,16 @@ public abstract class AbstractEntity<PK extends Serializable> extends
 
 	public int getVersion() {
 		return version;
+	}
+
+	@PrePersist
+	protected void onCreate() {
+		this.created = new java.util.Date();
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		this.lastModified = new java.util.Date();
 	}
 
 }
