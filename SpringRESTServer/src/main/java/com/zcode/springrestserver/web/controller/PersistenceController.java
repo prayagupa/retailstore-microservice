@@ -3,6 +3,9 @@
  */
 package com.zcode.springrestserver.web.controller;
 
+import java.util.Map;
+
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,12 +31,17 @@ public class PersistenceController {
 
 	@RequestMapping(value = "/persistence", method = RequestMethod.GET, headers = "Accept=*/*")
 	public @ResponseBody
-	User setup() {
+	Map<String, Object> setup() {
 		User user = new User();
 		user.setAuthority("ROLE_ADMIN");
 		user.setFullName("Rod Johnson");
 		user.setPassword("123456");
 		User addedUser = userRepository.save(user);
-		return addedUser;
+
+		Map<String, Object> map = new HashedMap();
+		map.put("id", addedUser.getId());
+		map.put("fullName", addedUser.getFullName());
+		return map;
+		// return addedUser;
 	}
 }
