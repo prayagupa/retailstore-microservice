@@ -394,13 +394,13 @@
 			<name>tomcat plugin snapshots</name>
 			<url>http://people.apache.org/repo/m2-snapshot-repository/org/apache/tomcat/</url>
 		</repository>
-
+		<!--
 		<repository>
-			<id>F1Repo-releases</id>
-			<name>F1Repo-releases</name>
+			<id>ZazzercodeRepo-releases</id>
+			<name>ZazzercodeRepo-releases</name>
 			<url>http://192.168.2.254:8080/artifactory/libs-releases-local</url>
 		</repository>
-
+                -->
 	</repositories>
 
 	<pluginRepositories>
