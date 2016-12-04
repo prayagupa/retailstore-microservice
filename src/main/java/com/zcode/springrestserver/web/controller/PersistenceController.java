@@ -16,11 +16,13 @@ import com.zcode.springrestserver.web.repository.UserRepository;
 import com.zcode.springrestserver.web.service.IUserService;
 
 /**
- * @author prayag
+ * @author prayagupd
  * 
  */
+
 @Controller
 public class PersistenceController {
+
 	IUserService userService;
 	private final UserRepository userRepository;
 
@@ -43,5 +45,14 @@ public class PersistenceController {
 		map.put("fullName", addedUser.getFullName());
 		return map;
 		// return addedUser;
+	}
+
+	@RequestMapping(value = "/echo", method = RequestMethod.GET, headers = "Accept=*/*")
+	public @ResponseBody
+	Map<String, Object> echo() {
+
+		Map<String, Object> map = new HashedMap();
+		map.put("response", "hello");
+		return map;
 	}
 }

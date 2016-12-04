@@ -4,7 +4,7 @@
 package com.zcode.springrestserver.client.model;
 
 /**
- * @author prayag
+ * @author prayagupd
  * 
  */
 public class UserModel {
