@@ -1,15 +1,10 @@
 package com.divine.nihilism
 
-import java.io.File
-import javax.servlet.http.{HttpServlet, HttpServletRequest, HttpServletResponse}
-
-import akka.actor.ActorSystem
 import com.zcode.springrestserver.web.controller.PayController
 import org.apache.catalina.Context
 import org.apache.catalina.startup.Tomcat
-import org.scalatest.{BeforeAndAfterEach, FunSpec}
-import spray.http._
 import spray.client.pipelining._
+import spray.http._
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
@@ -22,18 +17,28 @@ import scala.concurrent.{Await, Future}
 class PaymentIntegrationSpecs extends TestServer {
   import system.dispatcher
 
-  def endpoints(ctx: Context): Unit = {
-    Tomcat.addServlet(ctx, "payment", new PayController)
-    ctx.addServletMapping("/payment", "payment")
+  def endpoints(context: Context): Unit = {
+    Tomcat.addServlet(context, "payment", new PayController)
+    context.addServletMapping("/payment", "payment")
+
+//    val contextt = tomcat.addWebapp("/", new File("src/main/webapp").getAbsolutePath)
+//    contextt.setAltDDName("src/main/webapp/WEB-INF/web.xml")
+
+    //val config = new ContextConfig
+    //config.setDefaultWebXml("src/main/webapp/WEB-INF/web.xml")
+    //context.addLifecycleListener(config)
   }
 
-  describe("/payment") {
+  describe("/items") {
     it("responds with success message") {
       val pipeline: HttpRequest => Future[HttpResponse] = sendReceive
       val response: Future[HttpResponse] = pipeline(Get("http://localhost:9999/payment"))
 
-      assert(Await.result(response, Duration("10 seconds")).status.intValue == 200)
-      assert(Await.result(response, Duration("10 seconds")).status.value == "200 OK")
+      assert(Await.result(response, Duration("1 seconds")).status.intValue == 200)
+      assert(Await.result(response, Duration("1 seconds")).status.value == "200 OK")
+
+      val bodyString = Await.result(response, Duration("1 seconds")).entity.asString.trim
+      assert(bodyString == "Paid")
     }
   }
 }
