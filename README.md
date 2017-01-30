@@ -15,6 +15,13 @@ The project is created using `maven-archetype-webapp`.
 ```
 
 
+tests
+-----
+
+```
+mvn test
+```
+
 run-app
 -------
 
