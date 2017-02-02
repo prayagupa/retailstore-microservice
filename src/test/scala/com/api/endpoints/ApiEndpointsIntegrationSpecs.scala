@@ -65,6 +65,9 @@ class ApiEndpointsIntegrationSpecs extends FunSuite with SpringTestContextManage
         }
       """.stripMargin.replaceAll("\\+s", "")
 
+    val response :ResultActions = mockMvc.perform(post("/ingest").content(json)).andDo(print())
+
+    //then
     val nativeKafkaConsumer = new KafkaConsumer[String, String](new Properties() {{
       put("bootstrap.servers", "localhost:9092") //streaming.config
       put("group.id", "consumer_group_test")
@@ -72,8 +75,6 @@ class ApiEndpointsIntegrationSpecs extends FunSuite with SpringTestContextManage
       put("key.deserializer", classOf[StringDeserializer].getName)
       put("value.deserializer", classOf[StringDeserializer].getName)
     }})
-
-    val response :ResultActions = mockMvc.perform(post("/ingest").content(json)).andDo(print())
 
     assert(nativeKafkaConsumer.listTopics().asScala.map(_._1) == List("EventStream"))
 
