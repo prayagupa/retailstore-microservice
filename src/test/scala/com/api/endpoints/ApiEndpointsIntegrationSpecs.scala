@@ -98,17 +98,6 @@ class ApiEndpointsIntegrationSpecs extends FunSuite with SpringTestContextManage
   }
 }
 
-class SomeEventForIngestion(someField_1: String) extends BaseEvent {
-  var someField1 = someField_1
-
-  def this(){
-    this("")
-  }
-
-  def getSomeField1 = someField1
-  def setSomeField1(someField1: String) = this.someField1 = someField1
-}
-
 @Configuration
 @Profile(Array("test"))
 class TestConfiguration {

@@ -1,0 +1,32 @@
+{
+  "configuration": {
+    "name": "logggg",
+    "appenders": {
+      "RollingFile": {
+        "name": "rollingStone",
+        "fileName": "rest-api.log",
+        "filePattern": "rest-api-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz",
+        "immediateFlush" : false,
+        "JSONLayout": {
+          "complete": false,
+          "compact": true,
+          "eventEol": true
+        },
+        "SizeBasedTriggeringPolicy": {
+          "size": "10 MB"
+        },
+        "DefaultRolloverStrategy": {
+          "max": "10"
+        }
+      }
+    },
+    "loggers": {
+      "root": {
+        "level": "debug",
+        "appender-ref": {
+          "ref": "rollingStone"
+        }
+      }
+    }
+  }
+}

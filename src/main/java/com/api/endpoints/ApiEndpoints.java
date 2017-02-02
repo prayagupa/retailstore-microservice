@@ -5,6 +5,8 @@ import com.api.domain.HealthStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eventstream.events.BaseEvent;
 import eventstream.producer.generic.GenericEventProducer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,9 @@ import java.util.concurrent.atomic.AtomicLong;
 @RestController
 public class ApiEndpoints {
 
+    private Logger logger = LogManager.getLogger(ApiEndpoints.class);
+
+    //FIXME read the stream name from config??
     private GenericEventProducer eventProducer = new GenericEventProducer("EventStream");
 
     private final AtomicLong counter = new AtomicLong();
@@ -37,6 +42,9 @@ public class ApiEndpoints {
 
     @RequestMapping(value = "/ingest", method = RequestMethod.POST)
     public AckNotification ingest(@RequestBody String payload) {
+
+        //TODO create a LogService
+        logger.info(payload);
 
         JSONObject jsonPayload = new JSONObject(payload);
 

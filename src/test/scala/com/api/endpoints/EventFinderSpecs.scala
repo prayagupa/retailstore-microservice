@@ -7,7 +7,7 @@ import org.scalatest.FunSuite
   * Created by prayagupd
   * on 2/1/17.
   */
-class ToEventSpecs extends FunSuite {
+class EventFinderSpecs extends FunSuite {
 
   val toEvent = new EventFinder()
 

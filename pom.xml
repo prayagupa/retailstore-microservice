@@ -6,6 +6,7 @@
 	<groupId>com.prayagupd.api</groupId>
 	<artifactId>rest-api</artifactId>
 	<version>0.1.0</version>
+	<packaging>war</packaging>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -14,6 +15,24 @@
 	</parent>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-web</artifactId>
+			<version>2.8</version>
+		</dependency>
 
 		<dependency>
 			<groupId>eventstream</groupId>
