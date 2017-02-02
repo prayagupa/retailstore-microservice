@@ -2,7 +2,6 @@
 Java REST Server
 ================
 
-The project is created using `maven-archetype-webapp`.
 
 ```
 |                   |                          |

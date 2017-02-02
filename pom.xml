@@ -14,39 +14,94 @@
 	</parent>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>eventstream</groupId>
+			<artifactId>stream-driver</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.12</version>
+			<scope>provided</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
+		<!-- tests -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>com.jayway.jsonpath</groupId>
 			<artifactId>json-path</artifactId>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
 			<groupId>org.scala-lang</groupId>
-			<artifactId>scala-compiler</artifactId>
-			<version>2.11.1</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.scalactic</groupId>
-			<artifactId>scalactic_2.11</artifactId>
-			<version>3.0.0</version>
+			<artifactId>scala-library</artifactId>
+			<version>2.11.8</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.scalatest</groupId>
 			<artifactId>scalatest_2.11</artifactId>
-			<version>3.0.0</version>
+			<version>3.0.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+			<version>0.9.10</version>
+		</dependency>
+
+		<!--<dependency>-->
+			<!--<groupId>org.apache.zookeeper</groupId>-->
+			<!--<artifactId>zookeeper</artifactId>-->
+			<!--<version>3.4.8</version>-->
+			<!--<scope>test</scope>-->
+		<!--</dependency>-->
+
+		<dependency>
+			<groupId>net.manub</groupId>
+			<artifactId>scalatest-embedded-kafka_2.11</artifactId>
+			<version>0.11.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.zookeeper</groupId>
+					<artifactId>zookeeper</artifactId>
+				</exclusion>
+
+				<exclusion>
+					<groupId>org.apache.avro</groupId>
+					<artifactId>avro</artifactId>
+				</exclusion>
+
+			</exclusions>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.10.19</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -67,11 +122,20 @@
 	</build>
 
 	<repositories>
+
 		<repository>
 			<id>spring-releases</id>
 			<url>https://repo.spring.io/libs-release</url>
 		</repository>
+
+		<repository>
+			<id>mvnrepository</id>
+			<name>mvnrepository</name>
+			<url>http://www.mvnrepository.com</url>
+		</repository>
+
 	</repositories>
+
 	<pluginRepositories>
 		<pluginRepository>
 			<id>spring-releases</id>
