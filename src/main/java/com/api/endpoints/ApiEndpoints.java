@@ -4,7 +4,7 @@ import com.api.domain.AckNotification;
 import com.api.domain.HealthStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eventstream.events.BaseEvent;
-import eventstream.generic.GenericEventProducer;
+import eventstream.producer.generic.GenericEventProducer;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @RestController
 public class ApiEndpoints {
 
-    GenericEventProducer eventProducer = new GenericEventProducer("EventStream");
+    private GenericEventProducer eventProducer = new GenericEventProducer("EventStream");
 
     private final AtomicLong counter = new AtomicLong();
 
