@@ -39,3 +39,21 @@ curl -XGET http://localhost:9000/health
 }
 
 ```
+
+Deployment + Load balancing
+---------------------------
+
+build artifact
+--------------
+
+```
+mvn clean package
+```
+
+https://aws.amazon.com/elasticbeanstalk/getting-started/
+
+http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/java-getstarted.html
+
+https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install.html?icmpid=docs_elasticbeanstalk_console
+
+![](code_deployment.png)
