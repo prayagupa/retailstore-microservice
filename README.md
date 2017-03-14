@@ -30,7 +30,7 @@ $ mvn spring-boot:run
 ```
 
 ```
-curl -XGET http://localhost:9000/health
+curl -XGET http://localhost:9000/restapi/health
 
 {
 "id": 1,
@@ -38,6 +38,12 @@ curl -XGET http://localhost:9000/health
 "status": "I'm Running"
 }
 
+```
+
+Or, build a war and deploy to tomcat http server, contextPath would be taken from `finalName`.
+
+```
+mvn clean package
 ```
 
 Deployment + Load balancing

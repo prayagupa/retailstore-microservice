@@ -59,6 +59,7 @@
 
 
 	<build>
+		<finalName>restapi</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
