@@ -46,6 +46,15 @@ Or, build a war and deploy to tomcat http server, contextPath would be taken fro
 mvn clean package
 ```
 
+or using docker (setup the HTTP_PROXY, HTTPS_PROXY and NO_PROXY)
+
+![](docker_proxy.png)
+
+```
+docker build -t restapi .
+docker run -it --rm -p 9000:8080 restapi
+```
+
 Deployment + Load balancing
 ---------------------------
 
