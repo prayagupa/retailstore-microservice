@@ -25,18 +25,32 @@ mvn test
 [run-app in x env](http://docs.spring.io/spring-boot/docs/current/maven-plugin/examples/run-profiles.html)
 -------
 
+[with `application.properties` configured to `staging`](http://stackoverflow.com/a/35757421/432903)
+
 ```bash
-mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=staging"
+
+spring.profiles.active=staging
+
+mvn spring-boot:run
 ```
 
 or set profile in `pom.xml`.
 
+[BUT the best way is to have environment variable](http://stackoverflow.com/a/35534970/432903),
+[that will determine which config to use.](http://stackoverflow.com/a/38337109/432903)
+
 ```
+export SPRING_PROFILES_ACTIVE=production
+
+spring.profiles.active=${SPRING_PROFILES_ACTIVE} ##not necessary
+```
+
+```bash
 curl -XGET http://localhost:9000/restapi/health
 
 {
 "id": 1,
-"eventId": "some value",
+"eventId": "staging",
 "status": "I'm Running"
 }
 

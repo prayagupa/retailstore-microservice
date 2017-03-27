@@ -61,6 +61,7 @@
 	<build>
 		<finalName>restapi</finalName>
 		<plugins>
+			<!--
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -69,7 +70,7 @@
 					    <profile>${app.environment}</profile>
                                     </profiles>
                                 </configuration>
-			</plugin>
+			</plugin> -->
 		</plugins>
 	</build>
 
