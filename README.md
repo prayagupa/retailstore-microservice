@@ -41,8 +41,13 @@ or set profile in `pom.xml`.
 
 ```
 export SPRING_PROFILES_ACTIVE=production
+```
 
-spring.profiles.active=${SPRING_PROFILES_ACTIVE} ##not necessary
+or
+
+```
+export APP_ENVIRONMENT=production
+spring.profiles.active=${APP_ENVIRONMENT} ##not necessary
 ```
 
 ```bash
