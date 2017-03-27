@@ -55,8 +55,8 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+	        <app.environment>production</app.environment>
 	</properties>
-
 
 	<build>
 		<finalName>restapi</finalName>
@@ -64,6 +64,11 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+                                <configuration>
+                                    <profiles>
+					    <profile>${app.environment}</profile>
+                                    </profiles>
+                                </configuration>
 			</plugin>
 		</plugins>
 	</build>

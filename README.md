@@ -7,7 +7,7 @@ The project is created using `maven-archetype-webapp`.
 ```
 |                   |                          |
 |                   |                          |
-|    endpount       |      Service             |
+|    /endpoint      |      Service             |
 |                   |                          |
 |                   |                          |
 |                   |                          |
@@ -22,12 +22,14 @@ tests
 mvn test
 ```
 
-run-app
+[run-app in x env](http://docs.spring.io/spring-boot/docs/current/maven-plugin/examples/run-profiles.html)
 -------
 
+```bash
+mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=staging"
 ```
-$ mvn spring-boot:run
-```
+
+or set profile in `pom.xml`.
 
 ```
 curl -XGET http://localhost:9000/restapi/health
