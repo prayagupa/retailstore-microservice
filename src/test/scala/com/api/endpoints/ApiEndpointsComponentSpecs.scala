@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.{jsonPa
 @RunWith(classOf[SpringRunner])
 @SpringBootTest
 @AutoConfigureMockMvc
-class ApiEndpointsIntegrationSpecs extends FunSuite with SpringTestContextManagement with Matchers {
+class ApiEndpointsComponentSpecs extends FunSuite with SpringTestContextManagement with Matchers {
 
   @Autowired val mockMvc: MockMvc = null
 
