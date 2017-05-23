@@ -25,11 +25,11 @@ mvn test
 [run-app in x env](http://docs.spring.io/spring-boot/docs/current/maven-plugin/examples/run-profiles.html)
 ----------------------------------------------------------------------------------------------------------
 
-[with `application.properties` configured to `staging`](http://stackoverflow.com/a/35757421/432903)
+[with `application.properties` configured to `e2e`](http://stackoverflow.com/a/35757421/432903)
 
 ```bash
 
-spring.profiles.active=staging
+spring.profiles.active=e2e
 
 mvn spring-boot:run
 ```
@@ -54,9 +54,9 @@ spring.profiles.active=${APP_ENVIRONMENT} ##not necessary
 curl -v -XGET http://localhost:9000/restapi/health
 
 {
-"id": 1,
-"eventId": "staging",
-"status": "I'm Running"
+ "id": 1,
+ "eventId": "staging",
+ "status": "I'm Running"
 }
 
 ```
@@ -78,6 +78,14 @@ docker run -it --rm -p 9000:8080 restapi
 
 Deployment + Load balancing
 ---------------------------
+
+```
+aws s3api put-object --bucket samsa-repo --key restapi-artifcts/restapi.war --body target/restapi.war --region us-west-2 --profile aws-federated
+
+aws cloudformation create-stack --stack-name  restapi-endpoint-urayagppd --template-body file://RestApiInfrastructure.json --region us-west-2 --profile aws-federated --capabilities CAPABILITY_NAMED_IAM
+```
+
+Check `CNAMEPrefix` for endpoint.
 
 build artifact
 --------------
