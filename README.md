@@ -85,7 +85,7 @@ aws s3api put-object --bucket samsa-repo --key restapi-artifcts/restapi.war --bo
 aws cloudformation create-stack --stack-name  restapi-endpoint-urayagppd --template-body file://RestApiInfrastructure.json --region us-west-2 --profile aws-federated --capabilities CAPABILITY_NAMED_IAM
 ```
 
-Check `CNAMEPrefix` for endpoint.
+Check `CNAMEPrefix` for endpoint. (eg. `http://restapi-dev.us-west-2.elasticbeanstalk.com/health`)
 
 build artifact
 --------------
