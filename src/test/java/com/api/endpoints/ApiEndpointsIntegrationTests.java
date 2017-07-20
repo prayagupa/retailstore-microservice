@@ -24,12 +24,12 @@ import org.springframework.test.web.servlet.MockMvc;
 public class ApiEndpointsIntegrationTests {
 
     @Autowired
-    private MockMvc mockMvc;
+    private MockMvc endpoint;
 
     @Test
     public void statusIsRunning() throws Exception {
 
-        this.mockMvc.perform(get("/health")).andDo(print())
+        this.endpoint.perform(get("/health")).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("I'm Running"));
     }

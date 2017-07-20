@@ -26,10 +26,10 @@ import org.springframework.web.context.WebApplicationContext
 @AutoConfigureMockMvc
 class ApiEndpointsIntegrationSpecs extends FunSuite with SpringTestContextManagement with Matchers {
 
-  @Autowired val mockMvc: MockMvc = null
+  @Autowired val endpoint: MockMvc = null
 
   test("status is Running") {
-    mockMvc.perform(get("/health")).andDo(print())
+    endpoint.perform(get("/health")).andDo(print())
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.status").value("I'm Running"))
   }
