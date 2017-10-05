@@ -5,9 +5,14 @@
     <groupId>com.prayagupd.api</groupId>
     <artifactId>rest-api</artifactId>
     <version>1.0</version>
+    <packaging>war</packaging>
+
     <properties>
         <java.version>1.8</java.version>
         <spring.version>1.5.2.RELEASE</spring.version>
+        <ci.version>100</ci.version>
+        <maven.build.timestamp.format>yyyyMMdd_HHmmss</maven.build.timestamp.format>
+        <ci.build.dateTime>${maven.build.timestamp}</ci.build.dateTime>
     </properties>
     <dependencies>
         <dependency>
@@ -66,24 +71,38 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring.version}</version>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <webResources>
+                        <resource>
+                            <filtering>true</filtering>
+                            <directory>src/build</directory>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <repositories>
         <!--<repository>-->
-        <!--<snapshots>-->
-        <!--<enabled>false</enabled>-->
-        <!--</snapshots>-->
-        <!--<id>artifactory-libs-releases</id>-->
-        <!--<name>libs-releases</name>-->
-        <!--<url>https://code.duwamish.com/artifactory/libs-release/</url>-->
+            <!--<snapshots>-->
+                <!--<enabled>false</enabled>-->
+            <!--</snapshots>-->
+            <!--<id>artifactory-libs-releases</id>-->
+            <!--<name>libs-releases</name>-->
+            <!--<url>https://code.duwamish.com/artifactory/libs-release/</url>-->
         <!--</repository>-->
         <!--<repository>-->
-        <!--<snapshots>-->
-        <!--<enabled>true</enabled>-->
-        <!--</snapshots>-->
-        <!--<id>artifactory-libs-snapshot</id>-->
-        <!--<name>libs-snapshot</name>-->
-        <!--<url>https://code.duwamish.com/artifactory/libs-snapshot/</url>-->
+            <!--<snapshots>-->
+                <!--<enabled>true</enabled>-->
+            <!--</snapshots>-->
+            <!--<id>artifactory-libs-snapshot</id>-->
+            <!--<name>libs-snapshot</name>-->
+            <!--<url>https://code.duwamish.com/artifactory/libs-snapshot/</url>-->
         <!--</repository>-->
 
         <repository>
@@ -100,21 +119,21 @@
 
     <pluginRepositories>
         <!--<pluginRepository>-->
-        <!--<snapshots>-->
-        <!--<enabled>false</enabled>-->
-        <!--</snapshots>-->
-        <!--<id>artifactory-plugins-releases</id>-->
-        <!--<name>plugins-releases</name>-->
-        <!--<url>https://code.duwamish.com/artifactory/plugins-release/</url>-->
+            <!--<snapshots>-->
+                <!--<enabled>false</enabled>-->
+            <!--</snapshots>-->
+            <!--<id>artifactory-plugins-releases</id>-->
+            <!--<name>plugins-releases</name>-->
+            <!--<url>https://code.duwamish.com/artifactory/plugins-release/</url>-->
         <!--</pluginRepository>-->
-        <pluginRepository>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <id>artifactory-plugins-snapshot</id>
-            <name>plugins-snapshot</name>
-            <url>https://code.bestbuy.com/artifactory/plugins-snapshot/</url>
-        </pluginRepository>
+        <!--<pluginRepository>-->
+            <!--<snapshots>-->
+                <!--<enabled>true</enabled>-->
+            <!--</snapshots>-->
+            <!--<id>artifactory-plugins-snapshot</id>-->
+            <!--<name>plugins-snapshot</name>-->
+            <!--<url>https://code.duwamish.com/artifactory/plugins-snapshot/</url>-->
+        <!--</pluginRepository>-->
 
         <pluginRepository>
             <id>spring-releases</id>
