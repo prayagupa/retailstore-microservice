@@ -1,0 +1,602 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Infra config for REST API",
+  "Parameters": {
+    "deploymentEnvironment": {
+      "Type": "String",
+      "Default": "dev",
+      "AllowedValues": [
+        "dev",
+        "e2e",
+        "uat",
+        "prod"
+      ],
+      "Description": "infra environment"
+    }
+  },
+  "Mappings": {
+    "environments": {
+      "dev": {
+        "appName": "restapi",
+        "storageBucket": "deployment-artifacts-nonprod",
+        "ppKeys": "api-staging",
+        "stackMetadata": "64bit Amazon Linux 2017.03 v2.6.0 running Tomcat 8 Java 8",
+        "virtualPrivateCloudId": "vpc-5374e434",
+        "vmInternalSubnetworks": "subnet-a1ec23e8",
+        "VMAccessProfile": "createVmServiceRole",
+        "elbScheme": "internal",
+        "elbCrossAvailablityZone": "true",
+        "VMType": "t2.large",
+        "vmSshFirewall": "tcp, 22, 22, 10.0.0.0/8",
+        "associatePublicIpAddress": "false",
+        "vmTcpPort": "80",
+        "elbListenerProtocol": "HTTP",
+        "vmApplicationLayerProtocol": "HTTP",
+        "elbListenerEnabled": "true",
+        "elbInternalSubnetworks": "subnet-a1ec23e8",
+        "infraRegion": "us-west-2",
+        "scalingMinSize": "1",
+        "scalingMaxSize": "1",
+        "scalingLowerThreshold": "40",
+        "scalingUpperThreshold": "80",
+        "ebsSuccessResponseCodes": "200",
+        "scalingTriggerUnit": "Percent",
+        "scalingTriggerStatistic": "Maximum",
+        "scalingTriggerMeasureName": "CPUUtilization",
+        "ebsSnsTopicNotificationProtocol": "email",
+        "ebsHealthReportingSystemType": "enhanced",
+        "ebsEnvironmentServiceRole": "aws-elasticbeanstalk-service-role",
+        "ebsErrorStream": "arn:aws:sns:us-west-2:033814027302:restApiErrorStream-dev",
+        "applicationHealthcheckURL": "HTTP:80/health/",
+        "breachDuration": "1",
+        "ebsEndpointURL": "http://internal-restapi-1909915221.us-west-2.elb.amazonaws.com:80/",
+        "notifyEmail": "prayagupd@duwamish.com"
+      }
+    }
+  },
+  "Conditions": {
+    "devenv": {
+      "Fn::Equals": [
+        {
+          "Ref": "deploymentEnvironment"
+        },
+        "dev"
+      ]
+    },
+    "e2eenv": {
+      "Fn::Equals": [
+        {
+          "Ref": "deploymentEnvironment"
+        },
+        "e2e"
+      ]
+    },
+    "uatenv": {
+      "Fn::Equals": [
+        {
+          "Ref": "deploymentEnvironment"
+        },
+        "uat"
+      ]
+    },
+    "prodenv": {
+      "Fn::Equals": [
+        {
+          "Ref": "deploymentEnvironment"
+        },
+        "prod"
+      ]
+    }
+  },
+  "Resources": {
+    "restApiInfraConfig": {
+      "Type": "AWS::ElasticBeanstalk::ConfigurationTemplate",
+      "Properties": {
+        "ApplicationName": "restapi",
+        "Description": "Default Config",
+        "SolutionStackName": {
+          "Fn::FindInMap": [
+            "environments",
+            {
+              "Ref": "deploymentEnvironment"
+            },
+            "stackMetadata"
+          ]
+        },
+        "OptionSettings": [
+          {
+            "Namespace": "aws:autoscaling:launchconfiguration",
+            "OptionName": "IamInstanceProfile",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "VMAccessProfile"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:autoscaling:launchconfiguration",
+            "OptionName": "InstanceType",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "VMType"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:autoscaling:launchconfiguration",
+            "OptionName": "EC2KeyName",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "ppKeys"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:autoscaling:launchconfiguration",
+            "OptionName": "SSHSourceRestriction",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "vmSshFirewall"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:autoscaling:asg",
+            "OptionName": "MinSize",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "scalingMinSize"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:autoscaling:asg",
+            "OptionName": "MaxSize",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "scalingMaxSize"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:ec2:vpc",
+            "OptionName": "VPCId",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "virtualPrivateCloudId"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:ec2:vpc",
+            "OptionName": "Subnets",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "vmInternalSubnetworks"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:ec2:vpc",
+            "OptionName": "ELBSubnets",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "elbInternalSubnetworks"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:ec2:vpc",
+            "OptionName": "ELBScheme",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "elbScheme"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:ec2:vpc",
+            "OptionName": "AssociatePublicIpAddress",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "associatePublicIpAddress"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:elb:listener",
+            "OptionName": "InstancePort",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "vmTcpPort"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:elb:listener",
+            "OptionName": "InstanceProtocol",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "vmApplicationLayerProtocol"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:elb:listener",
+            "OptionName": "ListenerEnabled",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "elbListenerEnabled"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:elb:listener",
+            "OptionName": "ListenerProtocol",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "elbListenerProtocol"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:elb:loadbalancer",
+            "OptionName": "CrossZone",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "elbCrossAvailablityZone"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:elasticbeanstalk:healthreporting:system",
+            "OptionName": "SystemType",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "ebsHealthReportingSystemType"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:elasticbeanstalk:environment",
+            "OptionName": "ServiceRole",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "ebsEnvironmentServiceRole"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:elasticbeanstalk:sns:topics",
+            "OptionName": "Notification Endpoint",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "notifyEmail"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:elasticbeanstalk:sns:topics",
+            "OptionName": "Notification Protocol",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "ebsSnsTopicNotificationProtocol"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:autoscaling:trigger",
+            "OptionName": "MeasureName",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "scalingTriggerMeasureName"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:autoscaling:trigger",
+            "OptionName": "Statistic",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "scalingTriggerStatistic"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:autoscaling:trigger",
+            "OptionName": "Unit",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "scalingTriggerUnit"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:autoscaling:trigger",
+            "OptionName": "BreachDuration",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "breachDuration"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:autoscaling:trigger",
+            "OptionName": "LowerThreshold",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "scalingLowerThreshold"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:autoscaling:trigger",
+            "OptionName": "UpperThreshold",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "scalingUpperThreshold"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:elasticbeanstalk:application",
+            "OptionName": "Application Healthcheck URL",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "applicationHealthcheckURL"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:elasticbeanstalk:application:environment",
+            "OptionName": "SUCCESS_RESPONSE_CODES",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "ebsSuccessResponseCodes"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:elasticbeanstalk:application:environment",
+            "OptionName": "APPLICATION_ENVIRONMENT",
+            "Value": {
+              "Ref": "restapi"
+            }
+          },
+          {
+            "Namespace": "aws:elasticbeanstalk:application:environment",
+            "OptionName": "APP_NAME_PARAM",
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  "",
+                  "restapi",
+                  {
+                    "Ref": "deploymentEnvironment"
+                  }
+                ]
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:elasticbeanstalk:application:environment",
+            "OptionName": "REGION_PARAM",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "infraRegion"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:elasticbeanstalk:application:environment",
+            "OptionName": "ENDPOINT_URL",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "ebsEndpointURL"
+              ]
+            }
+          },
+          {
+            "Namespace": "aws:elasticbeanstalk:application:environment",
+            "OptionName": "SNS_TOPIC_ARN",
+            "Value": {
+              "Fn::FindInMap": [
+                "environments",
+                {
+                  "Ref": "deploymentEnvironment"
+                },
+                "ebsErrorStream"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "restapi": {
+      "Type": "AWS::ElasticBeanstalk::Application",
+      "Properties": {
+        "ApplicationName": "restapi",
+        "Description": "REST API"
+      }
+    },
+    "restapiApplicationVersion": {
+      "Type": "AWS::ElasticBeanstalk::ApplicationVersion",
+      "Properties": {
+        "ApplicationName": {
+          "Ref": "restapi"
+        },
+        "Description": "AWS ElasticBeanstalk  Application Version",
+        "SourceBundle": {
+          "S3Bucket": {
+            "Fn::FindInMap": [
+              "environments",
+              {
+                "Ref": "deploymentEnvironment"
+              },
+              "storageBucket"
+            ]
+          },
+          "S3Key": "restapi-artifacts/restapi.war"
+        }
+      }
+    },
+    "restapienvironment": {
+      "Type": "AWS::ElasticBeanstalk::Environment",
+      "Properties": {
+        "ApplicationName": {
+          "Ref": "restapi"
+        },
+        "Description": "REST API AWS Elastic Beanstalk environment",
+        "TemplateName": {
+          "Ref": "restApiInfraConfig"
+        },
+        "EnvironmentName": {
+          "Fn::Join": [
+            "-",
+            [
+              "restapi",
+              {
+                "Ref": "deploymentEnvironment"
+              }
+            ]
+          ]
+        },
+        "CNAMEPrefix": {
+          "Fn::Join": [
+            "-",
+            [
+              "restapi",
+              {
+                "Ref": "deploymentEnvironment"
+              }
+            ]
+          ]
+        },
+        "VersionLabel": {
+          "Ref": "restapiApplicationVersion"
+        }
+      }
+    }
+  }
+}
