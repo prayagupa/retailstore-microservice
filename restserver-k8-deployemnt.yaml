@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rest-server
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rest-server
+        tier: backend
+    spec:
+      containers:
+      - name: rest-server
+        image: 192.168.99.100:80/hello-world
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        env:
+        - name: GET_HOSTS_FROM
+          value: dns
+        ports:
+        - containerPort: 8080
