@@ -15,6 +15,12 @@ The project is created using `maven-archetype-webapp`.
 ```
 
 
+- [tests](#tests)
+- [run-app in x env](#run-app-in-x-env)
+- [Deployment + Load balancing](#Deployment-+-Load-balancing)
+- [build artifact](#build-artifact)
+- [perf](#perf)
+
 tests
 -----
 
