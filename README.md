@@ -78,8 +78,21 @@ or using docker (setup the HTTP_PROXY, HTTPS_PROXY and NO_PROXY)
 ![](docker_proxy.png)
 
 ```bash
-docker build -t restapi .
-docker run -it --rm -p 9000:8080 restapi
+docker build -t rest-server:v1 .
+docker runy -it --rm -p 9000:8080 restapi
+
+kubectl create -f restserver-k8-service.yaml
+
+kubectl create -f restserver-k8-deployemnt.yaml
+#kubectl delete deployment rest-server
+
+kubectl get services
+NAME          TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+kubernetes    ClusterIP      10.96.0.1       <none>        443/TCP          1d
+onlywallet    LoadBalancer   10.108.81.173   <pending>     8080:30190/TCP   1d
+rest-server   NodePort       10.108.236.16   <none>        8080:32128/TCP   9m
+
+
 ```
 
 Deployment + Load balancing

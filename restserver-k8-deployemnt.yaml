@@ -12,7 +12,8 @@ spec:
     spec:
       containers:
       - name: rest-server
-        image: 192.168.99.100:80/hello-world
+        image: rest-server:v1
+        imagePullPolicy: Never
         resources:
           requests:
             cpu: 100m
