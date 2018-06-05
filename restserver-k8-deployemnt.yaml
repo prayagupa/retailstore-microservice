@@ -13,13 +13,10 @@ spec:
       containers:
       - name: rest-server
         image: rest-server:v1
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         resources:
           requests:
             cpu: 100m
             memory: 100Mi
-        env:
-        - name: GET_HOSTS_FROM
-          value: dns
         ports:
         - containerPort: 8080

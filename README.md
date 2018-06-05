@@ -67,33 +67,31 @@ curl -v -XGET http://localhost:9000/restapi/health
 
 ```
 
-Or, build a war and deploy to tomcat http server, contextPath would be taken from `finalName`.
-
-```bash
-mvn clean package
-```
-
 or using docker (setup the HTTP_PROXY, HTTPS_PROXY and NO_PROXY)
 
 ![](docker_proxy.png)
 
 ```bash
+mvn clean package
+eval $(minikube docker-env) # instead of pushing your Docker image to a registry, you can simply build the image using the same Docker host as the Minikube VM
 docker build -t rest-server:v1 .
-docker runy -it --rm -p 9000:8080 restapi
+#docker run -it --rm -p 9000:8080 restapi
 
 kubectl create -f restserver-k8-service.yaml
+#kubectl delete service rest-server
 
 kubectl create -f restserver-k8-deployemnt.yaml
 #kubectl delete deployment rest-server
 
 kubectl get services
-NAME          TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
-kubernetes    ClusterIP      10.96.0.1       <none>        443/TCP          1d
-onlywallet    LoadBalancer   10.108.81.173   <pending>     8080:30190/TCP   1d
-rest-server   NodePort       10.108.236.16   <none>        8080:32128/TCP   9m
+NAME          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+kubernetes    ClusterIP   10.96.0.1       <none>        443/TCP          2d
+rest-server   NodePort    10.102.228.53   <none>        8080:30035/TCP   5m
 
-
+minikube service rest-server #expose your Service outside of the cluster
 ```
+
+https://github.com/redhat-developer-demos/spring-boot-configmaps-demo
 
 Deployment + Load balancing
 ---------------------------
@@ -106,12 +104,6 @@ aws cloudformation create-stack --stack-name  restapi-endpoint-urayagppd --templ
 
 Check `CNAMEPrefix` for endpoint. (eg. `http://restapi-dev.us-west-2.elasticbeanstalk.com/health`)
 
-build artifact
---------------
-
-```bash
-mvn clean package
-```
 
 REST API deps size
 
