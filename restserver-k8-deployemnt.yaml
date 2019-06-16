@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rest-server
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rest-server
+        tier: backend
+    spec:
+      containers:
+      - name: rest-server
+        image: rest-server:v1
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 8080

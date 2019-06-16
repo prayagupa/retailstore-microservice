@@ -2,7 +2,7 @@
 Java HTTP/REST Server
 ==========================
 
-The project is created using `maven-archetype-webapp`.
+This is a micro-service baseline in java 12, spring-boot `2.1.x`
 
 ```
 |                   |                          |
@@ -16,7 +16,7 @@ The project is created using `maven-archetype-webapp`.
 
 
 - [tests](#tests)
-- [run-app in x env](#run-app-in-x-env)
+- [build/ run-app in x env](#run-app-in-x-env)
 - [Deployment + Load balancing](#Deployment-+-Load-balancing)
 - [build artifact](#build-artifact)
 - [perf](#perf)
@@ -28,7 +28,7 @@ tests
 mvn test
 ```
 
-[run-app in x env](http://docs.spring.io/spring-boot/docs/current/maven-plugin/examples/run-profiles.html)
+build/ [run-app in x env](http://docs.spring.io/spring-boot/docs/current/maven-plugin/examples/run-profiles.html)
 ----------------------------------------------------------------------------------------------------------
 
 [with `application.properties` configured to `e2e`](http://stackoverflow.com/a/35757421/432903)
@@ -67,38 +67,40 @@ curl -v -XGET http://localhost:9000/restapi/health
 
 ```
 
-Or, build a war and deploy to tomcat http server, contextPath would be taken from `finalName`.
-
-```bash
-mvn clean package
-```
-
 or using docker (setup the HTTP_PROXY, HTTPS_PROXY and NO_PROXY)
 
 ![](docker_proxy.png)
 
 ```bash
-docker build -t restapi .
-docker run -it --rm -p 9000:8080 restapi
+mvn clean package
+eval $(minikube docker-env) # instead of pushing your Docker image to a registry, you can simply build the image using the same Docker host as the Minikube VM
+docker build -t rest-server:v1 .
+#docker run -it --rm -p 9000:8080 restapi
+
+kubectl create -f restserver-k8-service.yaml
+#kubectl delete service rest-server
+
+kubectl create -f restserver-k8-deployemnt.yaml
+#kubectl delete deployment rest-server
+
+kubectl get services
+NAME          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+kubernetes    ClusterIP   10.96.0.1       <none>        443/TCP          2d
+rest-server   NodePort    10.102.228.53   <none>        8080:30035/TCP   5m
+
+minikube service rest-server #expose your Service outside of the cluster
 ```
 
-Deployment + Load balancing
+https://github.com/redhat-developer-demos/spring-boot-configmaps-demo
+
+Publish artifact/ container image
 ---------------------------
 
 ```
+//TODO add syntax to upload to docker-registry
 aws s3api put-object --bucket samsa-repo --key restapi-artifcts/restapi.war --body target/restapi.war --region us-west-2 --profile aws-federated
-
-aws cloudformation create-stack --stack-name  restapi-endpoint-urayagppd --template-body file://RestApiInfrastructure.json --region us-west-2 --profile aws-federated --capabilities CAPABILITY_NAMED_IAM
 ```
 
-Check `CNAMEPrefix` for endpoint. (eg. `http://restapi-dev.us-west-2.elasticbeanstalk.com/health`)
-
-build artifact
---------------
-
-```bash
-mvn clean package
-```
 
 REST API deps size
 
@@ -119,14 +121,10 @@ $ du -sh target/restapi/WEB-INF/lib/spring-*
 896K	target/restapi/WEB-INF/lib/spring-webmvc-4.3.6.RELEASE.jar
 ```
 
-https://aws.amazon.com/elasticbeanstalk/getting-started/
+Deployment + Load balancing
+-----
 
-http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/java-getstarted.html
-
-https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install.html?icmpid=docs_elasticbeanstalk_console
-
-![](code_deployment.png)
-
+//TODO using k8s
 
 perf
 ----
@@ -247,3 +245,8 @@ Total of 16465 requests completed
 ```
 
 ![](spring_perf.png)
+
+Also see :
+
+https://github.com/prayagupd/onlywallet-nodejs
+
