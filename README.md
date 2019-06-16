@@ -16,7 +16,7 @@ The project is created using `maven-archetype-webapp`.
 
 
 - [tests](#tests)
-- [run-app in x env](#run-app-in-x-env)
+- [build/ run-app in x env](#run-app-in-x-env)
 - [Deployment + Load balancing](#Deployment-+-Load-balancing)
 - [build artifact](#build-artifact)
 - [perf](#perf)
@@ -28,7 +28,7 @@ tests
 mvn test
 ```
 
-[run-app in x env](http://docs.spring.io/spring-boot/docs/current/maven-plugin/examples/run-profiles.html)
+build/ [run-app in x env](http://docs.spring.io/spring-boot/docs/current/maven-plugin/examples/run-profiles.html)
 ----------------------------------------------------------------------------------------------------------
 
 [with `application.properties` configured to `e2e`](http://stackoverflow.com/a/35757421/432903)
@@ -93,16 +93,13 @@ minikube service rest-server #expose your Service outside of the cluster
 
 https://github.com/redhat-developer-demos/spring-boot-configmaps-demo
 
-Deployment + Load balancing
+Publish artifact/ container image
 ---------------------------
 
 ```
+//TODO add syntax to upload to docker-registry
 aws s3api put-object --bucket samsa-repo --key restapi-artifcts/restapi.war --body target/restapi.war --region us-west-2 --profile aws-federated
-
-aws cloudformation create-stack --stack-name  restapi-endpoint-urayagppd --template-body file://RestApiInfrastructure.json --region us-west-2 --profile aws-federated --capabilities CAPABILITY_NAMED_IAM
 ```
-
-Check `CNAMEPrefix` for endpoint. (eg. `http://restapi-dev.us-west-2.elasticbeanstalk.com/health`)
 
 
 REST API deps size
@@ -124,14 +121,10 @@ $ du -sh target/restapi/WEB-INF/lib/spring-*
 896K	target/restapi/WEB-INF/lib/spring-webmvc-4.3.6.RELEASE.jar
 ```
 
-https://aws.amazon.com/elasticbeanstalk/getting-started/
+Deployment + Load balancing
+-----
 
-http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/java-getstarted.html
-
-https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install.html?icmpid=docs_elasticbeanstalk_console
-
-![](code_deployment.png)
-
+//TODO using k8s
 
 perf
 ----
@@ -252,3 +245,8 @@ Total of 16465 requests completed
 ```
 
 ![](spring_perf.png)
+
+Also see :
+
+https://github.com/prayagupd/onlywallet-nodejs
+
