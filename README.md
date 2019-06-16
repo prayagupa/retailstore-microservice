@@ -2,7 +2,7 @@
 Java HTTP/REST Server
 ==========================
 
-The project is created using `maven-archetype-webapp`.
+This is a micro-service baseline in java, spring-boot `2.1.x`
 
 ```
 |                   |                          |
