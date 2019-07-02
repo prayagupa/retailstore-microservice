@@ -1,0 +1,6 @@
+
+```
+terraform init
+terraform apply
+
+```
