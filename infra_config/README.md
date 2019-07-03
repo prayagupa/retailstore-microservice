@@ -56,3 +56,12 @@ resource "aws_instance" "rest-api" {
 }
 ```
 
+after changing any configuration, do `terraform apply`
+
+state
+-----
+
+```
+λ terraform state list
+aws_instance.rest-api
+```
