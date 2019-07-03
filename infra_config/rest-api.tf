@@ -22,7 +22,7 @@ resource "aws_instance" "rest-api" {
         type        = "ssh"
         user        = "ec2-user"
         private_key = "${file("~/.ssh/rest-api-dev-key.pem")}"
-        host = "${aws_instance.rest-api..public_ip}"
+        host = "${aws_instance.rest-api.public_ip}"
       }
   }
 
