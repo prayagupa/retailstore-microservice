@@ -13,4 +13,17 @@ resource "aws_instance" "rest-api" {
     Name        = "rest-api"
     Environment = "dev"
   }
+  provisioner "remote-exec" {
+      inline = [
+          "sudo yum -y install java-1.8.0-openjdk"
+      ]
+      connection {
+        agent       = false
+        type        = "ssh"
+        user        = "ec2-user"
+        private_key = "${file("~/.ssh/rest-api-dev-key.pem")}"
+        host = "${aws_instance.rest-api..public_ip}"
+      }
+  }
+
 }
