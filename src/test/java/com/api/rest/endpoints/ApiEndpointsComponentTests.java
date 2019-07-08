@@ -1,4 +1,4 @@
-package com.api.endpoints;
+package com.api.rest.endpoints;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +31,7 @@ public class ApiEndpointsComponentTests {
 
         this.httpEndpoint.perform(get("/health")).andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.status").value("I'm Running"));
+                .andExpect(jsonPath("$.applicationVersion").value("1.0"));
     }
 
 

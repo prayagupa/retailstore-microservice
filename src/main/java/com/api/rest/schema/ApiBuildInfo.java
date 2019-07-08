@@ -1,4 +1,4 @@
-package com.api.domain;
+package com.api.rest.schema;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -8,8 +8,9 @@ import org.springframework.stereotype.Component;
  * on 1/29/17.
  */
 
+//FIXME make it non spring
 @Component
-public class Build {
+public class ApiBuildInfo {
 
     @Value("${git.branch}")
     private String deployedBranch;
@@ -35,7 +36,7 @@ public class Build {
     @Value("${git.build.user.email}")
     private String buildUser;
 
-    public Build() {
+    public ApiBuildInfo() {
     }
 
     public String getDeployedBranch() {

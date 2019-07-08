@@ -57,14 +57,28 @@ spring.profiles.active=${APP_ENVIRONMENT} ##not necessary
 ```
 
 ```bash
-curl -v -XGET http://localhost:9000/restapi/health
-
+curl -v -XGET http://localhost:8080/restapi/health | python -m json.tool
+Note: Unnecessary use of -X or --request, GET is already inferred.
+* TCP_NODELAY set
+* Connected to localhost (::1) port 8080 (#0)
+> GET /health HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/7.54.0
+> Accept: */*
+> 
+< HTTP/1.1 200 
+< Content-Type: application/json;charset=UTF-8
+< Transfer-Encoding: chunked
+< Date: Mon, 08 Jul 2019 03:24:47 GMT
+< 
+{ [89 bytes data]
+100    83    0    83    0     0   3134      0 --:--:-- --:--:-- --:--:--  3192
+* Connection #0 to host localhost left intact
 {
- "id": 1,
- "eventId": "staging",
- "status": "I'm Running"
+    "applicationName": "rest-api",
+    "applicationVersion": "1.0",
+    "timestamp": 1562556287580
 }
-
 ```
 
 or using docker (setup the HTTP_PROXY, HTTPS_PROXY and NO_PROXY)

@@ -1,4 +1,4 @@
-package com.api.endpoints
+package com.api.rest.endpoints
 
 import org.junit.runner.RunWith
 import org.scalatest.{FunSuite, Matchers}
@@ -27,7 +27,7 @@ class ApiEndpointsComponentSpecs extends FunSuite with SpringTestContextManageme
   test("status is Running") {
     mockMvc.perform(get("/health")).andDo(print())
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.status").value("I'm Running"))
+      .andExpect(jsonPath("$.applicationVersion").value("1.0"))
   }
 }
 
