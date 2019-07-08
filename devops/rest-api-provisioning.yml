@@ -1,0 +1,8 @@
+---
+- name: rest-api-provisioning
+  hosts: ansibleclient01.local
+  tasks:
+    - name: Create a file.
+      copy:
+        content: app is working
+        dest: /tmp/res-api.log

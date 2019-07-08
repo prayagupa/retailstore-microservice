@@ -1,4 +1,4 @@
-package com.api.endpoints
+package com.api.rest.endpoints
 
 /**
   * Created by prayagupd

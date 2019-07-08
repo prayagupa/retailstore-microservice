@@ -65,3 +65,18 @@ state
 λ terraform state list
 aws_instance.rest-api
 ```
+
+provisioning
+-----------
+
+```bash
+ansible --version
+ansible 2.7.8
+  config file = None
+  configured module search path = [u'/Users/a1353612/.ansible/plugins/modules', u'/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/local/lib/python2.7/site-packages/ansible
+  executable location = /usr/local/bin/ansible
+  python version = 2.7.15 (default, Dec 27 2018, 11:56:32) [GCC 4.2.1 Compatible Apple LLVM 10.0.0 (clang-1000.11.45.5)]
+
+ansible-playbook rest-api-provisioning.yml 
+```

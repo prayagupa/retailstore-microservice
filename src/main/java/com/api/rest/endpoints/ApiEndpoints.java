@@ -1,7 +1,7 @@
-package com.api.endpoints;
+package com.api.rest.endpoints;
 
-import com.api.domain.Build;
-import com.api.domain.HealthStatus;
+import com.api.rest.schema.ApiBuildInfo;
+import com.api.rest.schema.HealthStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,14 +24,18 @@ public class ApiEndpoints {
 
     @RequestMapping("/health")
     public HealthStatus health() {
-        return new HealthStatus(counter.incrementAndGet(), someProperties, "I'm Running");
+        return new HealthStatus(
+                System.currentTimeMillis(),
+                "rest-api",
+                "1.0"
+        );
     }
 
     @Autowired
-    Build build;
+    ApiBuildInfo apiBuildInfo;
 
-    @RequestMapping("/build")
-    public Build build() {
-        return build;
+    @RequestMapping("/apiBuildInfo")
+    public ApiBuildInfo build() {
+        return apiBuildInfo;
     }
 }
