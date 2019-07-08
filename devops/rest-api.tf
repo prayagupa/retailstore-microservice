@@ -1,5 +1,5 @@
 provider "aws" {
-  profile    = "rest-api-dev"
+  profile    = "dev"
   region     = "us-east-1"
 }
 
@@ -8,7 +8,7 @@ resource "aws_instance" "rest-api" {
   instance_type = "t2.micro"
   subnet_id = "subnet-026e5535bec195536"
   security_groups = ["sg-0cbda44f9bc418140"]
-  key_name = "rest-api-dev-key"
+  key_name = "dev-key"
   tags          = {
     Name        = "rest-api"
     Environment = "dev"
@@ -17,8 +17,8 @@ resource "aws_instance" "rest-api" {
       command = "echo hello"
   }
   provisioner "file" {
-      source = "../target/restapi.war"
-      destination = "/home/ec2-user/restapi.war"
+      source = "../target/restapi.jar"
+      destination = "/home/ec2-user/restapi.jar"
       connection {
         agent       = false
         type        = "ssh"
@@ -26,11 +26,24 @@ resource "aws_instance" "rest-api" {
         private_key = "${file("~/.ssh/rest-api-dev-key.pem")}"
         host = "${aws_instance.rest-api.public_ip}"
       }
-
   }
+  provisioner "file" {
+      source = "setup.sh"
+      destination = "/home/ec2-user/setup.sh"
+      connection {
+        agent       = false
+        type        = "ssh"
+        user        = "ec2-user"
+        private_key = "${file("~/.ssh/rest-api-dev-key.pem")}"
+        host = "${aws_instance.rest-api.public_ip}"
+      }
+  }
+
   provisioner "remote-exec" {
       inline = [
-          "sudo yum -y install java-1.8.0-openjdk"
+          "chmod +x /home/ec2-user/setup.sh",
+          "/home/ec2-user/setup.sh",
+          "source /etc/profile.d/jdk12.sh && java -jar /home/ec2-user/restapi.jar"
       ]
       connection {
         agent       = false
