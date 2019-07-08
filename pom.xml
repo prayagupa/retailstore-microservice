@@ -6,7 +6,7 @@
     <groupId>com.prayagupd.api</groupId>
     <artifactId>rest-api</artifactId>
     <version>0.1.0</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -73,6 +73,14 @@
         <finalName>restapi</finalName>
 
         <plugins>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <executable>true</executable>
+                </configuration>
+            </plugin>
 
             <plugin>
                 <groupId>pl.project13.maven</groupId>
