@@ -1,5 +1,5 @@
 provider "aws" {
-  profile    = "upd-dev"
+  profile    = "rest-api-dev"
   region     = "us-east-1"
 }
 
@@ -12,6 +12,21 @@ resource "aws_instance" "rest-api" {
   tags          = {
     Name        = "rest-api"
     Environment = "dev"
+  }
+  provisioner "local-exec" {
+      command = "echo hello"
+  }
+  provisioner "file" {
+      source = "../target/restapi.war"
+      destination = "/home/ec2-user/restapi.war"
+      connection {
+        agent       = false
+        type        = "ssh"
+        user        = "ec2-user"
+        private_key = "${file("~/.ssh/rest-api-dev-key.pem")}"
+        host = "${aws_instance.rest-api.public_ip}"
+      }
+
   }
   provisioner "remote-exec" {
       inline = [
