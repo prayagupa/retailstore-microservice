@@ -1,5 +1,5 @@
 
-```
+```bash
 terraform init
 terraform apply
 
@@ -79,4 +79,85 @@ ansible 2.7.8
   python version = 2.7.15 (default, Dec 27 2018, 11:56:32) [GCC 4.2.1 Compatible Apple LLVM 10.0.0 (clang-1000.11.45.5)]
 
 ansible-playbook rest-api-provisioning.yml 
+```
+
+
+k8s
+----
+
+set `~/.kube/duwamish-dev-k8s-config` and [export as `KUBECONFIG`](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/#set-the-kubeconfig-environment-variable), 
+
+```bash
+apiVersion: v1
+clusters:
+- cluster:
+    server: https://???.sk1.us-east-1.eks.amazonaws.com
+    certificate-authority-data: ???
+
+  name: kubernetes
+contexts:
+- context:
+    cluster: kubernetes
+    user: aws
+  name: aws
+current-context: aws
+kind: Config
+preferences: {}
+users:
+- name: aws
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1alpha1
+      command: aws-iam-authenticator
+      args:
+        - "token"
+        - "-i"
+        - "duwamish-dev-k8s"
+      env:
+        - name: AWS_PROFILE
+          value: "duwamish-dev"
+```
+
+create cluster with nodes
+--
+
+```
+brew tap weaveworks/tap
+brew install weaveworks/tap/eksctl
+brew upgrade eksctl && brew link --overwrite eksctl
+
+eksctl create cluster \
+--name duwamish-dev-k8s \
+--version 1.13 \
+--nodegroup-name standard-workers \
+--node-type t3.medium \
+--nodes 3 \
+--nodes-min 1 \
+--nodes-max 4 \
+--node-ami auto \
+--profile duwamish-dev
+--region us-east-1
+```
+
+debugging
+---------
+
+```bash
+kubectl get nodes
+No resources found.
+
+λ kubectl get events
+LAST SEEN   TYPE      REASON                       KIND         MESSAGE
+24s         Warning   FailedScheduling             Pod          no nodes available to schedule pods
+21m         Normal    SuccessfulCreate             ReplicaSet   Created pod: rest-server-7b4bf5bcf-lrnnl
+21m         Normal    EnsuringLoadBalancer         Service      Ensuring load balancer
+21m         Warning   UnAvailableLoadBalancer      Service      There are no available nodes for LoadBalancer service default/rest-server
+22m         Warning   CreatingLoadBalancerFailed   Service      Error creating load balancer (will retry): failed to ensure load balancer for service default/rest-server: AccessDenied: User: arn:aws:sts::???:assumed-role/???-dev-role/??? is not authorized to perform: ec2:DescribeAccountAttributes
+            status code: 403, request id: c3e2c253-a5f1-11e9-9119-8b95ed7811a7
+22m         Warning   CreatingLoadBalancerFailed   Service   Error creating load balancer (will retry): failed to ensure load balancer for service default/rest-server: AccessDenied: User: arn:aws:sts::??:assumed-role/???-dev-role/??? is not authorized to perform: ec2:DescribeAccountAttributes
+            status code: 403, request id: c7326293-a5f1-11e9-bac1-03384bbdb957
+21m         Normal    EnsuredLoadBalancer   Service      Ensured load balancer
+21m         Normal    ScalingReplicaSet     Deployment   Scaled up replica set rest-server-7b4bf5bcf to 1
+
+kubectl describe pod rest-server-7b4bf5bcf-lrnnl
 ```

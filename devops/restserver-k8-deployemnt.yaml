@@ -1,22 +1,32 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: rest-server
+  labels:
+    app: rest-server
+  namespace: default
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: rest-server
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
   template:
     metadata:
       labels:
         app: rest-server
-        tier: backend
     spec:
       containers:
-      - name: rest-server
-        image: rest-server:v1
-        imagePullPolicy: IfNotPresent
-        resources:
-          requests:
-            cpu: 100m
-            memory: 100Mi
-        ports:
-        - containerPort: 8080
+        - image: ???.dkr.ecr.us-east-1.amazonaws.com/???-dev ##resst-server:v1
+          imagePullPolicy: Always #ifNotPresent
+          name: rest-server
+          ports:
+            - containerPort: 9090
+              protocol: TCP
+          env:
+            - name: name
+              value: "dev"
