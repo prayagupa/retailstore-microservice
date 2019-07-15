@@ -21,8 +21,8 @@ spec:
         app: rest-server
     spec:
       containers:
-        - image: ???.dkr.ecr.us-east-1.amazonaws.com/???-dev ##resst-server:v1
-          imagePullPolicy: Always #ifNotPresent
+        - image: ???.dkr.ecr.us-east-1.amazonaws.com/???-dev:latest
+          imagePullPolicy: Always
           name: rest-server
           ports:
             - containerPort: 9090

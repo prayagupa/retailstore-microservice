@@ -90,26 +90,10 @@ or using docker (setup the HTTP_PROXY, HTTPS_PROXY and NO_PROXY)
 mvn clean package
 eval $(minikube docker-env) # instead of pushing your Docker image to a registry, you can simply build the image using the same Docker host as the Minikube VM
 docker build -t rest-server:v1 .
-#docker run -it --rm -p 9000:8080 rest-server:v1
-
-# kubectl apply -f k8s-nodes.yaml
-kubectl create -f restserver-k8-service.yaml
-#kubectl delete service rest-server
-
-kubectl create -f restserver-k8-deployemnt.yaml
-#kubectl delete deployment rest-server
-
-kubectl get services
-NAME          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
-kubernetes    ClusterIP   10.96.0.1       <none>        443/TCP          2d
-rest-server   NodePort    10.102.228.53   <none>        8080:30035/TCP   5m
-
-minikube service rest-server #expose your Service outside of the cluster
+#docker run -it --rm -p 9090:8080 rest-server:v1
 ```
 
-https://github.com/redhat-developer-demos/spring-boot-configmaps-demo
-
-Publish artifact/ container image
+publish artifact/ container image
 ---------------------------
 
 ```
@@ -118,10 +102,7 @@ aws ecr get-login --no-include-email --profile ???-dev --region us-east-1
 docker login -u AWS -p <<password>>  https://???.dkr.ecr.us-east-1.amazonaws.com
 
 docker push <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/duwamish-repository
-
-kubectl apply -f deployment.yaml
 ```
-
 
 REST API deps size
 
@@ -142,10 +123,57 @@ $ du -sh target/restapi/WEB-INF/lib/spring-*
 896K	target/restapi/WEB-INF/lib/spring-webmvc-4.3.6.RELEASE.jar
 ```
 
-Deployment + Load balancing
+deployment + load balancing
 -----
 
-//TODO using k8s
+service
+
+```bash
+# kubectl apply -f k8s-nodes.yaml
+kubectl create -f restserver-k8-service.yaml
+#kubectl delete service rest-server
+λ kubectl get services
+NAME          TYPE           CLUSTER-IP      EXTERNAL-IP                                                               PORT(S)        AGE
+kubernetes    ClusterIP      10.100.0.1      <none>                                                                    443/TCP        32m
+rest-server   LoadBalancer   10.100.214.66   a1d4b08e2a6a211e9888c1233f0bb1c4-1052742191.us-east-1.elb.amazonaws.com   80:30214/TCP   13m
+```
+
+deployment
+
+
+```bash
+kubectl create -f restserver-k8-deployment.yaml
+#kubectl delete deployment rest-server
+
+kubectl get services
+NAME          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+kubernetes    ClusterIP   10.96.0.1       <none>        443/TCP          2d
+rest-server   NodePort    10.102.228.53   <none>        8080:30035/TCP   5m
+
+minikube service rest-server #expose your Service outside of the cluster
+```
+
+https://github.com/redhat-developer-demos/spring-boot-configmaps-demo
+
+```bash
+curl -v a6e2953f6a6a411e9888c1233f0bb1c4-146709191.us-east-1.elb.amazonaws.com/health
+*   Trying 52.3.214.190...
+* TCP_NODELAY set
+* Connected to a6e2953f6a6a411e9888c1233f0bb1c4-146709191.us-east-1.elb.amazonaws.com (52.3.214.190) port 80 (#0)
+> GET /health HTTP/1.1
+> Host: a6e2953f6a6a411e9888c1233f0bb1c4-146709191.us-east-1.elb.amazonaws.com
+> User-Agent: curl/7.54.0
+> Accept: */*
+> 
+< HTTP/1.1 200 
+< Content-Type: application/json;charset=UTF-8
+< Transfer-Encoding: chunked
+< Date: Mon, 15 Jul 2019 02:05:32 GMT
+< 
+* Connection #0 to host a6e2953f6a6a411e9888c1233f0bb1c4-146709191.us-east-1.elb.amazonaws.com left intact
+{"timestamp":1563156332187,"applicationName":"rest-api","applicationVersion":"1.0"}
+```
+
 
 [perf](perf.md)
 ----
