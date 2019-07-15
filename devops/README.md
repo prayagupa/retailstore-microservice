@@ -135,7 +135,7 @@ eksctl create cluster \
 --nodes-min 1 \
 --nodes-max 4 \
 --node-ami auto \
---profile duwamish-dev
+--profile duwamish-dev \
 --region us-east-1
 ```
 

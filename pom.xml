@@ -6,7 +6,7 @@
     <groupId>com.prayagupd.api</groupId>
     <artifactId>rest-api</artifactId>
     <version>0.1.0</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -14,50 +14,12 @@
         <version>2.1.5.RELEASE</version>
     </parent>
 
+    <modules>
+        <module>eccount-rest-schema</module>
+        <module>eccount-rest-server</module>
+    </modules>
+
     <dependencies>
-
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-compiler</artifactId>
-            <version>2.12.4</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.scalactic</groupId>
-            <artifactId>scalactic_2.12</artifactId>
-            <version>3.0.0</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.scalatest</groupId>
-            <artifactId>scalatest_2.12</artifactId>
-            <version>3.0.0</version>
-            <scope>test</scope>
-        </dependency>
 
     </dependencies>
 
@@ -69,67 +31,6 @@
         <spring.boot.version>2.0.2-RELEASE</spring.boot.version>
     </properties>
 
-    <build>
-        <finalName>restapi</finalName>
-
-        <plugins>
-
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <executable>true</executable>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
-                <version>2.2.2</version>
-                <configuration>
-                    <dotGitDirectory>${project.basedir}/../eccount-rest/.git</dotGitDirectory>
-                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
-                    <generateGitPropertiesFilename>${project.build.outputDirectory}/build.properties
-                    </generateGitPropertiesFilename>
-                </configuration>
-            </plugin>
-
-            <!-- specs plugin-->
-            <plugin>
-                <groupId>org.scala-tools</groupId>
-                <artifactId>maven-scala-plugin</artifactId>
-                <version>2.15.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                            <goal>testCompile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.scalatest</groupId>
-                <artifactId>scalatest-maven-plugin</artifactId>
-                <version>1.0</version>
-                <configuration>
-                    <parallel>false</parallel>
-                    <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
-                    <junitxml>.</junitxml>
-                    <filereports>test-suite.log</filereports>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>test</id>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
     <repositories>
         <!--
         <repository>
@@ -138,7 +39,7 @@
             </snapshots>
             <id>artifactory-libs-releases</id>
             <name>libs-releases</name>
-            <url>https://code.bbuy.com/artifactory/libs-release/</url>
+            <url>https://code.dw.com/artifactory/libs-release/</url>
         </repository>
         <repository>
             <snapshots>
@@ -146,7 +47,7 @@
             </snapshots>
             <id>artifactory-libs-snapshot</id>
             <name>libs-snapshot</name>
-            <url>https://code.bbuy.com/artifactory/libs-snapshot/</url>
+            <url>https://code.dw.com/artifactory/libs-snapshot/</url>
     </repository>
 -->
         <repository>
@@ -162,7 +63,7 @@
             </snapshots>
             <id>artifactory-plugins-releases</id>
             <name>plugins-releases</name>
-            <url>https://code.bbuy.com/artifactory/plugins-release/</url>
+            <url>https://code.dw.com/artifactory/plugins-release/</url>
         </pluginRepository>
         <pluginRepository>
             <snapshots>
@@ -170,7 +71,7 @@
             </snapshots>
             <id>artifactory-plugins-snapshot</id>
             <name>plugins-snapshot</name>
-            <url>https://code.bbuy.com/artifactory/plugins-snapshot/</url>
+            <url>https://code.dw.com/artifactory/plugins-snapshot/</url>
         </pluginRepository>
     -->
         <pluginRepository>
