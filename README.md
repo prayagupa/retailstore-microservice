@@ -8,9 +8,9 @@ This is a micro-service baseline in java 12, spring-boot `2.1.x`
 |                   |                          |
 |                   |                          |
 |    /endpoint      |      service             |
-|                   |                          |
-|                   |                          |
-|                   |                          |
+|        |          |                          |
+|        v          |                          |
+|     schema jar    |                          |
 
 ```
 
@@ -145,10 +145,9 @@ deployment
 kubectl create -f restserver-k8-deployment.yaml
 #kubectl delete deployment rest-server
 
-kubectl get services
-NAME          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
-kubernetes    ClusterIP   10.96.0.1       <none>        443/TCP          2d
-rest-server   NodePort    10.102.228.53   <none>        8080:30035/TCP   5m
+λ kubectl get deployments --output wide
+NAME          READY     UP-TO-DATE   AVAILABLE   AGE       CONTAINERS    IMAGES                                                   SELECTOR
+rest-server   1/1       1            1           16m       rest-server   ???.dkr.ecr.us-east-1.amazonaws.com/rest-server:latest   app=rest-server
 
 minikube service rest-server #expose your Service outside of the cluster
 ```
