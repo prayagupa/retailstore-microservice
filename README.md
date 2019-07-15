@@ -81,6 +81,8 @@ Note: Unnecessary use of -X or --request, GET is already inferred.
 }
 ```
 
+uses base container image - https://github.com/duwamish-os/java-microservice-base-image
+
 or using docker (setup the HTTP_PROXY, HTTPS_PROXY and NO_PROXY)
 
 ![](docker_proxy.png)
