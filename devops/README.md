@@ -139,6 +139,13 @@ eksctl create cluster \
 --region us-east-1
 ```
 
+set cluster environment prop
+----------------------------
+
+```bash
+kubectl create configmap cluster-env-config --from-file=cluster_nodes.properties
+```
+
 debugging
 ---------
 
