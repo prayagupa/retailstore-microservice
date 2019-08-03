@@ -134,17 +134,22 @@ service
 # kubectl apply -f k8s-nodes.yaml
 kubectl create -f restserver-k8-service.yaml
 #kubectl delete service rest-server
-λ kubectl get services
+λ kubectl get services --namspace dev
 NAME          TYPE           CLUSTER-IP      EXTERNAL-IP                                                               PORT(S)        AGE
 kubernetes    ClusterIP      10.100.0.1      <none>                                                                    443/TCP        32m
 rest-server   LoadBalancer   10.100.214.66   a1d4b08e2a6a211e9888c1233f0bb1c4-1052742191.us-east-1.elb.amazonaws.com   80:30214/TCP   13m
+
+## internal 
+λ kubectl get services --namespace dev
+NAME          TYPE           CLUSTER-IP       EXTERNAL-IP                                                                        PORT(S)        AGE
+rest-server   LoadBalancer   10.100.183.206   internal-afa3a1c3bb5b011e9ac3512ee202494e-2019297208.us-east-1.elb.amazonaws.com   80:31252/TCP   14s
 ```
 
 deployment
 
 
 ```bash
-kubectl create -f restserver-k8-deployment.yaml
+kubectl create -f restserver-k8-deployment.yaml --namespace dev
 #kubectl delete deployment rest-server
 
 λ kubectl get deployments --output wide

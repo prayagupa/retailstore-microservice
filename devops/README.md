@@ -139,11 +139,19 @@ eksctl create cluster \
 --region us-east-1
 ```
 
+create namespace
+-----------------
+
+```
+λ kubectl create namespace dev
+namespace/dev created
+```
+
 set cluster environment prop
 ----------------------------
 
 ```bash
-kubectl create configmap cluster-env-config --from-file=cluster_nodes.properties
+kubectl create configmap cluster-env-config --from-env-file=cluster_nodes.properties --namespace dev
 ```
 
 debugging
