@@ -4,7 +4,6 @@ metadata:
   name: rest-server
   labels:
     app: rest-server
-  namespace: default
 spec:
   replicas: 1
   selector:
@@ -21,7 +20,7 @@ spec:
         app: rest-server
     spec:
       containers:
-        - image: ???.dkr.ecr.us-east-1.amazonaws.com/???-dev:latest
+        - image: ????????????.dkr.ecr.us-east-1.amazonaws.com/rest-server:latest
           imagePullPolicy: Always
           name: rest-server
           ports:
@@ -29,4 +28,9 @@ spec:
               protocol: TCP
           env:
             - name: name
-              value: "dev"
+              value: "rest-server"
+            - name: SPRING_PROFILES_ACTIVE
+              valueFrom:
+                configMapKeyRef:
+                    name: cluster-env-config
+                    key: APPLICATION_ENVIRONMENT 
