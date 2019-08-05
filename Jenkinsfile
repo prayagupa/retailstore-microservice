@@ -1,10 +1,10 @@
 node {
    def mvnHome
    stage('Unit and component tests') {
-      git url: 'https://github.com/prayagupd/eccount-rest.git', branch: 'REST-API-load-balancing'
+      git url: 'https://github.com/prayagupd/eccount-rest.git', branch: 'master'
       mvnHome = tool 'MAVEN3'
-      sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean install"
+      sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean package"
       junit '**/target/surefire-reports/TEST-*.xml'
-      archive 'target/*.war'
+      archive 'eccount-rest-server/target/*.jar'
    }
 }
