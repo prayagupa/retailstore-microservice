@@ -4,6 +4,7 @@ node {
    def applicationName="eccount-rest"
    def containerTag="$applicationName:$applicationVersion"
 
+   //export as env or setup in jenkins
    def devContainerRegistry="${env.DEV_CONTAINER_REGISTRY}"
    def remoteContainerRegistryTag="$devContainerRegistry/$containerTag"
 
@@ -30,5 +31,10 @@ node {
      sh "docker build -t $containerTag ."
      sh "docker tag $containerTag $remoteContainerRegistryTag"
      sh "docker push $remoteContainerRegistryTag"
+   }
+
+   stage('deploy container'){
+     sh 'kubectl apply -f devops/restserver-k8-service.yaml --namespace dev'
+     sh "sed 's/.*REMOTE_CONTAINER_REGISTRY_TAG.*/        - image: '${env.DEV_CONTAINER_REGISTRY}'/' devops/restserver-k8-deployment.yaml"
    }
 }
