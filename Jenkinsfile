@@ -4,7 +4,8 @@ node {
    def applicationName="eccount-rest"
    def containerTag="$applicationName:$applicationVersion"
 
-   println(applicationVersion)
+   def devContainerRegistry="${env.DEV_CONTAINER_REGISTRY}"
+   def remoteContainerRegistryTag="$devContainerRegistry/$containerTag"
 
    stage('Preparation') {
       git url: 'https://github.com/prayagupd/eccount-rest.git', branch: 'j8'
@@ -15,7 +16,6 @@ node {
       mvnHome = tool 'MAVEN3'
    }
    stage('Build app artifacts') {
-      // Run the maven build
       withEnv(["MVN_HOME=$mvnHome"]) {
             sh '"$MVN_HOME/bin/mvn" -Dmaven.test.failure.ignore clean package'
       }
@@ -26,7 +26,9 @@ node {
    }
 
    stage('build container artifact') {
-     println(containerTag)
+     println(remoteContainerRegistryTag)
      sh "docker build -t $containerTag ."
+     sh "docker tag $containerTag $remoteContainerRegistryTag"
+     sh "docker push $remoteContainerRegistryTag"
    }
 }
