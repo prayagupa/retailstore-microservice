@@ -20,7 +20,7 @@ spec:
         app: rest-server
     spec:
       containers:
-        - image: ????????????.dkr.ecr.us-east-1.amazonaws.com/rest-server:latest
+        - image: REMOTE_CONTAINER_REGISTRY_TAG
           imagePullPolicy: Always
           name: rest-server
           ports:
