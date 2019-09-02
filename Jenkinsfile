@@ -34,7 +34,10 @@ node {
    }
 
    stage('deploy container'){
+     def remoteContainerRegistryTag1="$devContainerRegistry\\/$containerTag"
      sh 'kubectl apply -f devops/restserver-k8-service.yaml --namespace dev'
-     sh "sed 's/.*REMOTE_CONTAINER_REGISTRY_TAG.*/        - image: '${env.DEV_CONTAINER_REGISTRY}'/' devops/restserver-k8-deployment.yaml"
+     sh "sed -i 's/.*REMOTE_CONTAINER_REGISTRY_TAG.*/        - image: '${remoteContainerRegistryTag1}'/' devops/restserver-k8-deployment.yaml"
+     sh "kubectl apply -f devops/restserver-k8-deployment.yaml --namespace dev"
+     //sh "git checkout ."
    }
 }
