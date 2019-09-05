@@ -88,24 +88,6 @@ or using docker (setup the HTTP_PROXY, HTTPS_PROXY and NO_PROXY)
 ![](docker_proxy.png)
 
 
-```bash
-mvn clean package
-eval $(minikube docker-env) # instead of pushing your Docker image to a registry, you can simply build the image using the same Docker host as the Minikube VM
-docker build -t rest-server:v1 .
-#docker run -it --rm -p 9090:8080 rest-server:v1
-```
-
-publish artifact/ container image
----------------------------
-
-```
-docker tag rest-server:v1 ???.dkr.ecr.us-east-1.amazonaws.com/???-dev
-aws ecr get-login --no-include-email --profile ???-dev --region us-east-1
-docker login -u AWS -p <<password>>  https://???.dkr.ecr.us-east-1.amazonaws.com
-
-docker push <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/duwamish-repository
-```
-
 REST API deps size
 
 ```bash

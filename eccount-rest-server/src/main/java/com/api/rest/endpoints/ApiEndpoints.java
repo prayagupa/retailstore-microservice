@@ -5,8 +5,10 @@ import com.api.rest.schema.HealthStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -19,23 +21,31 @@ public class ApiEndpoints {
 
     private final AtomicLong counter = new AtomicLong();
 
+    @Value("${service.name}")
+    private String serviceName;
+
+    @Value("${service.version}")
+    private String serviceVersion;
+
     @Value("${some.properties}")
-    String someProperties;
+    private String someProperties;
+
+    @Autowired
+    private ApiBuildInfo apiBuildInfo;
 
     @RequestMapping("/health")
-    public HealthStatus health() {
-        return new HealthStatus(
-                System.currentTimeMillis(),
-                "rest-api",
-                "1.0"
+    public @ResponseBody CompletableFuture<HealthStatus> health() {
+        return CompletableFuture.completedFuture(
+                new HealthStatus(
+                        System.currentTimeMillis(),
+                        serviceName,
+                        serviceVersion
+                )
         );
     }
 
-    @Autowired
-    ApiBuildInfo apiBuildInfo;
-
-    @RequestMapping("/apiBuildInfo")
-    public ApiBuildInfo build() {
-        return apiBuildInfo;
+    @RequestMapping("/api/build-info")
+    public @ResponseBody CompletableFuture<ApiBuildInfo> build() {
+        return CompletableFuture.completedFuture(apiBuildInfo);
     }
 }
