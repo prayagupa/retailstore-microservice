@@ -47,7 +47,6 @@
 
     <properties>
         <java.version>12</java.version>
-        <spring.boot.version>2.1.5.RELEASE</spring.boot.version>
     </properties>
 
     <build>

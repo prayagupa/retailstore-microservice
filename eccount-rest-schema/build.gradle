@@ -1,0 +1,10 @@
+group = 'com.prayagupd.api'
+description = 'eccount rest schema'
+
+dependencies {
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.8'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.8'
+
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.9'
+}
+

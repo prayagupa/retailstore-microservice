@@ -1,0 +1,52 @@
+buildscript {
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '4.9.7'
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'maven-publish'
+    apply plugin: 'com.jfrog.artifactory'
+
+    version = project.findProperty('projectVersion') ?: '1.0-SNAPSHOT'
+
+    sourceCompatibility = 12
+    targetCompatibility = 12
+
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+            }
+        }
+    }
+
+    jar {
+        manifest {
+            attributes('Implementation-Title': project.name, 'Implementation-Version': project.version)
+        }
+    }
+
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << '-Xlint:unchecked'
+        options.deprecation = true
+    }
+}
+
+gradle.afterProject { project ->
+    if (project.state.failure) {
+        println "Evaluation of $project FAILED"
+    } else {
+        println "Evaluation of $project succeeded"
+    }
+}
+

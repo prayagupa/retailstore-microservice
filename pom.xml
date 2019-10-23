@@ -26,9 +26,8 @@
     <properties>
         <java.version>12</java.version>
         <app.environment>production</app.environment>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <spring.boot.version>2.1.5.RELEASE</spring.boot.version>
+        <maven.compiler.source>12</maven.compiler.source>
+        <maven.compiler.target>12</maven.compiler.target>
         <tomcat.version>8.5.37</tomcat.version>
     </properties>
 

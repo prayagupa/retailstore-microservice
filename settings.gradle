@@ -1,0 +1,5 @@
+rootProject.name = 'eccount'
+
+include 'eccount-rest-schema'
+include 'eccount-rest-server'
+
