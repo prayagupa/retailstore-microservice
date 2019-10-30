@@ -38,14 +38,19 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot', version: '2.1.5.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '2.1.5.RELEASE'
     compile(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.1.5.RELEASE') {
+        exclude module: "spring-boot-starter-logging"
         exclude module: "logback-classic"
     }
 
     implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.1.5.RELEASE') {
+        exclude module: "spring-boot-starter-logging"
         exclude module: "logback-classic"
     }
 
-    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.1.5.RELEASE'
+    testCompile (group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.1.5.RELEASE') {
+        exclude module: "logback-classic"
+        exclude module: "spring-boot-starter-logging"
+    }
     testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '5.1.5.RELEASE'
     testCompile group: 'com.tngtech.java', name: 'junit-dataprovider', version: '1.13.1'
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.12.2'

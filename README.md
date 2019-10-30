@@ -25,7 +25,7 @@ tests
 -----
 
 ```bash
-mvn test
+gradle test
 ```
 
 build/ [run-app in x env](http://docs.spring.io/spring-boot/docs/current/maven-plugin/examples/run-profiles.html)
@@ -37,7 +37,7 @@ build/ [run-app in x env](http://docs.spring.io/spring-boot/docs/current/maven-p
 
 spring.profiles.active=e2e
 
-mvn spring-boot:run
+gradle spring-boot:run
 ```
 
 or set profile in `pom.xml`.
