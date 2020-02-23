@@ -20,8 +20,8 @@ spec:
         app: rest-server
     spec:
       containers:
-        - image: REMOTE_CONTAINER_REGISTRY_TAG
-          imagePullPolicy: Always
+        - image: rest-server:v1 #REMOTE_CONTAINER_REGISTRY_TAG
+          imagePullPolicy: Never #Always for registry
           name: rest-server
           ports:
             - containerPort: 9090

@@ -1,4 +1,25 @@
 
+[install minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/)
+---
+
+```
+$ sysctl -a | grep -E --color 'machdep.cpu.features|VMX' 
+machdep.cpu.features: FPU VME DE PSE TSC MSR PAE MCE CX8 APIC SEP MTRR PGE MCA CMOV PAT PSE36 CLFSH DS ACPI MMX FXSR SSE SSE2 SS HTT TM PBE SSE3 PCLMULQDQ DTES64 MON DSCPL VMX EST TM2 SSSE3 FMA CX16 TPR PDCM SSE4.1 SSE4.2 x2APIC MOVBE POPCNT AES PCID XSAVE OSXSAVE SEGLIM64 TSCTMR AVX1.0 RDRAND F16C
+
+brew install minikube
+
+
+minikube start --vm-driver=hyperkit
+😄  minikube v1.7.3 on Darwin 10.15.3
+✨  Using the hyperkit driver based on user configuration
+⌛  Reconfiguring existing host ...
+🏃  Using the running hyperkit "minikube" VM ...
+🐳  Preparing Kubernetes v1.17.3 on Docker 19.03.6 ...
+🚀  Launching Kubernetes ... 
+🌟  Enabling addons: default-storageclass, storage-provisioner
+```
+
+
 ```bash
 terraform init
 terraform apply
@@ -151,14 +172,19 @@ set cluster environment prop
 ----------------------------
 
 ```bash
-kubectl create configmap cluster-env-config --from-env-file=cluster_nodes.properties --namespace dev
+kubectl create configmap cluster-env-config --from-env-file=k8s-cluster_nodes.properties --namespace dev
+configmap/cluster-env-config created
 ```
 
 https://github.com/redhat-developer-demos/spring-boot-configmaps-demo
 
 ```bash
-mvn clean package
-eval $(minikube docker-env) # instead of pushing your Docker image to a registry, you can simply build the image using the same Docker host as the Minikube VM
+gradle build
+
+# instead of pushing your Docker image to a registry, 
+# you can simply build the image using the same Docker host as the Minikube VM
+eval $(minikube docker-env) 
+
 docker build -t rest-server:v1 .
 #docker run -it --rm -p 9090:8080 rest-server:v1
 ```
@@ -179,12 +205,12 @@ k8s deployment
 
 ```bash
 # kubectl apply -f k8s-nodes.yaml
-kubectl create -f restserver-k8-service.yaml --namespace dev
+kubectl create -f k8s-rest-cluster_ip-service.yaml --namespace dev
 #kubectl delete service rest-server
 ```
 
 ```bash
-λ kubectl get services --namspace dev
+λ kubectl get services --namespace dev
 NAME          TYPE           CLUSTER-IP      EXTERNAL-IP                                                               PORT(S)        AGE
 kubernetes    ClusterIP      10.100.0.1      <none>                                                                    443/TCP        32m
 rest-server   LoadBalancer   10.100.214.66   a1d4b08e2a6a211e9888c1233f0bb1c4-1052742191.us-east-1.elb.amazonaws.com   80:30214/TCP   13m
