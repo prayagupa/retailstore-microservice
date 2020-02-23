@@ -34,3 +34,12 @@ spec:
                 configMapKeyRef:
                     name: cluster-env-config
                     key: APPLICATION_ENVIRONMENT 
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 9090
+              httpHeaders:
+                - name: Host
+                  value: KubernetesLivenessProbe
+            initialDelaySeconds: 5
+            periodSeconds: 60

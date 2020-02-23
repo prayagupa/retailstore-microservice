@@ -2,6 +2,9 @@ package com.api.rest.endpoints;
 
 import com.api.rest.schema.ApiBuildInfo;
 import com.api.rest.schema.HealthStatus;
+import io.micrometer.core.annotation.Timed;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +20,10 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 
 @RestController
+@Timed
 public class ApiEndpoints {
+
+    private final static Logger logger = LogManager.getLogger();
 
     private final AtomicLong counter = new AtomicLong();
 
@@ -35,6 +41,9 @@ public class ApiEndpoints {
 
     @RequestMapping("/health")
     public @ResponseBody CompletableFuture<HealthStatus> health() {
+
+        logger.info("healthcheck");
+
         return CompletableFuture.completedFuture(
                 new HealthStatus(
                         System.currentTimeMillis(),
