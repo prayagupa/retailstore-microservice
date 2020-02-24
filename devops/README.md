@@ -255,6 +255,13 @@ curl -v a6e2953f6a6a411e9888c1233f0bb1c4-146709191.us-east-1.elb.amazonaws.com/h
 ```
 
 
+stop cluster
+
+```
+minikube stop
+✋  Stopping "minikube" in hyperkit ...
+🛑  "minikube" stopped.
+```
 
 debugging
 ---------

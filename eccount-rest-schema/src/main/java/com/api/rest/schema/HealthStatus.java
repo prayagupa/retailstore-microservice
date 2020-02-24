@@ -1,15 +1,25 @@
 package com.api.rest.schema;
 
+//import lombok.AllArgsConstructor;
+//import lombok.NoArgsConstructor;
+
 /**
  * Created by prayagupd
  * on 1/29/17.
  */
 
+//
+//@AllArgsConstructor
+//@NoArgsConstructor
 public class HealthStatus {
 
-    private final long timestamp;
-    private final String applicationName;
-    private final String applicationVersion;
+    private long timestamp;
+    private String applicationName;
+    private String applicationVersion;
+
+    public HealthStatus() {
+
+    }
 
     public HealthStatus(long timestamp,
                         String applicationName,
@@ -29,5 +39,17 @@ public class HealthStatus {
 
     public String getApplicationVersion() {
         return applicationVersion;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public void setApplicationName(String applicationName) {
+        this.applicationName = applicationName;
+    }
+
+    public void setApplicationVersion(String applicationVersion) {
+        this.applicationVersion = applicationVersion;
     }
 }
