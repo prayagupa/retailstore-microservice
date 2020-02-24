@@ -46,15 +46,4 @@ public class RestHttpClient {
                     }
                 });
     }
-
-    public static void main(String[] args) {
-        var response = new RestHttpClient("http://localhost:8080").getHealthStatus(
-                UUID.randomUUID(), "test"
-        );
-
-        response.whenComplete((s, err) -> {
-            System.out.println(s);
-        });
-
-    }
 }
