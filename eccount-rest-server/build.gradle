@@ -1,6 +1,6 @@
 plugins {
     id 'application'
-    id 'org.springframework.boot' version '2.1.5.RELEASE'
+    id 'org.springframework.boot' version '2.2.6.RELEASE'
 }
 
 apply plugin: 'jacoco'
@@ -37,19 +37,19 @@ dependencies {
 
     compile 'io.micrometer:micrometer-registry-atlas:latest.release'
 
-    compile group: 'org.springframework.boot', name: 'spring-boot', version: '2.1.5.RELEASE'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '2.1.5.RELEASE'
-    compile(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.1.5.RELEASE') {
+    compile group: 'org.springframework.boot', name: 'spring-boot', version: '2.2.6.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '2.2.6.RELEASE'
+    compile(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.2.6.RELEASE') {
         exclude module: "spring-boot-starter-logging"
         exclude module: "logback-classic"
     }
 
-    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.1.5.RELEASE') {
+    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.2.6.RELEASE') {
         exclude module: "spring-boot-starter-logging"
         exclude module: "logback-classic"
     }
 
-    testCompile (group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.1.5.RELEASE') {
+    testCompile (group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.2.6.RELEASE') {
         exclude module: "logback-classic"
         exclude module: "spring-boot-starter-logging"
     }
