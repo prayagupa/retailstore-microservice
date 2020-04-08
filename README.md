@@ -115,7 +115,8 @@ $ du -sh target/restapi/WEB-INF/lib/spring-*
 ----
 
 
-Also see :
+Also see
+--
 
-https://github.com/prayagupd/nodejs-microservice
+- https://github.com/prayagupd/nodejs-microservice
 

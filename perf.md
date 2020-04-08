@@ -4,8 +4,9 @@ performance
 1 - 100K requests
 -----------------
 
+**on localhost**
+
 ```
-### localhost
 $ ab -n 100000 -c 100 -k http://127.0.0.1:8080/health
 This is ApacheBench, Version 2.3 <$Revision: 1807734 $>
 Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
@@ -17,7 +18,7 @@ apr_socket_recv: Operation timed out (60)
 Total of 16441 requests completed
 ```
 
-on AWS VM backed by nginx, `c5.2xlarge`
+**on AWS VM backed by nginx, `c5.2xlarge`**
 
 ```
 Labels:             beta.kubernetes.io/arch=amd64
@@ -101,8 +102,9 @@ Percentage of the requests served within a certain time (ms)
 2 - 50K requests
 ----------------
 
+**localhost**
+
 ```
-### localhost
 $ ab -n 50000 -c 100 -k http://127.0.0.1:8080/health
 This is ApacheBench, Version 2.3 <$Revision: 1807734 $>
 Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
@@ -180,6 +182,8 @@ Percentage of the requests served within a certain time (ms)
 3 - 20K requests
 ----------------
 
+**localhost**
+
 ```
 $ ab -n 20000 -c 100 -k http://127.0.0.1:8080/health
 This is ApacheBench, Version 2.3 <$Revision: 1807734 $>
@@ -198,6 +202,8 @@ Completed 16000 requests
 apr_socket_recv: Operation timed out (60)
 Total of 16465 requests completed
 ```
+
+**nginx backed**
 
 ```bash
 ab -n 20000 -c 100 -k abc-xyz.us-east-1.elb.amazonaws.com/svc1/health
@@ -260,6 +266,8 @@ Percentage of the requests served within a certain time (ms)
 4 - 10K requests
 ----------------
 
+**localhost**
+
 ```
 ab -n 10000 -c 100 -k http://127.0.0.1:8080/health
 This is ApacheBench, Version 2.3 <$Revision: 1807734 $>
@@ -320,3 +328,4 @@ Percentage of the requests served within a certain time (ms)
 
 
 ![](spring_perf.png)
+![](spring_perf_2020.png)
