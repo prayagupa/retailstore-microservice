@@ -6,6 +6,10 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+
+import java.util.concurrent.Executor;
 
 /**
  * Created by prayagupd
@@ -13,6 +17,7 @@ import org.springframework.core.io.ClassPathResource;
  */
 
 @SpringBootApplication
+@EnableAsync
 public class RESTApplication extends SpringBootServletInitializer {
 
     @Bean
@@ -23,6 +28,18 @@ public class RESTApplication extends SpringBootServletInitializer {
         propsConfig.setIgnoreResourceNotFound(true);
         propsConfig.setIgnoreUnresolvablePlaceholders(true);
         return propsConfig;
+    }
+
+    @Bean(name = "requestExecutor")
+    public Executor requestExecutor() {
+
+        final ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(1);
+        executor.setMaxPoolSize(1);
+        executor.setQueueCapacity(500);
+        executor.setThreadNamePrefix("ECCOUNT-REST-API-");
+        executor.initialize();
+        return executor;
     }
 
     public static void main(String[] args) {
