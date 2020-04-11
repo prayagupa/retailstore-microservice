@@ -1,5 +1,9 @@
 .idea/
 target/*
+build/
+out/
 *.iml
 .terraform
 *.tfstate
+.gradle
+

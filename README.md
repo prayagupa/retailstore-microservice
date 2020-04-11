@@ -91,7 +91,7 @@ or using docker (setup the HTTP_PROXY, HTTPS_PROXY and NO_PROXY)
 REST API deps size
 
 ```bash
-$ du -sh target/restapi/WEB-INF/lib/spring-*
+$ du -sh target/restapi/WEB-INF/lib/spring-* | sort
 372K	target/restapi/WEB-INF/lib/spring-aop-4.3.6.RELEASE.jar
 748K	target/restapi/WEB-INF/lib/spring-beans-4.3.6.RELEASE.jar
 648K	target/restapi/WEB-INF/lib/spring-boot-1.4.4.RELEASE.jar
