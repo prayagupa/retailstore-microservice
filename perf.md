@@ -1,6 +1,10 @@
 performance
 -----------
 
+This is tested
+1) with the endpoint involving no IO
+2) whatever thread pool size and queue Spring configures
+
 1 - 100K requests
 -----------------
 

@@ -34,10 +34,11 @@ public class RESTApplication extends SpringBootServletInitializer {
     public Executor requestExecutor() {
 
         final ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        int corePoolSize = Runtime.getRuntime().availableProcessors() * 2;
         executor.setCorePoolSize(1);
         executor.setMaxPoolSize(1);
-        executor.setQueueCapacity(500);
-        executor.setThreadNamePrefix("ECCOUNT-REST-API-");
+        executor.setQueueCapacity(1000);
+        executor.setThreadNamePrefix("ECCOUNT-NIO-REST-API-");
         executor.initialize();
         return executor;
     }
