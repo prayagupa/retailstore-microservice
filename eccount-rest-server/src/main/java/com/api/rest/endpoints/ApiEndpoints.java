@@ -3,6 +3,9 @@ package com.api.rest.endpoints;
 import com.api.rest.schema.ApiBuildInfo;
 import com.api.rest.schema.HealthStatus;
 import com.api.rest.service.EccountService;
+import io.github.resilience4j.ratelimiter.RateLimiter;
+import io.github.resilience4j.ratelimiter.RateLimiterConfig;
+import io.github.resilience4j.ratelimiter.RateLimiterRegistry;
 import io.micrometer.core.annotation.Timed;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -48,20 +53,29 @@ public class ApiEndpoints {
 
     private ExecutorService executorService = Executors.newFixedThreadPool(100);
 
+    private final static RateLimiter limiter = RateLimiterRegistry.of(
+            RateLimiterConfig.custom()
+                    .limitRefreshPeriod(Duration.ofMillis(60 * 1000))
+                    .limitForPeriod(10000)
+                    .timeoutDuration(Duration.ofMillis(25))
+                    .build()
+    ).rateLimiter("health-limiter");
+
     @RequestMapping("/health")
 //    @Async("requestExecutor")
     public CompletableFuture<HealthStatus> health() {
-
         logger.info("healthcheck");
 
-        return CompletableFuture.supplyAsync(() -> eccountService.readDataBlocking(100), executorService)
-                .thenApply($ -> {
-                    return new HealthStatus(
-                            $.toEpochSecond(ZoneOffset.of("-07:00")),
-                            serviceName,
-                            serviceVersion
-                    );
-                });
+        return limiter.executeCompletionStage(() -> {
+            return CompletableFuture.supplyAsync(() -> eccountService.readDataBlocking(100), executorService)
+                    .thenApply($ -> {
+                        return new HealthStatus(
+                                $.toEpochSecond(ZoneOffset.of("-07:00")),
+                                serviceName,
+                                serviceVersion
+                        );
+                    });
+        }).toCompletableFuture();
     }
 
     @RequestMapping("/health-sync")
@@ -69,10 +83,10 @@ public class ApiEndpoints {
 
         logger.info("sync healthcheck");
 
-        eccountService.readDataBlocking(100);
+        LocalDateTime localDateTime = eccountService.readDataBlocking(100);
 
         return new HealthStatus(
-                System.currentTimeMillis(),
+                localDateTime.toEpochSecond(ZoneOffset.of("-07:00")),
                 serviceName,
                 serviceVersion
         );
