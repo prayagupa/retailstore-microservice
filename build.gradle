@@ -11,6 +11,7 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
     apply plugin: 'com.jfrog.artifactory'
+    apply plugin: 'project-report'
 
     version = project.findProperty('projectVersion') ?: '1.0-SNAPSHOT'
 
