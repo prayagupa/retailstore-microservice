@@ -3,6 +3,7 @@ package com.api.rest.endpoints;
 import com.api.rest.schema.ApiBuildInfo;
 import com.api.rest.schema.HealthStatus;
 import com.api.rest.service.EccountService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import io.github.resilience4j.ratelimiter.RateLimiterRegistry;
