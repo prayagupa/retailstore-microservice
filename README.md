@@ -2,7 +2,7 @@
 Java HTTP/REST micro-service
 ==========================
 
-This is a micro-service baseline in java 12, spring-boot `2.1.x`
+This is a micro-service baseline in java 12, spring-boot `2.4.x`
 
 ```
 |                   |                          |
@@ -110,6 +110,11 @@ $ du -sh target/restapi/WEB-INF/lib/spring-* | sort
 [deployment + load balancing](devops/README.md)
 -----
 
+metrics
+-------
+```bash
+curl "http://localhost:9080/metrics/system.cpu.usage"
+```
 
 [perf](perf.md)
 ----

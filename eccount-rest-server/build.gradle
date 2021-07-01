@@ -38,26 +38,28 @@ dependencies {
 
     compile group: 'io.projectreactor.netty', name: 'reactor-netty', version: '0.9.6.RELEASE'
 
-    compile 'io.micrometer:micrometer-registry-atlas:latest.release'
+//    compile 'io.micrometer:micrometer-registry-atlas:latest.release'
+    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+
     compile group: 'io.github.resilience4j', name: 'resilience4j-spring-boot2', version: '1.7.0'
 
-    compile group: 'org.springframework.boot', name: 'spring-boot', version: '2.4.5'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '2.4.5'
-    compile(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.4.5') {
+    compile group: 'org.springframework.boot', name: 'spring-boot', version: '2.5.2'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '2.5.2'
+    compile(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.5.2') {
         exclude module: "spring-boot-starter-logging"
         exclude module: "logback-classic"
     }
 
-    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.4.5') {
+    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.5.2') {
         exclude module: "spring-boot-starter-logging"
         exclude module: "logback-classic"
     }
 
-    testCompile (group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.4.5') {
+    testCompile (group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.5.2') {
         exclude module: "logback-classic"
         exclude module: "spring-boot-starter-logging"
     }
-    testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '5.5.0'
+    testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '5.5.1'
     testCompile group: 'com.tngtech.java', name: 'junit-dataprovider', version: '1.13.1'
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.12.2'
     testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.5.2'
