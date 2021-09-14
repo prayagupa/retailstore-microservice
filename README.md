@@ -25,7 +25,11 @@ tests
 -----
 
 ```bash
+## using gradle
 gradle test
+
+## using maven
+## mvn test
 ```
 
 build/ [run-app in x env](http://docs.spring.io/spring-boot/docs/current/maven-plugin/examples/run-profiles.html)
@@ -45,7 +49,7 @@ or set profile in `pom.xml`.
 [BUT the best way is to have environment variable](http://stackoverflow.com/a/35534970/432903),
 [that will determine which config to use.](http://stackoverflow.com/a/38337109/432903)
 
-```
+```bash
 export SPRING_PROFILES_ACTIVE=production
 ```
 
@@ -81,12 +85,12 @@ Note: Unnecessary use of -X or --request, GET is already inferred.
 }
 ```
 
-uses base container image - https://github.com/duwamish-os/java-microservice-base-image
 
 or using docker (setup the HTTP_PROXY, HTTPS_PROXY and NO_PROXY)
 
 ![](docker_proxy.png)
 
+uses base container image - https://github.com/duwamish-os/java-microservice-base-image
 
 REST API deps size
 
