@@ -1,9 +1,9 @@
 plugins {
     id 'application'
-    id 'org.springframework.boot' version '2.4.5'
-}
 
-apply plugin: 'jacoco'
+    //https://plugins.gradle.org/plugin/org.springframework.boot
+    id 'org.springframework.boot' version '2.5.2'
+}
 
 repositories {
     mavenCentral()
