@@ -32,12 +32,38 @@ subprojects {
     }
 
     jar {
+        /**
+         * Execution failed for task ':eccount-rest-schema:jar'.
+         > Entry META-INF/services/javax.annotation.processing.Processor is a duplicate but no duplicate handling strategy has been set.
+         Please refer to https://docs.gradle.org/7.0/dsl/org.gradle.api.file.CopySpec.html#org.gradle.api.file.CopySpec:duplicatesStrategy
+         for details.
+
+         Encountered duplicate path "META-INF/LICENSE.txt" during copy operation configured with DuplicatesStrategy.WARN
+         Encountered duplicate path "META-INF/NOTICE.txt" during copy operation configured with DuplicatesStrategy.WARN
+         Encountered duplicate path "META-INF/LICENSE" during copy operation configured with DuplicatesStrategy.WARN
+         Encountered duplicate path "META-INF/NOTICE" during copy operation configured with DuplicatesStrategy.WARN
+         Encountered duplicate path "META-INF/INDEX.LIST" during copy operation configured with DuplicatesStrategy.WARN
+         Encountered duplicate path "META-INF/io.netty.versions.properties" during copy operation configured with DuplicatesStrategy.WARN
+         */
+//        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
         manifest {
             attributes(
                     'Implementation-Title': project.name,
                     'Implementation-Version': project.version
+//                    'Class-Path': configurations.compileClasspath.collect { it.getName() }.join(' '),
+//                    'Main-Class': 'com.api.RESTApplication'
             )
         }
+        /**
+         * two JARs are built
+         * $ ls -l eccount-rest-server/build/libs/
+         -rw-r--r--  1 prayagupd  NA\Domain Users      7102 Sep 14 14:56 eccount-rest-server-1.0-SNAPSHOT-plain.jar
+         -rw-r--r--  1 prayagupd  NA\Domain Users  31661792 Sep 14 14:55 eccount-rest-server-1.0-SNAPSHOT.jar
+         */
+//        from {
+//            configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+//        }
     }
 
     tasks.withType(JavaCompile) {
@@ -53,4 +79,3 @@ gradle.afterProject { project ->
         println "Evaluation of $project succeeded"
     }
 }
-

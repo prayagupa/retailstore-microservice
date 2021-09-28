@@ -39,7 +39,7 @@ dependencies {
     implementation group: 'io.projectreactor.netty', name: 'reactor-netty', version: '0.9.6.RELEASE'
 
 //    compile 'io.micrometer:micrometer-registry-atlas:latest.release'
-    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
 
     implementation group: 'io.github.resilience4j', name: 'resilience4j-spring-boot2', version: '1.7.0'
 
@@ -89,4 +89,13 @@ test {
 
 jacoco {
     toolVersion = "0.8.3"
+}
+
+configurations {
+    [apiElements, runtimeElements].each {
+        it.outgoing.artifacts.removeIf {
+            it.buildDependencies.getDependencies(null).contains(jar)
+        }
+        it.outgoing.artifact(bootJar)
+    }
 }
