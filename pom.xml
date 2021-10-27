@@ -4,15 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.prayagupd.api</groupId>
-    <artifactId>rest-api</artifactId>
+    <artifactId>eccount-rest</artifactId>
     <version>0.1.0</version>
     <packaging>pom</packaging>
-
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.5</version>
-    </parent>
 
     <modules>
         <module>eccount-rest-schema</module>
@@ -32,7 +26,7 @@
     </properties>
 
     <repositories>
-        <!--
+<!--
         <repository>
             <snapshots>
                 <enabled>false</enabled>
@@ -54,29 +48,40 @@
             <id>mavencentral</id>
             <url>http://central.maven.org/maven2/</url>
         </repository>
+        <repository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </repository>
+
+        <repository>
+            <id>mvncenreal</id>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
     </repositories>
+
     <pluginRepositories>
-        <!--
         <pluginRepository>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>artifactory-plugins-releases</id>
-            <name>plugins-releases</name>
-            <url>https://code.dw.com/artifactory/plugins-release/</url>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
         </pluginRepository>
-        <pluginRepository>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <id>artifactory-plugins-snapshot</id>
-            <name>plugins-snapshot</name>
-            <url>https://code.dw.com/artifactory/plugins-snapshot/</url>
-        </pluginRepository>
-    -->
+
         <pluginRepository>
             <id>mvncentral</id>
             <url>http://central.maven.org/maven2/</url>
         </pluginRepository>
     </pluginRepositories>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.4.5</version>
+                <configuration>
+                    <mainClass>com.api.RESTApplication</mainClass>
+<!--                    <skip>true</skip>-->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

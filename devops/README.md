@@ -8,7 +8,7 @@ machdep.cpu.features: FPU VME DE PSE TSC MSR PAE MCE CX8 APIC SEP MTRR PGE MCA C
 
 brew install minikube
 
-
+minikube start --vm-driver=docker
 minikube start --vm-driver=hyperkit
 😄  minikube v1.7.3 on Darwin 10.15.3
 ✨  Using the hyperkit driver based on user configuration

@@ -2,20 +2,31 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>rest-api-server</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>eccount-rest-server</artifactId>
+    <packaging>war</packaging>
 
+<!--    <parent>-->
+<!--        <groupId>org.springframework.boot</groupId>-->
+<!--        <artifactId>spring-boot-starter-parent</artifactId>-->
+<!--        <version>2.4.5</version>-->
+<!--    </parent>-->
+<!--    -->
     <parent>
         <groupId>com.prayagupd.api</groupId>
-        <artifactId>rest-api</artifactId>
+        <artifactId>eccount-rest</artifactId>
         <version>0.1.0</version>
     </parent>
+
+    <properties>
+        <start-class>com.api.RESTApplication</start-class>
+        <java.version>12</java.version>
+    </properties>
 
     <dependencies>
 
         <dependency>
             <groupId>com.prayagupd.api</groupId>
-            <artifactId>rest-api-schema</artifactId>
+            <artifactId>eccount-rest-schema</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 
@@ -35,11 +46,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <version>2.4.5</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <version>2.4.5</version>
             <scope>test</scope>
         </dependency>
 
@@ -83,7 +96,13 @@
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-runner</artifactId>
-            <version>1.8.0-M1</version>
+            <version>1.8.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -93,18 +112,14 @@
             <scope>test</scope>
         </dependency>
 
-
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
+            <version>2.6.0</version>
             <scope>test</scope>
         </dependency>
 
     </dependencies>
-
-    <properties>
-        <java.version>12</java.version>
-    </properties>
 
     <build>
         <finalName>restapi</finalName>
@@ -114,9 +129,18 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.4.5</version>
                 <configuration>
+                    <mainClass>com.api.RESTApplication</mainClass>
                     <executable>true</executable>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
@@ -153,11 +177,27 @@
             <id>mavencentral</id>
             <url>http://central.maven.org/maven2/</url>
         </repository>
+        <repository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </repository>
+
+        <repository>
+            <id>mvncenreal</id>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
     </repositories>
+
+
     <pluginRepositories>
+        <pluginRepository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </pluginRepository>
         <pluginRepository>
             <id>mvncentral</id>
             <url>http://central.maven.org/maven2/</url>
         </pluginRepository>
     </pluginRepositories>
+
 </project>

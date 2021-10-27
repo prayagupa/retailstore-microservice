@@ -3,7 +3,6 @@ package com.api.rest.endpoints;
 import com.api.rest.schema.ApiBuildInfo;
 import com.api.rest.schema.HealthStatus;
 import com.api.rest.service.EccountService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import io.github.resilience4j.ratelimiter.RateLimiterRegistry;
@@ -23,6 +22,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
  * Created by prayagupd
@@ -54,7 +55,7 @@ public class ApiEndpoints {
 
     private ExecutorService executorService = Executors.newFixedThreadPool(100);
 
-    private final static RateLimiter limiter = RateLimiterRegistry.of(
+    private final static RateLimiter RATE_LIMITER = RateLimiterRegistry.of(
             RateLimiterConfig.custom()
                     .limitRefreshPeriod(Duration.ofMillis(60 * 1000))
                     .limitForPeriod(10000)
@@ -62,12 +63,15 @@ public class ApiEndpoints {
                     .build()
     ).rateLimiter("health-limiter");
 
-    @RequestMapping("/health")
+    @RequestMapping(
+            value = "/health",
+            produces = APPLICATION_JSON_VALUE
+    )
 //    @Async("requestExecutor")
     public CompletableFuture<HealthStatus> health() {
         logger.info("healthcheck");
 
-        return limiter.executeCompletionStage(() -> {
+        return RATE_LIMITER.executeCompletionStage(() -> {
             return CompletableFuture.supplyAsync(() -> eccountService.readDataBlocking(100), executorService)
                     .thenApply($ -> {
                         return new HealthStatus(
