@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 //Junit5
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration()
-@ContextConfiguration(classes = TestConfigForJUnit5.class)
+@ContextConfiguration(classes = UnitTestConfigForJUnit5.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ApiEndpointsComponentTests {
 

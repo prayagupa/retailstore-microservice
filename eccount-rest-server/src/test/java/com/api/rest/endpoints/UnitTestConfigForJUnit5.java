@@ -5,11 +5,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @ComponentScan(basePackages = {"com.api.rest"})
-public class TestConfigForJUnit5 implements WebMvcConfigurer, ApplicationContextAware {
+//this is needed to load file during test context
+@PropertySource(value = "classpath:application.properties", ignoreResourceNotFound = true)
+public class UnitTestConfigForJUnit5 implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
 
@@ -17,5 +19,4 @@ public class TestConfigForJUnit5 implements WebMvcConfigurer, ApplicationContext
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
-
 }
