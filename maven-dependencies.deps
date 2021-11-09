@@ -1,0 +1,113 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] eccount-rest                                                       [pom]
+[INFO] eccount-rest-schema                                                [jar]
+[INFO] eccount-rest-server                                                [war]
+[INFO] 
+[INFO] -------------------< com.prayagupd.api:eccount-rest >-------------------
+[INFO] Building eccount-rest 0.1.0                                        [1/3]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ eccount-rest ---
+[INFO] com.prayagupd.api:eccount-rest:pom:0.1.0
+[INFO] 
+[INFO] ---------------< com.prayagupd.api:eccount-rest-schema >----------------
+[INFO] Building eccount-rest-schema 0.1.0                                 [2/3]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ eccount-rest-schema ---
+[INFO] com.prayagupd.api:eccount-rest-schema:jar:0.1.0
+[INFO] 
+[INFO] ---------------< com.prayagupd.api:eccount-rest-server >----------------
+[INFO] Building eccount-rest-server 0.1.0                                 [3/3]
+[INFO] --------------------------------[ war ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ eccount-rest-server ---
+[INFO] com.prayagupd.api:eccount-rest-server:war:0.1.0
+[INFO] +- com.prayagupd.api:eccount-rest-schema:jar:0.1.0:compile
+[INFO] +- javax.servlet:javax.servlet-api:jar:3.1.0:provided
+[INFO] +- org.springframework.boot:spring-boot-starter-web:jar:2.5.3:compile
+[INFO] |  +- org.springframework.boot:spring-boot-starter:jar:2.5.3:compile
+[INFO] |  |  +- org.springframework.boot:spring-boot:jar:2.5.3:compile
+[INFO] |  |  +- org.springframework.boot:spring-boot-autoconfigure:jar:2.5.3:compile
+[INFO] |  |  +- org.springframework.boot:spring-boot-starter-logging:jar:2.5.3:compile
+[INFO] |  |  |  +- ch.qos.logback:logback-classic:jar:1.2.4:compile
+[INFO] |  |  |  |  \- ch.qos.logback:logback-core:jar:1.2.4:compile
+[INFO] |  |  |  +- org.apache.logging.log4j:log4j-to-slf4j:jar:2.14.1:compile
+[INFO] |  |  |  |  \- org.apache.logging.log4j:log4j-api:jar:2.14.1:compile
+[INFO] |  |  |  \- org.slf4j:jul-to-slf4j:jar:1.7.32:compile
+[INFO] |  |  +- jakarta.annotation:jakarta.annotation-api:jar:1.3.5:compile
+[INFO] |  |  \- org.yaml:snakeyaml:jar:1.28:compile
+[INFO] |  +- org.springframework.boot:spring-boot-starter-json:jar:2.5.3:compile
+[INFO] |  |  +- com.fasterxml.jackson.datatype:jackson-datatype-jdk8:jar:2.12.4:compile
+[INFO] |  |  +- com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.12.4:compile
+[INFO] |  |  \- com.fasterxml.jackson.module:jackson-module-parameter-names:jar:2.12.4:compile
+[INFO] |  +- org.springframework.boot:spring-boot-starter-tomcat:jar:2.5.3:compile
+[INFO] |  |  +- org.apache.tomcat.embed:tomcat-embed-core:jar:9.0.50:compile
+[INFO] |  |  +- org.apache.tomcat.embed:tomcat-embed-el:jar:9.0.50:compile
+[INFO] |  |  \- org.apache.tomcat.embed:tomcat-embed-websocket:jar:9.0.50:compile
+[INFO] |  +- org.springframework:spring-web:jar:5.3.9:compile
+[INFO] |  |  \- org.springframework:spring-beans:jar:5.3.9:compile
+[INFO] |  \- org.springframework:spring-webmvc:jar:5.3.9:compile
+[INFO] |     +- org.springframework:spring-aop:jar:5.3.9:compile
+[INFO] |     +- org.springframework:spring-context:jar:5.3.9:compile
+[INFO] |     \- org.springframework:spring-expression:jar:5.3.9:compile
+[INFO] +- io.github.resilience4j:resilience4j-ratelimiter:jar:1.7.0:compile
+[INFO] |  +- io.vavr:vavr:jar:0.10.2:compile
+[INFO] |  |  \- io.vavr:vavr-match:jar:0.10.2:compile
+[INFO] |  +- org.slf4j:slf4j-api:jar:1.7.30:compile
+[INFO] |  \- io.github.resilience4j:resilience4j-core:jar:1.7.0:compile
+[INFO] +- io.micrometer:micrometer-core:jar:1.7.0:compile
+[INFO] |  +- org.hdrhistogram:HdrHistogram:jar:2.1.12:compile
+[INFO] |  \- org.latencyutils:LatencyUtils:jar:2.0.3:runtime
+[INFO] +- com.fasterxml.jackson.core:jackson-databind:jar:2.11.4:compile
+[INFO] +- com.fasterxml.jackson.core:jackson-core:jar:2.11.4:compile
+[INFO] +- com.fasterxml.jackson.core:jackson-annotations:jar:2.11.4:compile
+[INFO] +- org.junit.jupiter:junit-jupiter-engine:jar:5.7.2:compile
+[INFO] |  +- org.apiguardian:apiguardian-api:jar:1.1.0:compile
+[INFO] |  \- org.junit.platform:junit-platform-engine:jar:1.7.2:compile
+[INFO] +- org.junit.jupiter:junit-jupiter-api:jar:5.7.2:test
+[INFO] |  +- org.opentest4j:opentest4j:jar:1.2.0:compile
+[INFO] |  \- org.junit.platform:junit-platform-commons:jar:1.7.2:compile
+[INFO] +- org.junit.platform:junit-platform-runner:jar:1.8.1:compile
+[INFO] |  +- org.junit.platform:junit-platform-launcher:jar:1.8.1:compile
+[INFO] |  +- org.junit.platform:junit-platform-suite-api:jar:1.8.1:compile
+[INFO] |  \- org.junit.platform:junit-platform-suite-commons:jar:1.8.1:runtime
+[INFO] +- org.springframework.boot:spring-boot-starter-test:jar:2.5.3:test
+[INFO] |  +- org.springframework.boot:spring-boot-test:jar:2.5.3:test
+[INFO] |  +- org.springframework.boot:spring-boot-test-autoconfigure:jar:2.5.3:test
+[INFO] |  +- jakarta.xml.bind:jakarta.xml.bind-api:jar:2.3.3:test
+[INFO] |  |  \- jakarta.activation:jakarta.activation-api:jar:1.2.2:test
+[INFO] |  +- org.assertj:assertj-core:jar:3.19.0:test
+[INFO] |  +- org.hamcrest:hamcrest:jar:2.2:test
+[INFO] |  +- org.junit.jupiter:junit-jupiter:jar:5.7.2:test
+[INFO] |  |  \- org.junit.jupiter:junit-jupiter-params:jar:5.7.2:test
+[INFO] |  +- org.mockito:mockito-core:jar:3.9.0:test
+[INFO] |  |  +- net.bytebuddy:byte-buddy:jar:1.10.20:test
+[INFO] |  |  +- net.bytebuddy:byte-buddy-agent:jar:1.10.20:test
+[INFO] |  |  \- org.objenesis:objenesis:jar:3.2:test
+[INFO] |  +- org.mockito:mockito-junit-jupiter:jar:3.9.0:test
+[INFO] |  +- org.skyscreamer:jsonassert:jar:1.5.0:test
+[INFO] |  |  \- com.vaadin.external.google:android-json:jar:0.0.20131108.vaadin1:test
+[INFO] |  +- org.springframework:spring-core:jar:5.3.9:compile
+[INFO] |  |  \- org.springframework:spring-jcl:jar:5.3.9:compile
+[INFO] |  +- org.springframework:spring-test:jar:5.3.9:test
+[INFO] |  \- org.xmlunit:xmlunit-core:jar:2.8.2:test
+[INFO] \- com.jayway.jsonpath:json-path:jar:2.6.0:test
+[INFO]    \- net.minidev:json-smart:jar:2.4.7:test
+[INFO]       \- net.minidev:accessors-smart:jar:2.4.7:test
+[INFO]          \- org.ow2.asm:asm:jar:9.1:test
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for eccount-rest 0.1.0:
+[INFO] 
+[INFO] eccount-rest ....................................... SUCCESS [  0.404 s]
+[INFO] eccount-rest-schema ................................ SUCCESS [  0.018 s]
+[INFO] eccount-rest-server ................................ SUCCESS [  0.170 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  0.754 s
+[INFO] Finished at: 2021-11-09T15:09:55-08:00
+[INFO] ------------------------------------------------------------------------

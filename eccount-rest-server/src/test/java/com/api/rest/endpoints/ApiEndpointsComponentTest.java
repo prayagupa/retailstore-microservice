@@ -1,6 +1,7 @@
 package com.api.rest.endpoints;
 
 //import org.junit.Test;
+import com.api.rest.UnitTestConfigForJUnit5;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -37,10 +38,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 //Junit5
 @ExtendWith(SpringExtension.class)
-@WebAppConfiguration()
-@ContextConfiguration(classes = UnitTestConfigForJUnit5.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class ApiEndpointsComponentTests {
+//@WebAppConfiguration()
+//@ContextConfiguration(classes = UnitTestConfigForJUnit5.class)
+//@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@SpringBootTest
+public class ApiEndpointsComponentTest {
 
     private MockMvc httpEndpoint;
 
@@ -49,7 +51,7 @@ public class ApiEndpointsComponentTests {
 
     @BeforeEach
     public void setup() {
-        System.out.println("setup");
+        System.out.println("ApiEndpointsComponentTest: setup");
         this.httpEndpoint = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
