@@ -12,17 +12,15 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.time.LocalDateTime;
 
 @ExtendWith(SpringExtension.class)
-//@WebAppConfiguration()
 @ContextConfiguration(classes = UnitTestConfigForJUnit5.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-//@SpringBootTest
 public class EccountServiceTest {
 
     @Autowired
     EccountService eccountService;
 
     @Test
-    public void testMe() {
+    public void testReadDataBlocking() {
         System.out.println("invoking eccountService: " + eccountService);
         LocalDateTime localDateTime = eccountService.readDataBlocking(1);
         System.out.println("invoked eccountService: " + localDateTime);

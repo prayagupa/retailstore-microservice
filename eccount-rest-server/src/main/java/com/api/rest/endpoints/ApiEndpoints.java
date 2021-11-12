@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,13 +64,13 @@ public class ApiEndpoints {
                     .build()
     ).rateLimiter("health-limiter");
 
-    @RequestMapping(
+    @GetMapping(
             value = "/health",
             produces = APPLICATION_JSON_VALUE
     )
 //    @Async("requestExecutor")
-    public CompletableFuture<HealthStatus> health() {
-        logger.info("healthcheck");
+    public CompletableFuture<HealthStatus> asyncHealth() {
+        logger.debug("async healthcheck");
 
         return RATE_LIMITER.executeCompletionStage(() -> {
             return CompletableFuture.supplyAsync(() -> eccountService.readDataBlocking(100), executorService)
@@ -83,15 +84,24 @@ public class ApiEndpoints {
         }).toCompletableFuture();
     }
 
-    @RequestMapping("/health-sync")
+    @GetMapping("/health-sync")
     public HealthStatus healthSync() {
 
-        logger.info("sync healthcheck");
+        logger.debug("sync healthcheck");
 
         LocalDateTime localDateTime = eccountService.readDataBlocking(100);
 
         return new HealthStatus(
                 localDateTime.toEpochSecond(ZoneOffset.of("-07:00")),
+                serviceName,
+                serviceVersion
+        );
+    }
+
+    @GetMapping("/health-benchmark")
+    public HealthStatus healthForBenchmark() {
+        return new HealthStatus(
+                0,
                 serviceName,
                 serviceVersion
         );

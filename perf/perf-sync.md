@@ -1,5 +1,6 @@
 
-- with endpoint having 100ms blocking code
+- `~109ms` with endpoint having `100ms` blocking code
+
 ```java
     @RequestMapping("/health-sync")
     public HealthStatus healthSync() {

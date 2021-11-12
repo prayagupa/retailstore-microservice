@@ -22,4 +22,8 @@ public class EccountService {
 
         return LocalDateTime.now();
     }
+
+    public String getSomeProps() {
+        return someProps;
+    }
 }

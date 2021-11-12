@@ -15,13 +15,13 @@ This is a micro-service baseline in java 12, spring-boot `2.4.x`
 ```
 
 
-- [tests](#tests)
+- [unit tests](#unit-tests)
 - [build/ run-app in x env](#run-app-in-x-env)
 - [Deployment + Load balancing](#Deployment-+-Load-balancing)
 - [build artifact](#build-artifact)
-- [perf](#perf)
+- [performance](#performance)
 
-tests
+unit-tests
 -----
 
 ```bash
@@ -90,7 +90,7 @@ or using docker (setup the HTTP_PROXY, HTTPS_PROXY and NO_PROXY)
 
 ![](docker_proxy.png)
 
-uses base container image - https://github.com/duwamish-os/java-microservice-base-image
+uses base container image - https://github.com/lamatola-os/java-microservice-base-image
 
 REST API deps size
 
@@ -274,12 +274,15 @@ jvm_threads_states_threads{state="terminated",} 0.0
 jvm_threads_peak_threads 21.0
 ```
 
-[perf](perf.md)
+[performance](perf/perf.md)
 ----
 
 
 Also see
 --
 
+- https://github.com/parayaluyanta/eccount-rest-nio (`~6.978ms/request`)
+- https://github.com/lamatola-os/chat-server_reactive-spring (`~22.860ms/request`)
+- https://github.com/lamatola-os/akka-http-benchmark (`~1.172ms/request`)
+- https://github.com/lamatola-os/netty-microservice (`~1.280ms/request`)
 - https://github.com/prayagupd/nodejs-microservice
-- https://github.com/duwamish-os/chat-server_reactive-spring
