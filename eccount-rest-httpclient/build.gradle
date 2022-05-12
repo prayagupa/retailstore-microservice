@@ -13,4 +13,11 @@ dependencies {
 
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.4'
     implementation group: 'org.asynchttpclient', name: 'async-http-client', version: '2.10.5'
+
+    //
+    implementation group: 'au.com.dius', name: 'pact-jvm-consumer-junit_2.11', version: '3.5.24'
+    implementation group: 'org.springframework', name: 'spring-web', version: '3.0.2.RELEASE'
+
+    //
+    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.6.1'
 }
