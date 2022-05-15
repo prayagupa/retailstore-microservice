@@ -1,14 +1,18 @@
 package com.api.rest.endpoints;
 
-import org.junit.Test;
+//import org.junit.Test;
+import com.api.rest.UnitTestConfigForJUnit5;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+//import org.junit.runner.RunWith;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
+//import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -26,25 +30,36 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * on 1/29/17.
  */
 
-@Profile("ut")
 //NOTE in JUnit4
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
+//@Profile("ut")
+//@AutoConfigureMockMvc
+
 //Junit5
-//@ExtendWith(SpringExtension.class)
+@ExtendWith(SpringExtension.class)
+//@WebAppConfiguration()
+//@ContextConfiguration(classes = UnitTestConfigForJUnit5.class)
+//@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest
-@AutoConfigureMockMvc
-public class ApiEndpointsComponentTests {
+public class ApiEndpointsComponentTest {
 
     private MockMvc httpEndpoint;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
 
+    @BeforeEach
+    public void setup() {
+        System.out.println("ApiEndpointsComponentTest: setup");
+        this.httpEndpoint = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+    }
+
     @Test
     public void when_health_endpoint_is_hit_status_should_be_running() throws Exception {
-        httpEndpoint = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
-        MvcResult mvcResult = this.httpEndpoint.perform(get("/health"))
+        MvcResult mvcResult = this.httpEndpoint.perform(get("/health")
+                .contentType("application/json"))
                 .andExpect(request().asyncStarted())
                 .andDo(MockMvcResultHandlers.log())
                 .andReturn();
