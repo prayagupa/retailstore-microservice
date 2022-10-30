@@ -33,11 +33,11 @@ dependencies {
     implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.8.2'
 
     // 2.12.3 does not have @JsonIncludeProperties
-    implementation (group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8', version: '2.11.4') {
+    implementation (group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8', version: '2.13.4') {
         exclude (group: "junit")
     }
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.4'
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.11.4'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.4'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.13.4'
 
     implementation group: 'io.projectreactor.netty', name: 'reactor-netty', version: '0.9.6.RELEASE'
 
@@ -45,14 +45,14 @@ dependencies {
     implementation 'io.micrometer:micrometer-registry-prometheus'
 
 
-//    implementation group: 'org.springframework.boot', name: 'spring-boot', version: '2.5.3'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '2.5.3'
-    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.5.3') {
+//    implementation group: 'org.springframework.boot', name: 'spring-boot', version: '2.5.12'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '2.5.12'
+    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.5.12') {
         exclude module: "spring-boot-starter-logging"
         exclude module: "logback-classic"
     }
 
-    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.5.3') {
+    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.5.12') {
         exclude module: "spring-boot-starter-logging"
         exclude module: "logback-classic"
     }
@@ -66,7 +66,7 @@ dependencies {
 
 //    testImplementation group: 'pl.pragmatists', name: 'JUnitParams', version: '1.1.1'
 
-    testImplementation (group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.5.3') {
+    testImplementation (group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.5.12') {
         exclude module: "logback-classic"
         exclude module: "spring-boot-starter-logging"
     }
