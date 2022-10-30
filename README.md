@@ -2,7 +2,7 @@
 Java HTTP/REST micro-service
 ==========================
 
-This is a micro-service baseline in java 12, spring-boot `2.4.x`
+This is a micro-service baseline in java 12, spring-boot `2.5.x`
 
 ```
 |                   |                          |
