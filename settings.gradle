@@ -1,6 +1,5 @@
-rootProject.name = 'eccount'
+rootProject.name = 'retailstore'
 
-include 'eccount-rest-schema'
-include 'eccount-rest-httpclient'
-include 'eccount-rest-server'
-
+include 'retailstore-rest-schema'
+include 'retailstore-rest-httpclient'
+include 'retailstore-rest-server'

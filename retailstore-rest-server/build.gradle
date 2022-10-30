@@ -18,7 +18,7 @@ description = 'eccount'
 mainClassName = 'com.api.RESTApplication'
 
 dependencies {
-    implementation project(':eccount-rest-schema')
+    implementation project(':retailstore-rest-schema')
 
     implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.8'
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.8'

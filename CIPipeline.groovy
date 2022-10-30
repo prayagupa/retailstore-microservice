@@ -1,7 +1,7 @@
-def scmUrl = 'https://github.com/prayagupd/eccount-rest.git'
+def scmUrl = 'https://github.com/prayagupa/retailstore-rest.git'
 def branch = "REST-API-load-balancing"
 
-job('urayagppd-build') {
+job('retailstore-build') {
     scm {
         git(scmUrl, branch)
     }

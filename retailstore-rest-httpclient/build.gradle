@@ -2,7 +2,7 @@ group = 'com.prayagupd.api'
 description = 'eccount rest http client'
 
 dependencies {
-    implementation project(":eccount-rest-schema")
+    implementation project(":retailstore-rest-schema")
 
     implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.8'
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.8'
