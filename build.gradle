@@ -15,8 +15,8 @@ subprojects {
 
     version = project.findProperty('projectVersion') ?: '1.0-SNAPSHOT'
 
-    sourceCompatibility = 12
-    targetCompatibility = 12
+    sourceCompatibility = 17
+    targetCompatibility = 17
 
     repositories {
         mavenCentral()
