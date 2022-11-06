@@ -2,7 +2,10 @@
 Java HTTP/REST micro-service
 ==========================
 
-This is a micro-service baseline in java 12, spring-boot `2.5.x`
+![Retail store](https://github.com/prayagupa/retailstore-rest/actions/workflows/cicd.yaml/badge.svg)
+
+
+This is a micro-service baseline in java 17, spring-boot `2.5.x`
 
 ```
 |                   |                          |
