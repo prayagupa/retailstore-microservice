@@ -20,8 +20,8 @@ mainClassName = 'com.api.RESTApplication'
 dependencies {
     implementation project(':retailstore-rest-schema')
 
-    implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.8'
-    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.8'
+    implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
 
     implementation group: 'io.github.resilience4j', name: 'resilience4j-spring-boot2', version: '1.7.0'
     implementation group: 'com.zaxxer', name: 'HikariCP', version: '3.3.1'
