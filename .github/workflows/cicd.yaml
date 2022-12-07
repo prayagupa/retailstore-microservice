@@ -22,4 +22,4 @@ jobs:
 #        with:
 #          arguments: build
       - name: Project build
-        run: ./gradlew clean build
+        run: ./gradlew build --build-cache
