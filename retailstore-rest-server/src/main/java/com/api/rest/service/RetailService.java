@@ -1,29 +1,31 @@
 package com.api.rest.service;
 
+import lombok.Getter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
 @Service
-public class EccountService {
+@Getter
+public class RetailService {
 
     @Value("${some.properties}")
     private String someProps;
 
+    private static final Logger logger = LogManager.getLogger();
+
     public LocalDateTime readDataBlocking(int timeMillis) {
-        System.out.println(someProps);
+        logger.info(someProps);
         try {
             Thread.sleep(timeMillis);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.error("Error", e);
+            Thread.currentThread().interrupt();
         }
 
         return LocalDateTime.now();
-    }
-
-    public String getSomeProps() {
-        return someProps;
     }
 }

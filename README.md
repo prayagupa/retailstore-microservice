@@ -29,7 +29,7 @@ unit-tests
 
 ```bash
 ## using gradle
-gradle test
+./gradlew test
 
 ## using maven
 ## mvn test
@@ -44,7 +44,7 @@ build/ [run-app in x env](http://docs.spring.io/spring-boot/docs/current/maven-p
 
 spring.profiles.active=e2e
 
-gradle spring-boot:run
+./gradlew spring-boot:run
 ```
 
 or set profile in `pom.xml`.

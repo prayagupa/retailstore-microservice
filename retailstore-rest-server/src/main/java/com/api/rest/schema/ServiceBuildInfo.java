@@ -1,16 +1,16 @@
 package com.api.rest.schema;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-/**
- * Created by prayagupd
- * on 1/29/17.
- */
-
 //FIXME make it non spring
 @Component
-public class ApiBuildInfo {
+@NoArgsConstructor
+@Data
+@SuppressWarnings("java:S1134")
+public class ServiceBuildInfo {
 
     @Value("${git.branch}")
     private String deployedBranch;
@@ -35,39 +35,4 @@ public class ApiBuildInfo {
 
     @Value("${git.build.user.email}")
     private String buildUser;
-
-    public ApiBuildInfo() {
-    }
-
-    public String getDeployedBranch() {
-        return deployedBranch;
-    }
-
-    public String getArtifactBuildVersion() {
-        return artifactBuildVersion;
-    }
-
-    public String getArtifactBuildTime() {
-        return artifactBuildTime;
-    }
-
-    public String getLastCommitId() {
-        return lastCommitId;
-    }
-
-    public String getLastCommitMessage() {
-        return lastCommitMessage;
-    }
-
-    public String getLasCommitTime() {
-        return lasCommitTime;
-    }
-
-    public String getBuildHost() {
-        return buildHost;
-    }
-
-    public String getBuildUser() {
-        return buildUser;
-    }
 }

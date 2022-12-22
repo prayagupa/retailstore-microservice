@@ -14,15 +14,16 @@ import java.time.LocalDateTime;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = UnitTestConfigForJUnit5.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class EccountServiceTest {
+@SuppressWarnings({"java:S5786"})
+public class RetailServiceTest {
 
     @Autowired
-    EccountService eccountService;
+    RetailService retailService;
 
     @Test
     public void testReadDataBlocking() {
-        System.out.println("invoking eccountService: " + eccountService);
-        LocalDateTime localDateTime = eccountService.readDataBlocking(1);
+        System.out.println("invoking eccountService: " + retailService);
+        LocalDateTime localDateTime = retailService.readDataBlocking(1);
         System.out.println("invoked eccountService: " + localDateTime);
         Assertions.assertNotNull(localDateTime);
     }

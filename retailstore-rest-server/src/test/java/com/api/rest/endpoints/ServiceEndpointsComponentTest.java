@@ -42,7 +42,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 //@ContextConfiguration(classes = UnitTestConfigForJUnit5.class)
 //@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest
-public class ApiEndpointsComponentTest {
+@SuppressWarnings({"java:S5786"})
+public class ServiceEndpointsComponentTest {
 
     private MockMvc httpEndpoint;
 

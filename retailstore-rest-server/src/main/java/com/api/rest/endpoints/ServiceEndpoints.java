@@ -1,8 +1,8 @@
 package com.api.rest.endpoints;
 
-import com.api.rest.schema.ApiBuildInfo;
+import com.api.rest.schema.ServiceBuildInfo;
 import com.api.rest.schema.HealthStatus;
-import com.api.rest.service.EccountService;
+import com.api.rest.service.RetailService;
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import io.github.resilience4j.ratelimiter.RateLimiterRegistry;
@@ -26,17 +26,14 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-/**
- * Created by prayagupd
- * on 1/29/17.
- */
-
 @RestController
 @Timed
-public class ApiEndpoints {
+@SuppressWarnings("java:S117")
+public class ServiceEndpoints {
 
-    private final static Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
 
+    @SuppressWarnings("java:S1068")
     private final AtomicLong counter = new AtomicLong();
 
     @Value("${service.name}")
@@ -49,16 +46,18 @@ public class ApiEndpoints {
     private String someProperties;
 
     @Autowired
-    private ApiBuildInfo apiBuildInfo;
+    private ServiceBuildInfo serviceBuildInfo;
 
     @Autowired
-    private EccountService eccountService;
+    private RetailService retailService;
 
     private ExecutorService executorService = Executors.newFixedThreadPool(100);
 
-    private final static RateLimiter RATE_LIMITER = RateLimiterRegistry.of(
+    private static final int REFRESH_PERIOD = 60 * 1000;
+
+    private static final RateLimiter RATE_LIMITER = RateLimiterRegistry.of(
             RateLimiterConfig.custom()
-                    .limitRefreshPeriod(Duration.ofMillis(60 * 1000))
+                    .limitRefreshPeriod(Duration.ofMillis(REFRESH_PERIOD))
                     .limitForPeriod(10000)
                     .timeoutDuration(Duration.ofMillis(25))
                     .build()
@@ -72,16 +71,14 @@ public class ApiEndpoints {
     public CompletableFuture<HealthStatus> asyncHealth() {
         logger.debug("async healthcheck");
 
-        return RATE_LIMITER.executeCompletionStage(() -> {
-            return CompletableFuture.supplyAsync(() -> eccountService.readDataBlocking(100), executorService)
-                    .thenApply($ -> {
-                        return new HealthStatus(
+        return RATE_LIMITER.executeCompletionStage(() ->
+                CompletableFuture.supplyAsync(() -> retailService.readDataBlocking(100), executorService)
+                .thenApply($ ->
+                        new HealthStatus(
                                 $.toEpochSecond(ZoneOffset.of("-07:00")),
                                 serviceName,
                                 serviceVersion
-                        );
-                    });
-        }).toCompletableFuture();
+                        ))).toCompletableFuture();
     }
 
     @GetMapping("/health-sync")
@@ -89,7 +86,7 @@ public class ApiEndpoints {
 
         logger.debug("sync healthcheck");
 
-        LocalDateTime localDateTime = eccountService.readDataBlocking(100);
+        LocalDateTime localDateTime = retailService.readDataBlocking(100);
 
         return new HealthStatus(
                 localDateTime.toEpochSecond(ZoneOffset.of("-07:00")),
@@ -109,7 +106,7 @@ public class ApiEndpoints {
 
     @RequestMapping("/api/build-info")
     public @ResponseBody
-    CompletableFuture<ApiBuildInfo> build() {
-        return CompletableFuture.completedFuture(apiBuildInfo);
+    CompletableFuture<ServiceBuildInfo> build() {
+        return CompletableFuture.completedFuture(serviceBuildInfo);
     }
 }

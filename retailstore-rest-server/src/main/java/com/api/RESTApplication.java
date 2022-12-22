@@ -11,13 +11,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
 
-/**
- * Created by prayagupd
- * on 1/29/17.
- */
-
 @SpringBootApplication
 @EnableAsync
+@SuppressWarnings({"java:S1481", "java:S1854"})
 public class RESTApplication extends SpringBootServletInitializer {
 
     @Bean
@@ -35,8 +31,9 @@ public class RESTApplication extends SpringBootServletInitializer {
 
         final ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         int corePoolSize = Runtime.getRuntime().availableProcessors() * 2;
-        executor.setCorePoolSize(1);
-        executor.setMaxPoolSize(1);
+        int singleWorkerThread = 1;
+        executor.setCorePoolSize(singleWorkerThread);
+        executor.setMaxPoolSize(singleWorkerThread);
         executor.setQueueCapacity(1000);
         executor.setThreadNamePrefix("ECCOUNT-NIO-REST-API-");
         executor.initialize();
