@@ -4,13 +4,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>eccount-rest-schema</artifactId>
+    <artifactId>retailstore-rest-schema</artifactId>
     <packaging>jar</packaging>
 
     <parent>
         <groupId>com.prayagupd.api</groupId>
-        <artifactId>eccount-rest</artifactId>
+        <artifactId>retailstore-rest</artifactId>
         <version>0.1.0</version>
     </parent>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.24</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 </project>

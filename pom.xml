@@ -4,13 +4,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.prayagupd.api</groupId>
-    <artifactId>eccount-rest</artifactId>
+    <artifactId>retailstore-rest</artifactId>
     <version>0.1.0</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>eccount-rest-schema</module>
-        <module>eccount-rest-server</module>
+        <module>retailstore-rest-schema</module>
+        <module>retailstore-rest-server</module>
     </modules>
 
     <dependencies>
@@ -76,7 +76,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.5.3</version>
+                <version>2.7.7</version>
                 <configuration>
                     <mainClass>com.api.RESTApplication</mainClass>
 <!--                    <skip>true</skip>-->
@@ -84,4 +84,21 @@
             </plugin>
         </plugins>
     </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.2.0</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>checkstyle</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>
