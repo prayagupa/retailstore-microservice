@@ -1,5 +1,7 @@
 package com.api;
 
+import io.micrometer.core.aop.TimedAspect;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -38,6 +40,11 @@ public class RESTApplication extends SpringBootServletInitializer {
         executor.setThreadNamePrefix("ECCOUNT-NIO-REST-API-");
         executor.initialize();
         return executor;
+    }
+
+    @Bean
+    public TimedAspect timedAspect(MeterRegistry registry) {
+        return new TimedAspect(registry);
     }
 
     public static void main(String[] args) {

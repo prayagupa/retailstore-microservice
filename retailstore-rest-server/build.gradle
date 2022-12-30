@@ -43,8 +43,7 @@ dependencies {
     implementation group: 'io.projectreactor.netty', name: 'reactor-netty', version: '0.9.6.RELEASE'
 
 //    compile 'io.micrometer:micrometer-registry-atlas:latest.release'
-    implementation 'io.micrometer:micrometer-registry-prometheus'
-
+    implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus', version: '1.10.2'
 
 //    implementation group: 'org.springframework.boot', name: 'spring-boot', version: '2.5.12'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '2.5.12'
@@ -52,6 +51,8 @@ dependencies {
         exclude module: "spring-boot-starter-logging"
         exclude module: "logback-classic"
     }
+
+    implementation group: 'org.springframework', name: 'spring-aspects', version: '5.3.19'
 
     implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.5.12') {
         exclude module: "spring-boot-starter-logging"

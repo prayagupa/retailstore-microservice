@@ -7,6 +7,8 @@ import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import io.github.resilience4j.ratelimiter.RateLimiterRegistry;
 import io.micrometer.core.annotation.Timed;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +29,13 @@ import java.util.concurrent.atomic.AtomicLong;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@Timed
 @SuppressWarnings("java:S117")
 public class ServiceEndpoints {
 
     private static final Logger logger = LogManager.getLogger();
+
+    @Autowired
+    private MeterRegistry registry;
 
     @SuppressWarnings("java:S1068")
     private final AtomicLong counter = new AtomicLong();
@@ -63,10 +67,15 @@ public class ServiceEndpoints {
                     .build()
     ).rateLimiter("health-limiter");
 
+    Counter healthCounter = Counter.builder("custom_health_counter")
+            .description("Number of Health hits")
+            .register(registry);
+
     @GetMapping(
             value = "/health",
             produces = APPLICATION_JSON_VALUE
     )
+    @Timed(histogram = true)
 //    @Async("requestExecutor")
     public CompletableFuture<HealthStatus> asyncHealth() {
         logger.debug("async healthcheck");
@@ -82,6 +91,7 @@ public class ServiceEndpoints {
     }
 
     @GetMapping("/health-sync")
+    @Timed(histogram = true)
     public HealthStatus healthSync() {
 
         logger.debug("sync healthcheck");
@@ -96,6 +106,7 @@ public class ServiceEndpoints {
     }
 
     @GetMapping("/health-benchmark")
+    @Timed(histogram = true)
     public HealthStatus healthForBenchmark() {
         return new HealthStatus(
                 0,
