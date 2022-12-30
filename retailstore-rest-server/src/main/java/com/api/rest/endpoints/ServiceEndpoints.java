@@ -1,7 +1,7 @@
 package com.api.rest.endpoints;
 
-import com.api.rest.schema.ServiceBuildInfo;
 import com.api.rest.schema.HealthStatus;
+import com.api.rest.schema.ServiceBuildInfo;
 import com.api.rest.service.RetailService;
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
@@ -67,9 +67,8 @@ public class ServiceEndpoints {
                     .build()
     ).rateLimiter("health-limiter");
 
-    Counter healthCounter = Counter.builder("custom_health_counter")
-            .description("Number of Health hits")
-            .register(registry);
+    @Autowired
+    private Counter healthCounter;
 
     @GetMapping(
             value = "/health",
@@ -79,6 +78,7 @@ public class ServiceEndpoints {
 //    @Async("requestExecutor")
     public CompletableFuture<HealthStatus> asyncHealth() {
         logger.debug("async healthcheck");
+        healthCounter.increment();
 
         return RATE_LIMITER.executeCompletionStage(() ->
                 CompletableFuture.supplyAsync(() -> retailService.readDataBlocking(100), executorService)

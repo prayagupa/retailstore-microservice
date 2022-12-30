@@ -1,6 +1,7 @@
 package com.api;
 
 import io.micrometer.core.aop.TimedAspect;
+import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -45,6 +46,13 @@ public class RESTApplication extends SpringBootServletInitializer {
     @Bean
     public TimedAspect timedAspect(MeterRegistry registry) {
         return new TimedAspect(registry);
+    }
+
+    @Bean
+    public Counter healthCounter(MeterRegistry registry) {
+        return Counter.builder("custom_health_counter")
+                .description("Number of Health hits")
+                .register(registry);
     }
 
     public static void main(String[] args) {

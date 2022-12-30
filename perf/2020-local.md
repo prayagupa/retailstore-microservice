@@ -59,9 +59,9 @@ Percentage of the requests served within a certain time (ms)
 ```
 
 
-![](../spring_perf_2019.png)
+![](spring_perf_2019.png)
 
-![](../spring_perf_2020.png)
+![](spring_perf_2020.png)
 
 **localhost 20K**
 

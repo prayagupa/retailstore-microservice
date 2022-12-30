@@ -19,7 +19,7 @@ This is a micro-service baseline in java 17, spring-boot `2.5.x`
 
 
 - [unit tests](#unit-tests)
-- [build/ run-app in x env](#run-app-in-x-env)
+- [build/ run-app in x env](#Run-application)
 - [Deployment + Load balancing](#Deployment-+-Load-balancing)
 - [build artifact](#build-artifact)
 - [performance](#performance)
@@ -67,32 +67,38 @@ export APP_ENVIRONMENT=production
 spring.profiles.active=${APP_ENVIRONMENT}
 ```
 
+Verify the Endpoint
+-------------------
+
 ```bash
 curl -v -XGET http://localhost:8080/health | python -m json.tool
 Note: Unnecessary use of -X or --request, GET is already inferred.
-* TCP_NODELAY set
-* Connected to localhost (::1) port 8080 (#0)
+*   Trying 127.0.0.1:8080...
 > GET /health HTTP/1.1
 > Host: localhost:8080
-> User-Agent: curl/7.54.0
+> User-Agent: curl/7.79.1
 > Accept: */*
 > 
+* Mark bundle as not supporting multiuse
 < HTTP/1.1 200 
-< Content-Type: application/json;charset=UTF-8
+< Content-Type: application/json
 < Transfer-Encoding: chunked
-< Date: Mon, 08 Jul 2019 03:24:47 GMT
+< Date: Fri, 30 Dec 2022 21:55:50 GMT
 < 
-{ [89 bytes data]
-100    83    0    83    0     0   3134      0 --:--:-- --:--:-- --:--:--  3192
+{ [94 bytes data]
+100    88    0    88    0     0    714      0 --:--:-- --:--:-- --:--:--   771
 * Connection #0 to host localhost left intact
 {
-    "applicationName": "rest-api",
-    "applicationVersion": "1.0",
-    "timestamp": 1562556287580
+    "timestamp": 1672433750,
+    "applicationName": "retailstore-rest",
+    "applicationVersion": "1.0"
 }
 ```
 
-uses base container image - https://github.com/lamatola-os/java-microservice-base-image
+Build
+------
+
+Service uses base container image - https://github.com/lamatola-os/java-microservice-base-image
 
 REST API deps size
 
