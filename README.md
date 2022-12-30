@@ -28,43 +28,47 @@ unit-tests
 -----
 
 ```bash
-## using gradle
-./gradlew test
+## using gradle build tool
+./gradlew clean test
 
 ## using maven
 ## mvn test
 ```
 
-build/ [run-app in x env](http://docs.spring.io/spring-boot/docs/current/maven-plugin/examples/run-profiles.html)
+Run application
 ----------------------------------------------------------------------------------------------------------
 
-[with `application.properties` configured to `e2e`](http://stackoverflow.com/a/35757421/432903)
+Application can be with different profiles. In actual development cycle, there are
+multiple environment a software goes through. A Software Engineer first build locally, if that succeeds
+pushes the JAR to higher environments like dev, test, stage/prod-like and finally production.
+
+Environment specific information are stored in properties file in `src/main/resources`.
+
+[with `application.properties` configured to `stage`](http://stackoverflow.com/a/35757421/432903)
 
 ```bash
+export SPRING_PROFILES_ACTIVE=dev
+## or set spring.profiles.active=dev in application.properties
+./gradlew run
 
-spring.profiles.active=e2e
-
-./gradlew spring-boot:run
+## You will see logs mentioning the active profile
+#2022-12-29 20:13:37.946  INFO INFOid --- [           main] c.a.RESTApplication                      : The following profiles are active: dev
 ```
 
-or set profile in `pom.xml`.
-
-[BUT the best way is to have environment variable](http://stackoverflow.com/a/35534970/432903),
-[that will determine which config to use.](http://stackoverflow.com/a/38337109/432903)
-
-```bash
-export SPRING_PROFILES_ACTIVE=production
-```
-
-or
+Usually the Infrastructure team have certain environment variable set to represent the 
+environment in higher environments, which can be set to update `spring.profiles.active` so that Spring picks the right
+profile.
 
 ```bash
+## If environment machines have env APP_ENVIRONMENT available
 export APP_ENVIRONMENT=production
-spring.profiles.active=${APP_ENVIRONMENT} ##not necessary
+## assign the value of APP_ENVIRONMENT to spring.profiles.active
+## in application.properties
+spring.profiles.active=${APP_ENVIRONMENT}
 ```
 
 ```bash
-curl -v -XGET http://localhost:8080/restapi/health | python -m json.tool
+curl -v -XGET http://localhost:8080/health | python -m json.tool
 Note: Unnecessary use of -X or --request, GET is already inferred.
 * TCP_NODELAY set
 * Connected to localhost (::1) port 8080 (#0)
@@ -87,11 +91,6 @@ Note: Unnecessary use of -X or --request, GET is already inferred.
     "timestamp": 1562556287580
 }
 ```
-
-
-or using docker (setup the HTTP_PROXY, HTTPS_PROXY and NO_PROXY)
-
-![](docker_proxy.png)
 
 uses base container image - https://github.com/lamatola-os/java-microservice-base-image
 
