@@ -10,14 +10,14 @@ import java.time.LocalDateTime;
 
 @Service
 @Getter
-public class RetailService {
+public final class RetailService {
 
     @Value("${some.properties}")
     private String someProps;
 
     private static final Logger logger = LogManager.getLogger();
 
-    public LocalDateTime readDataBlocking(int timeMillis) {
+    public LocalDateTime readDataBlocking(final int timeMillis) {
         logger.info(someProps);
         try {
             Thread.sleep(timeMillis);

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @Data
 @SuppressWarnings("java:S1134")
-public class ServiceBuildInfo {
+public final class ServiceBuildInfo {
 
     @Value("${git.branch}")
     private String deployedBranch;

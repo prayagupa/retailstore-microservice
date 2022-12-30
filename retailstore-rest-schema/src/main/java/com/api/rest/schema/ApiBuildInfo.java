@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ApiBuildInfo {
+public final class ApiBuildInfo {
     private String deployedBranch;
     private String artifactBuildVersion;
     private String artifactBuildTime;
