@@ -192,13 +192,7 @@ docker build -t rest-server:v1 .
 publish artifact/ container image
 ---------------------------
 
-```
-docker tag rest-server:v1 ???.dkr.ecr.us-east-1.amazonaws.com/???-dev
-aws ecr get-login --no-include-email --profile ???-dev --region us-east-1
-docker login -u AWS -p <<password>>  https://???.dkr.ecr.us-east-1.amazonaws.com
-
-docker push <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/duwamish-repository
-```
+https://github.com/lamatola-os/lamatola-devops/wiki/Private-Container-Registry-(_CR)#push-a-container-image
 
 k8s deployment
 --------------
