@@ -1,8 +1,8 @@
 **localhost 10K**
 
 ```
-ab -n 10000 -c 100 -k http://127.0.0.1:8080/health
-This is ApacheBench, Version 2.3 <$Revision: 1807734 $>
+ab -n 10000 -c 100 -k http://127.0.0.1:8080/health-benchmark
+This is ApacheBench, Version 2.3 <$Revision: 1901567 $>
 Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
 Licensed to The Apache Software Foundation, http://www.apache.org/
 
@@ -20,42 +20,42 @@ Completed 10000 requests
 Finished 10000 requests
 
 
-Server Software:
+Server Software:        
 Server Hostname:        127.0.0.1
 Server Port:            8080
 
-Document Path:          /health
-Document Length:        60 bytes
+Document Path:          /health-benchmark
+Document Length:        79 bytes
 
 Concurrency Level:      100
-Time taken for tests:   2.804 seconds
+Time taken for tests:   2.531 seconds
 Complete requests:      10000
 Failed requests:        0
 Keep-Alive requests:    0
-Total transferred:      1790000 bytes
-HTML transferred:       600000 bytes
-Requests per second:    3565.86 [#/sec] (mean)
-Time per request:       28.044 [ms] (mean)
-Time per request:       0.280 [ms] (mean, across all concurrent requests)
-Transfer rate:          623.33 [Kbytes/sec] received
+Total transferred:      1840000 bytes
+HTML transferred:       790000 bytes
+Requests per second:    3950.82 [#/sec] (mean)
+Time per request:       25.311 [ms] (mean)
+Time per request:       0.253 [ms] (mean, across all concurrent requests)
+Transfer rate:          709.91 [Kbytes/sec] received
 
 Connection Times (ms)
               min  mean[+/-sd] median   max
-Connect:        0   12   7.4     11      67
-Processing:     1   16   8.3     14      74
-Waiting:        1   11   8.1     10      64
-Total:          9   28  13.3     25     121
+Connect:        0   12  14.9      9     281
+Processing:     5   13  23.2      9     282
+Waiting:        0   12  22.7      8     281
+Total:          8   25  29.8     18     309
 
 Percentage of the requests served within a certain time (ms)
-  50%     25
-  66%     29
-  75%     31
-  80%     32
+  50%     18
+  66%     23
+  75%     25
+  80%     28
   90%     37
-  95%     41
-  98%     77
-  99%     99
- 100%    121 (longest request)
+  95%     58
+  98%     72
+  99%     80
+ 100%    309 (longest request)
 ```
 
 
@@ -66,7 +66,7 @@ Percentage of the requests served within a certain time (ms)
 **localhost 20K**
 
 ```
-$ ab -n 20000 -c 100 -k http://127.0.0.1:8080/health
+$ ab -n 20000 -c 100 -k http://127.0.0.1:8080/health-benchmark
 This is ApacheBench, Version 2.3 <$Revision: 1807734 $>
 Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
 Licensed to The Apache Software Foundation, http://www.apache.org/
@@ -113,4 +113,3 @@ Completed 10000 requests
 apr_socket_recv: Operation timed out (60)
 Total of 16441 requests completed
 ```
-

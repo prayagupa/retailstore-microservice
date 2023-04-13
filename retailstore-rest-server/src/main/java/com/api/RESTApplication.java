@@ -18,7 +18,6 @@ import java.util.concurrent.Executor;
 @EnableAsync
 @SuppressWarnings({"java:S1481", "java:S1854"})
 public class RESTApplication extends SpringBootServletInitializer {
-
     @Bean
     public static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
         PropertySourcesPlaceholderConfigurer propsConfig
@@ -29,16 +28,28 @@ public class RESTApplication extends SpringBootServletInitializer {
         return propsConfig;
     }
 
-    @Bean(name = "requestExecutor")
-    public Executor requestExecutor() {
+    @Bean(name = "eventLoop")
+    public Executor eventLoop() {
+        int singleWorkerThread = 1;
+
+        final ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(singleWorkerThread);
+        executor.setMaxPoolSize(singleWorkerThread);
+        executor.setQueueCapacity(2000);
+        executor.setThreadNamePrefix("RETAILSTORE-MICROSERVICE-EVENTLOOP-");
+        executor.initialize();
+        return executor;
+    }
+
+    @Bean(name = "eventLoopN")
+    public Executor eventLoopN() {
 
         final ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         int corePoolSize = Runtime.getRuntime().availableProcessors() * 2;
-        int singleWorkerThread = 1;
-        executor.setCorePoolSize(singleWorkerThread);
-        executor.setMaxPoolSize(singleWorkerThread);
+        executor.setCorePoolSize(corePoolSize);
+        executor.setMaxPoolSize(corePoolSize);
         executor.setQueueCapacity(1000);
-        executor.setThreadNamePrefix("ECCOUNT-NIO-REST-API-");
+        executor.setThreadNamePrefix("RETAILSTORE-MICROSERVICE-EVENTLOOP-N-");
         executor.initialize();
         return executor;
     }

@@ -2,10 +2,10 @@
 Java HTTP/REST micro-service
 ==========================
 
-![Retail store](https://github.com/prayagupa/retailstore-rest/actions/workflows/cicd.yaml/badge.svg)
+![Retail store](https://github.com/prayagupa/retailstore-microservice/actions/workflows/cicd.yaml/badge.svg)
 
 
-This is a micro-service baseline in java 17, spring-boot `2.5.x`
+This is a micro-service implementation in java 17, spring-boot `2.7.x`
 
 ```
 |                   |                          |
@@ -13,16 +13,16 @@ This is a micro-service baseline in java 17, spring-boot `2.5.x`
 |    /endpoint      |      service             |
 |        |          |                          |
 |        v          |                          |
-|     schema jar    |                          |
+|     schema JAR    |                          |
 
 ```
 
 
 - [unit tests](#unit-tests)
 - [build/ run-app in x env](#Run-application)
-- [Deployment + Load balancing](#Deployment-+-Load-balancing)
+- [Deployment + Load balancing](devops/README.md)
 - [build artifact](#build-artifact)
-- [performance](#performance)
+- [performance](perf/perf.md)
 
 unit-tests
 -----
@@ -119,11 +119,9 @@ $ du -sh target/restapi/WEB-INF/lib/spring-* | sort
 896K	target/restapi/WEB-INF/lib/spring-webmvc-4.3.6.RELEASE.jar
 ```
 
-[deployment + load balancing](devops/README.md)
------
-
-metrics
+Monitoring
 -------
+
 ```bash
 curl "http://localhost:9080/metrics/system.cpu.usage"
 
@@ -282,14 +280,11 @@ jvm_threads_states_threads{state="terminated",} 0.0
 jvm_threads_peak_threads 21.0
 ```
 
-[performance](perf/perf.md)
-----
-
 
 Also see
 --
 
-- https://github.com/parayaluyanta/eccount-rest-nio (`~6.978ms/request`)
+- https://github.com/parayaluyanta/retailstore-microservice-nio (`~6.978ms/request`)
 - https://github.com/lamatola-os/chat-server_reactive-spring (`~22.860ms/request`)
 - https://github.com/lamatola-os/akka-http-benchmark (`~1.172ms/request`)
 - https://github.com/lamatola-os/netty-microservice (`~1.280ms/request`)
