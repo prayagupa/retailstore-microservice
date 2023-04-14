@@ -1,5 +1,6 @@
-#FROM java-microservice-base-image:latest
+## FROM java-microservice-base-image:latest
 FROM openjdk:latest
+## FROM adoptopenjdk/openjdk11:alpine-jre 
 
 RUN mkdir -p /usr/local/app
 
