@@ -1,3 +1,10 @@
+pluginManagement {
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
+        gradlePluginPortal()
+    }
+}
+
 rootProject.name = 'retailstore'
 
 include 'retailstore-rest-schema'
@@ -11,4 +18,3 @@ buildCache {
         removeUnusedEntriesAfterDays = 5
     }
 }
-

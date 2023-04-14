@@ -1,8 +1,11 @@
 plugins {
     id 'application'
 
-    //https://plugins.gradle.org/plugin/org.springframework.boot
-    id 'org.springframework.boot' version '2.7.10'
+    /**
+     * Get recent version from
+     * https://plugins.gradle.org/plugin/org.springframework.boot
+     */
+    id 'org.springframework.boot' version '3.0.5'
     id 'name.remal.sonarlint' version '1.5.0'
 }
 
@@ -46,15 +49,15 @@ dependencies {
     implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus', version: '1.10.2'
 
 //    implementation group: 'org.springframework.boot', name: 'spring-boot', version: '2.7.10'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '2.7.10'
-    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.7.10') {
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '3.0.5'
+    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '3.0.5') {
         exclude module: "spring-boot-starter-logging"
         exclude module: "logback-classic"
     }
 
     implementation group: 'org.springframework', name: 'spring-aspects', version: '5.3.19'
 
-    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.7.10') {
+    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '3.0.5') {
         exclude module: "spring-boot-starter-logging"
         exclude module: "logback-classic"
     }
@@ -68,7 +71,7 @@ dependencies {
 
 //    testImplementation group: 'pl.pragmatists', name: 'JUnitParams', version: '1.1.1'
 
-    testImplementation (group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.7.10') {
+    testImplementation (group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '3.0.5') {
         exclude module: "logback-classic"
         exclude module: "spring-boot-starter-logging"
     }
@@ -98,7 +101,16 @@ test {
 }
 
 jacoco {
-    toolVersion = "0.8.3"
+    toolVersion = "0.8.8"
+    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = false
+        csv.required = true
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
 }
 
 configurations {
