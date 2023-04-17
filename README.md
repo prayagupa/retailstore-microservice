@@ -22,7 +22,7 @@ This is a micro-service implementation in java 17, spring-boot `2.7.x`
 - [build/ run-app in x env](#Run-application)
 - [Deployment + Load balancing](devops/README.md)
 - [build artifact](#build-artifact)
-- [performance](perf/perf.md)
+- [performance](perf/perf_vm.md)
 
 unit-tests
 -----

@@ -103,6 +103,17 @@ public class ServiceEndpoints {
         );
     }
 
+    /**
+     * 50%     18
+     * 66%     23
+     * 75%     25
+     * 80%     28
+     * 90%     37
+     * 95%     58
+     * 98%     72
+     * 99%     80
+     * 100%    309 (longest request)
+     */
     @GetMapping("/health-benchmark")
     @Timed(histogram = true)
     public HealthStatus healthForBenchmark() {
@@ -114,8 +125,7 @@ public class ServiceEndpoints {
     }
 
     /**
-     * perf is much better than thread based health-benchmark
-     * Percentage of the requests served within a certain time (ms)
+     * perf is much better than thread based requests
      * 50%      4
      * 66%      5
      * 75%      5

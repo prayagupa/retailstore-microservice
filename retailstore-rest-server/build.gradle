@@ -1,3 +1,4 @@
+
 plugins {
     id 'application'
 
@@ -5,8 +6,13 @@ plugins {
      * Get recent version from
      * https://plugins.gradle.org/plugin/org.springframework.boot
      */
-    id 'org.springframework.boot' version '3.0.5'
+    id 'org.springframework.boot' version '2.7.10'
     id 'name.remal.sonarlint' version '1.5.0'
+}
+
+// did not work => ${springVersion}
+ext {
+    springVersion = '2.7.10'
 }
 
 repositories {
@@ -17,11 +23,14 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'jacoco'
 
 group = 'com.prayagupd.api'
-description = 'eccount'
+description = 'retailstore'
 
 mainClassName = 'com.api.RESTApplication'
 
 dependencies {
+
+    def springVersion = "2.7.10"
+
     implementation project(':retailstore-rest-schema')
 
     implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
@@ -48,16 +57,16 @@ dependencies {
 //    compile 'io.micrometer:micrometer-registry-atlas:latest.release'
     implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus', version: '1.10.2'
 
-//    implementation group: 'org.springframework.boot', name: 'spring-boot', version: '2.7.10'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '3.0.5'
-    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '3.0.5') {
+//    implementation group: 'org.springframework.boot', name: 'spring-boot', version: springVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: springVersion
+    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springVersion) {
         exclude module: "spring-boot-starter-logging"
         exclude module: "logback-classic"
     }
 
     implementation group: 'org.springframework', name: 'spring-aspects', version: '5.3.19'
 
-    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '3.0.5') {
+    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: springVersion) {
         exclude module: "spring-boot-starter-logging"
         exclude module: "logback-classic"
     }
@@ -71,7 +80,7 @@ dependencies {
 
 //    testImplementation group: 'pl.pragmatists', name: 'JUnitParams', version: '1.1.1'
 
-    testImplementation (group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '3.0.5') {
+    testImplementation (group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springVersion) {
         exclude module: "logback-classic"
         exclude module: "spring-boot-starter-logging"
     }
