@@ -13,61 +13,61 @@ server.tomcat.accept-count=10000
 **50K @30% CPU**
 
 ```bash
-ab -n 50000 -c 100 -k http://127.0.0.1:8080/health-benchmark-eventloop
+ab -n 10000 -c 100 -k http://127.0.0.1:8080/health-benchmark-eventloopN
 This is ApacheBench, Version 2.3 <$Revision: 1901567 $>
 Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
 Licensed to The Apache Software Foundation, http://www.apache.org/
 
 Benchmarking 127.0.0.1 (be patient)
+Completed 1000 requests
+Completed 2000 requests
+Completed 3000 requests
+Completed 4000 requests
 Completed 5000 requests
+Completed 6000 requests
+Completed 7000 requests
+Completed 8000 requests
+Completed 9000 requests
 Completed 10000 requests
-Completed 15000 requests
-Completed 20000 requests
-Completed 25000 requests
-Completed 30000 requests
-Completed 35000 requests
-Completed 40000 requests
-Completed 45000 requests
-Completed 50000 requests
-Finished 50000 requests
+Finished 10000 requests
 
 
 Server Software:        
 Server Hostname:        127.0.0.1
 Server Port:            8080
 
-Document Path:          /health-benchmark-eventloop
-Document Length:        0 bytes
+Document Path:          /health-benchmark-eventloopN
+Document Length:        79 bytes
 
 Concurrency Level:      100
-Time taken for tests:   2.343 seconds
-Complete requests:      50000
+Time taken for tests:   5.028 seconds
+Complete requests:      10000
 Failed requests:        0
-Keep-Alive requests:    49542
-Total transferred:      6036718 bytes
-HTML transferred:       0 bytes
-Requests per second:    21339.02 [#/sec] (mean)
-Time per request:       4.686 [ms] (mean)
-Time per request:       0.047 [ms] (mean, across all concurrent requests)
-Transfer rate:          2515.97 [Kbytes/sec] received
+Keep-Alive requests:    0
+Total transferred:      1840000 bytes
+HTML transferred:       790000 bytes
+Requests per second:    1988.89 [#/sec] (mean)
+Time per request:       50.279 [ms] (mean)
+Time per request:       0.503 [ms] (mean, across all concurrent requests)
+Transfer rate:          357.38 [Kbytes/sec] received
 
 Connection Times (ms)
               min  mean[+/-sd] median   max
-Connect:        0    0   0.1      0       9
-Processing:     0    5   3.5      4      92
-Waiting:        0    5   3.5      4      91
-Total:          0    5   3.5      4      92
+Connect:        0   19  17.8     15     173
+Processing:     7   30  19.4     25     171
+Waiting:        7   29  18.9     25     171
+Total:         18   49  25.1     44     212
 
 Percentage of the requests served within a certain time (ms)
-  50%      4
-  66%      5
-  75%      5
-  80%      5
-  90%      7
-  95%      8
-  98%     10
-  99%     14
- 100%     92 (longest request)
+  50%     44
+  66%     56
+  75%     64
+  80%     67
+  90%     76
+  95%     83
+  98%    126
+  99%    166
+ 100%    212 (longest request)
 ```
 
 

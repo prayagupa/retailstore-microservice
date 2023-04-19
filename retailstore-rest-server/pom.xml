@@ -12,7 +12,7 @@
     </parent>
 
     <properties>
-        <start-class>com.api.RESTApplication</start-class>
+        <start-class>com.api.MicroserviceApplication</start-class>
         <java.version>12</java.version>
     </properties>
 
@@ -139,7 +139,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.5.3</version>
                 <configuration>
-                    <mainClass>com.api.RESTApplication</mainClass>
+                    <mainClass>com.api.MicroserviceApplication</mainClass>
                     <executable>true</executable>
                 </configuration>
                 <executions>

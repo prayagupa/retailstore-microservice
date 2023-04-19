@@ -9,6 +9,7 @@ import io.github.resilience4j.ratelimiter.RateLimiterRegistry;
 import io.micrometer.core.annotation.Timed;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,8 @@ import java.util.concurrent.atomic.AtomicLong;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@SuppressWarnings("java:S117")
-public class ServiceEndpoints {
+@SuppressWarnings({"java:S117", "java:S1602"})
+public class ServiceController {
 
     private static final Logger logger = LogManager.getLogger();
 
@@ -56,7 +57,7 @@ public class ServiceEndpoints {
     @Autowired
     private RetailService retailService;
 
-    private ExecutorService executorService = Executors.newFixedThreadPool(100);
+    private static final ExecutorService IO_EXECUTOR = Executors.newFixedThreadPool(8);
 
     private static final int REFRESH_PERIOD = 60 * 1000;
 
@@ -71,21 +72,27 @@ public class ServiceEndpoints {
     @Autowired
     private Counter healthCounter;
 
+    @Autowired
+    private Timer healthTimer;
+
     @GetMapping(value = "/health-blocking", produces = APPLICATION_JSON_VALUE)
     @Timed(histogram = true)
     @Async("eventLoopN")
     public CompletableFuture<HealthStatus> asyncHealthBlocking() {
         logger.debug("async healthcheck");
+        var start = System.nanoTime();
         healthCounter.increment();
 
         return RATE_LIMITER.executeCompletionStage(() ->
-                CompletableFuture.supplyAsync(() -> retailService.readDataBlocking(100), executorService)
+                CompletableFuture.supplyAsync(() -> retailService.readDataBlocking(100), IO_EXECUTOR)
                         .thenApply($ ->
                                 new HealthStatus(
                                         $.toEpochSecond(ZoneOffset.of("-07:00")),
                                         serviceName,
                                         serviceVersion
-                                ))).toCompletableFuture();
+                                ))).toCompletableFuture().whenComplete((__, ___) ->
+                healthTimer.record(Duration.ofNanos(System.nanoTime() - start))
+        );
     }
 
     @GetMapping("/health-blocking-sync")
@@ -139,35 +146,41 @@ public class ServiceEndpoints {
     @GetMapping("/health-benchmark-eventloop")
     @Async("eventLoop")
     @Timed(histogram = true)
-    public HealthStatus healthForBenchmarkWithEventLoop() {
-        return new HealthStatus(
-                0,
-                serviceName,
-                serviceVersion
-        );
+    //NOTE: response has to be CompletableFuture<>
+    public CompletableFuture<HealthStatus> healthForBenchmarkWithEventLoop() {
+        return CompletableFuture.supplyAsync(() ->
+                new HealthStatus(
+                        0,
+                        serviceName,
+                        serviceVersion
+                ), IO_EXECUTOR);
     }
 
     /**
-     * Percentage of the requests served within a certain time (ms)
-     * 50%      4
-     * 66%      4
-     * 75%      4
-     * 80%      5
-     * 90%      5
-     * 95%      7
-     * 98%      8
-     * 99%      9
-     * 100%     19 (longest request)
+     * rs_health_timer_seconds_sum / rs_health_timer_seconds_count
+     * 50%     44
+     * 66%     56
+     * 75%     64
+     * 80%     67
+     * 90%     76
+     * 95%     83
+     * 98%    126
+     * 99%    166
+     * 100%    212 (longest request)
      */
     @GetMapping("/health-benchmark-eventloopN")
     @Async("eventLoopN")
     @Timed(histogram = true)
-    public HealthStatus healthForBenchmarkWithEventLoopN() {
-        return new HealthStatus(
+    public CompletableFuture<HealthStatus> healthForBenchmarkWithEventLoopN() {
+        var start = System.nanoTime();
+
+        return CompletableFuture.supplyAsync(() -> new HealthStatus(
                 0,
                 serviceName,
                 serviceVersion
-        );
+        ), IO_EXECUTOR).whenComplete((__, ___) -> {
+            healthTimer.record(Duration.ofNanos(System.nanoTime() - start));
+        });
     }
 
     @RequestMapping("/api/build-info")
