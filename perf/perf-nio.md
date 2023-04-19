@@ -10,7 +10,7 @@ server.tomcat.threads.max=8
 server.tomcat.accept-count=10000
 ```
 
-**50K @30% CPU**
+**10K @30% CPU**
 
 ```bash
 ab -n 10000 -c 100 -k http://127.0.0.1:8080/health-benchmark-eventloopN
@@ -71,185 +71,64 @@ Percentage of the requests served within a certain time (ms)
 ```
 
 
-**100K**: 60% CPU
+**15.5K**: 45% CPU
 
 ```bash
-ab -n 100000 -c 100 -k http://127.0.0.1:8080/health-benchmark-eventloop
+millionaire $ ab -n 15500 -c 100 -k http://127.0.0.1:8080/health-benchmark-eventloopN
 This is ApacheBench, Version 2.3 <$Revision: 1901567 $>
 Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
 Licensed to The Apache Software Foundation, http://www.apache.org/
 
 Benchmarking 127.0.0.1 (be patient)
-Completed 10000 requests
-Completed 20000 requests
-Completed 30000 requests
-Completed 40000 requests
-Completed 50000 requests
-Completed 60000 requests
-Completed 70000 requests
-Completed 80000 requests
-Completed 90000 requests
-Completed 100000 requests
-Finished 100000 requests
+Completed 1550 requests
+Completed 3100 requests
+Completed 4650 requests
+Completed 6200 requests
+Completed 7750 requests
+Completed 9300 requests
+Completed 10850 requests
+Completed 12400 requests
+Completed 13950 requests
+Completed 15500 requests
+Finished 15500 requests
 
 
 Server Software:        
 Server Hostname:        127.0.0.1
 Server Port:            8080
 
-Document Path:          /health-benchmark-eventloop
-Document Length:        0 bytes
+Document Path:          /health-benchmark-eventloopN
+Document Length:        79 bytes
 
 Concurrency Level:      100
-Time taken for tests:   3.777 seconds
-Complete requests:      100000
+Time taken for tests:   19.954 seconds
+Complete requests:      15500
 Failed requests:        0
-Keep-Alive requests:    99047
-Total transferred:      12072363 bytes
-HTML transferred:       0 bytes
-Requests per second:    26475.82 [#/sec] (mean)
-Time per request:       3.777 [ms] (mean)
-Time per request:       0.038 [ms] (mean, across all concurrent requests)
-Transfer rate:          3121.35 [Kbytes/sec] received
+Keep-Alive requests:    0
+Total transferred:      2852000 bytes
+HTML transferred:       1224500 bytes
+Requests per second:    776.79 [#/sec] (mean)
+Time per request:       128.735 [ms] (mean)
+Time per request:       1.287 [ms] (mean, across all concurrent requests)
+Transfer rate:          139.58 [Kbytes/sec] received
 
 Connection Times (ms)
               min  mean[+/-sd] median   max
-Connect:        0    0   0.1      0       5
-Processing:     0    4   1.2      4      28
-Waiting:        0    4   1.2      4      28
-Total:          0    4   1.2      4      28
+Connect:        0  109 1366.8      0   19515
+Processing:     0    3   8.9      1     478
+Waiting:        0    3   8.7      1     478
+Total:          1  112 1367.0      1   19524
 
 Percentage of the requests served within a certain time (ms)
-  50%      4
-  66%      4
-  75%      4
-  80%      4
-  90%      5
-  95%      6
-  98%      7
-  99%      7
- 100%     28 (longest request)
- ```
-
-**500k** : 70%  CPU
-
-```bash
-ab -n 500000 -c 100 -k http://127.0.0.1:8080/health-benchmark-eventloop
-This is ApacheBench, Version 2.3 <$Revision: 1901567 $>
-Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
-Licensed to The Apache Software Foundation, http://www.apache.org/
-
-Benchmarking 127.0.0.1 (be patient)
-Completed 50000 requests
-Completed 100000 requests
-Completed 150000 requests
-Completed 200000 requests
-Completed 250000 requests
-Completed 300000 requests
-Completed 350000 requests
-Completed 400000 requests
-Completed 450000 requests
-Completed 500000 requests
-Finished 500000 requests
-
-
-Server Software:        
-Server Hostname:        127.0.0.1
-Server Port:            8080
-
-Document Path:          /health-benchmark-eventloop
-Document Length:        0 bytes
-
-Concurrency Level:      100
-Time taken for tests:   16.879 seconds
-Complete requests:      500000
-Failed requests:        0
-Keep-Alive requests:    495048
-Total transferred:      60356392 bytes
-HTML transferred:       0 bytes
-Requests per second:    29622.62 [#/sec] (mean)
-Time per request:       3.376 [ms] (mean)
-Time per request:       0.034 [ms] (mean, across all concurrent requests)
-Transfer rate:          3492.02 [Kbytes/sec] received
-
-Connection Times (ms)
-              min  mean[+/-sd] median   max
-Connect:        0    0   0.1      0      13
-Processing:     0    3   2.1      3     143
-Waiting:        0    3   2.1      3     143
-Total:          0    3   2.1      3     143
-
-Percentage of the requests served within a certain time (ms)
-  50%      3
-  66%      3
-  75%      3
-  80%      4
-  90%      4
-  95%      5
-  98%      7
-  99%      9
- 100%    143 (longest request)
-```
-
-**1M @ 75% CPU**
-
-```bash
-ab -n 500000 -c 100 -k http://127.0.0.1:8080/health-benchmark-eventloop
-millionaire $ ab -n 1000000 -c 100 -k http://127.0.0.1:8080/health-benchmark-eventloop
-This is ApacheBench, Version 2.3 <$Revision: 1901567 $>
-Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
-Licensed to The Apache Software Foundation, http://www.apache.org/
-
-Benchmarking 127.0.0.1 (be patient)
-Completed 100000 requests
-Completed 200000 requests
-Completed 300000 requests
-Completed 400000 requests
-Completed 500000 requests
-Completed 600000 requests
-Completed 700000 requests
-Completed 800000 requests
-Completed 900000 requests
-Completed 1000000 requests
-Finished 1000000 requests
-
-
-Server Software:        
-Server Hostname:        127.0.0.1
-Server Port:            8080
-
-Document Path:          /health-benchmark-eventloop
-Document Length:        0 bytes
-
-Concurrency Level:      100
-Time taken for tests:   32.269 seconds
-Complete requests:      1000000
-Failed requests:        0
-Keep-Alive requests:    990045
-Total transferred:      120711305 bytes
-HTML transferred:       0 bytes
-Requests per second:    30989.97 [#/sec] (mean)
-Time per request:       3.227 [ms] (mean)
-Time per request:       0.032 [ms] (mean, across all concurrent requests)
-Transfer rate:          3653.16 [Kbytes/sec] received
-
-Connection Times (ms)
-              min  mean[+/-sd] median   max
-Connect:        0    0   0.0      0       7
-Processing:     0    3   1.4      3      83
-Waiting:        0    3   1.4      3      83
-Total:          0    3   1.4      3      83
-
-Percentage of the requests served within a certain time (ms)
-  50%      3
-  66%      3
-  75%      3
-  80%      4
-  90%      4
-  95%      5
-  98%      6
-  99%      7
- 100%     83 (longest request)
+  50%      1
+  66%      1
+  75%      1
+  80%      2
+  90%     13
+  95%     16
+  98%     20
+  99%     32
+ 100%  19524 (longest request)
  ```
 
 ![](perf-nio_2020.png)

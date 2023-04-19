@@ -26,7 +26,7 @@ public class MicroserviceApplication extends SpringBootServletInitializer {
     public static final String CUSTOM_HEALTH_COUNTER = "rs_health_counter";
     public static final String CUSTOM_HEALTH_TIMER = "rs_health_timer";
     private static final Logger APP_LOGGER = LogManager.getLogger();
-    private static final int REQUEST_QUEUE_CAPACITY = 2000;
+    private static final int REQUEST_QUEUE_CAPACITY = 1000000;
 
     private static final int SINGLE_WORKER_THREAD = 1;
     @Bean

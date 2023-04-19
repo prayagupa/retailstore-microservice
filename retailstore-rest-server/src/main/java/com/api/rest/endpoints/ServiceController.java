@@ -57,7 +57,7 @@ public class ServiceController {
     @Autowired
     private RetailService retailService;
 
-    private static final ExecutorService IO_EXECUTOR = Executors.newFixedThreadPool(8);
+    private static final ExecutorService IO_EXECUTOR = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
     private static final int REFRESH_PERIOD = 60 * 1000;
 
