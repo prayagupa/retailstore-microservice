@@ -22,4 +22,6 @@ jobs:
 #        with:
 #          arguments: build
       - name: Project build
-        run: ./gradlew build -PprojectVersion=1.0.${{ github.run_id }} --build-cache
+        env:
+          SERVICE_VERSION: 1.0.${{ github.run_number }}
+        run: ./gradlew build -PprojectVersion=${SERVICE_VERSION} --build-cache
