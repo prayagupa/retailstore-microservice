@@ -7,7 +7,7 @@
 
     <parent>
         <groupId>com.prayagupd.api</groupId>
-        <artifactId>eccount-rest</artifactId>
+        <artifactId>retailstore-rest</artifactId>
         <version>0.1.0</version>
     </parent>
 
@@ -183,11 +183,11 @@
     <repositories>
         <repository>
             <id>mavencentral</id>
-            <url>http://central.maven.org/maven2/</url>
+            <url>https://repo.maven.apache.org/maven2/</url>
         </repository>
         <repository>
             <id>spring-releases</id>
-            <url>https://repo.spring.io/libs-release</url>
+            <url>https://repo.spring.io/release</url>
         </repository>
 
         <repository>
@@ -200,7 +200,7 @@
     <pluginRepositories>
         <pluginRepository>
             <id>spring-releases</id>
-            <url>https://repo.spring.io/libs-release</url>
+            <url>https://repo.spring.io/release</url>
         </pluginRepository>
         <pluginRepository>
             <id>mvncentral</id>

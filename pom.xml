@@ -18,10 +18,10 @@
     </dependencies>
 
     <properties>
-        <java.version>12</java.version>
+        <java.version>17</java.version>
         <app.environment>production</app.environment>
-        <maven.compiler.source>12</maven.compiler.source>
-        <maven.compiler.target>12</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <tomcat.version>8.5.37</tomcat.version>
     </properties>
 
@@ -46,11 +46,11 @@
 -->
         <repository>
             <id>mavencentral</id>
-            <url>http://central.maven.org/maven2/</url>
+            <url>https://repo.maven.apache.org/maven2/</url>
         </repository>
         <repository>
             <id>spring-releases</id>
-            <url>https://repo.spring.io/libs-release</url>
+            <url>https://repo.spring.io/release</url>
         </repository>
 
         <repository>
@@ -62,12 +62,12 @@
     <pluginRepositories>
         <pluginRepository>
             <id>spring-releases</id>
-            <url>https://repo.spring.io/libs-release</url>
+            <url>https://repo.spring.io/release</url>
         </pluginRepository>
 
         <pluginRepository>
             <id>mvncentral</id>
-            <url>http://central.maven.org/maven2/</url>
+            <url>https://repo.maven.apache.org/maven2/</url>
         </pluginRepository>
     </pluginRepositories>
 
