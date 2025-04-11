@@ -8,3 +8,4 @@ out/
 *.tfstate
 .gradle
 gradle-build-cache
+.DS_Store
