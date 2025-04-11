@@ -289,6 +289,12 @@ BOOT-INF/classpath.idx
 BOOT-INF/layers.idx
 ```
 
+Using maven, 
+```bash
+upadhyay_lab $ ls -lh retailstore-rest-server/target/retailstore-rest.jar
+-rwxr--r--  1 prayagupd  staff    28M Apr 11 07:56 retailstore-rest-server/target/retailstore-rest.jar
+```
+
 Service uses base container image - https://github.com/lamatola-os/java-microservice-base-image
 
 REST API deps size
