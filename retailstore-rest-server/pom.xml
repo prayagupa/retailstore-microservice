@@ -16,7 +16,7 @@
         <java.version>17</java.version>
         <spring-boot.version>2.7.10</spring-boot.version>
         <micrometer-registry.version>1.10.6</micrometer-registry.version>
-        <junit-jupiter.version>5.7.2</junit-jupiter.version>
+        <junit-jupiter.version>5.11.0</junit-jupiter.version>
         <jackson.version>2.15.0</jackson.version>
     </properties>
 
@@ -153,7 +153,7 @@
             <!-- adding this + @SpringBootTest picked up junit5 tests-->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.0</version>
+                <version>3.2.5</version>
             </plugin>
 
             <plugin>
