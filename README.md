@@ -5,7 +5,7 @@ Java HTTP/REST micro-service
 ![Retail store](https://github.com/prayagupa/retailstore-microservice/actions/workflows/cicd.yaml/badge.svg)
 
 
-This is a micro-service implementation in java 17, spring-boot `2.7.x`
+This is a micro-service implementation in java 17, spring-boot `3.3.x`
 
 ```
 |                   |                          |
