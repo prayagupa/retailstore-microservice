@@ -23,27 +23,10 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <tomcat.version>8.5.37</tomcat.version>
+        <spring-boot-plugin.version>2.7.18</spring-boot-plugin.version>
     </properties>
 
     <repositories>
-<!--
-        <repository>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>artifactory-libs-releases</id>
-            <name>libs-releases</name>
-            <url>https://code.dw.com/artifactory/libs-release/</url>
-        </repository>
-        <repository>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <id>artifactory-libs-snapshot</id>
-            <name>libs-snapshot</name>
-            <url>https://code.dw.com/artifactory/libs-snapshot/</url>
-    </repository>
--->
         <repository>
             <id>mavencentral</id>
             <url>https://repo.maven.apache.org/maven2/</url>
@@ -76,34 +59,12 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.7.7</version>
+                <version>${spring-boot-plugin.version}</version>
                 <configuration>
                     <mainClass>com.api.MicroserviceApplication</mainClass>
 <!--                    <skip>true</skip>-->
                 </configuration>
             </plugin>
-
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-checkstyle-plugin</artifactId>-->
-<!--                <version>3.2.0</version>-->
-<!--                <configuration>-->
-<!--                    <configLocation>google_checks.xml</configLocation>-->
-<!--                    <encoding>UTF-8</encoding>-->
-<!--                    <consoleOutput>true</consoleOutput>-->
-<!--                    <failsOnError>true</failsOnError>-->
-<!--                    <linkXRef>false</linkXRef>-->
-<!--                </configuration>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>validate</id>-->
-<!--                        <phase>validate</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>check</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
         </plugins>
     </build>
 
