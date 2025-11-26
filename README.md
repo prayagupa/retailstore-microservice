@@ -22,7 +22,7 @@ This is a micro-service implementation in java 17, spring-boot `2.7.x`
 - [build/ run-app in x env](#Run-application)
 - [Deployment + Load balancing](devops/README.md)
 - [build artifact](#build-artifact)
-- [performance](perf/perf_vm.md)
+- [performance](perf/README.md)
 
 unit-tests
 -----
@@ -71,10 +71,10 @@ Verify the Endpoint
 -------------------
 
 ```bash
-curl -v -XGET http://localhost:8080/health | python -m json.tool
+curl -v -XGET http://localhost:8080/health-blocking | python -m json.tool
 Note: Unnecessary use of -X or --request, GET is already inferred.
 *   Trying 127.0.0.1:8080...
-> GET /health HTTP/1.1
+> GET /health-blocking HTTP/1.1
 > Host: localhost:8080
 > User-Agent: curl/7.79.1
 > Accept: */*
