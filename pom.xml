@@ -18,12 +18,25 @@
     </dependencies>
 
     <properties>
+        <spring-boot.version>3.3.5</spring-boot.version>
         <java.version>17</java.version>
         <app.environment>production</app.environment>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <tomcat.version>8.5.37</tomcat.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <repositories>
 <!--
@@ -76,7 +89,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.7.7</version>
+                <version>${spring-boot.version}</version>
                 <configuration>
                     <mainClass>com.api.MicroserviceApplication</mainClass>
 <!--                    <skip>true</skip>-->

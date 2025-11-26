@@ -6,13 +6,8 @@ plugins {
      * Get recent version from
      * https://plugins.gradle.org/plugin/org.springframework.boot
      */
-    id 'org.springframework.boot' version '2.7.10'
+    id 'org.springframework.boot' version '3.3.5'
     id 'name.remal.sonarlint' version '1.5.0'
-}
-
-// did not work => ${springVersion}
-ext {
-    springVersion = '2.7.10'
 }
 
 repositories {
@@ -28,49 +23,40 @@ description = 'retailstore'
 mainClassName = 'com.api.MicroserviceApplication'
 
 dependencies {
-
-    def springVersion = "2.7.10"
-
     implementation project(':retailstore-rest-schema')
 
     implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
 
-    implementation group: 'io.github.resilience4j', name: 'resilience4j-spring-boot2', version: '1.7.0'
-    implementation group: 'com.zaxxer', name: 'HikariCP', version: '3.3.1'
+    implementation group: 'io.github.resilience4j', name: 'resilience4j-spring-boot3', version: '2.2.0'
+    implementation group: 'com.zaxxer', name: 'HikariCP'
 
-    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.17'
-
-    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.8.2'
-    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.8.2'
-    implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.8.2'
+    implementation group: 'mysql', name: 'mysql-connector-java'
 
     // 2.12.3 does not have @JsonIncludeProperties
-    implementation (group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8', version: '2.13.4') {
+    implementation (group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8') {
         exclude (group: "junit")
     }
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.4'
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.13.4'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core'
 
-    implementation group: 'io.projectreactor.netty', name: 'reactor-netty', version: '0.9.6.RELEASE'
+    implementation group: 'io.projectreactor.netty', name: 'reactor-netty'
 
-    def micrometerVersion = '1.10.6'
 //    compile 'io.micrometer:micrometer-registry-atlas:latest.release'
-    implementation group: 'io.micrometer', name: 'micrometer-core', version: micrometerVersion
-    implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus', version: micrometerVersion
+    implementation group: 'io.micrometer', name: 'micrometer-core'
+    implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus'
 //    implementation group: 'io.micrometer', name: 'micrometer-registry-graphite', version: micrometerVersion
 //    implementation group: 'io.micrometer', name: 'micrometer-registry-statsd', version: micrometerVersion
 
-//    implementation group: 'org.springframework.boot', name: 'spring-boot', version: springVersion
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: springVersion
-    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springVersion) {
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2'
+    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-web') {
         exclude module: "spring-boot-starter-logging"
         exclude module: "logback-classic"
     }
 
-    implementation group: 'org.springframework', name: 'spring-aspects', version: '5.3.19'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
 
-    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: springVersion) {
+    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-actuator') {
         exclude module: "spring-boot-starter-logging"
         exclude module: "logback-classic"
     }
@@ -78,17 +64,17 @@ dependencies {
     /**
      * test deps
      */
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.7.2'
-    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.7.2'
-    testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.8.1'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api'
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine'
+    testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher'
 
 //    testImplementation group: 'pl.pragmatists', name: 'JUnitParams', version: '1.1.1'
 
-    testImplementation (group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springVersion) {
+    testImplementation (group: 'org.springframework.boot', name: 'spring-boot-starter-test') {
         exclude module: "logback-classic"
         exclude module: "spring-boot-starter-logging"
     }
-    testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '5.5.1'
+    testImplementation group: 'org.springframework.security', name: 'spring-security-test'
     testImplementation group: 'com.tngtech.java', name: 'junit-dataprovider', version: '1.13.1'
     testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.12.2'
 }
