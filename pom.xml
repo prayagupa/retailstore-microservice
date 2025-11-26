@@ -23,7 +23,6 @@
         <app.environment>production</app.environment>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <tomcat.version>8.5.37</tomcat.version>
     </properties>
 
     <dependencyManagement>
