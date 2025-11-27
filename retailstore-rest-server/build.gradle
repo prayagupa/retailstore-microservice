@@ -5,14 +5,14 @@ plugins {
      * Get recent version from
      * https://plugins.gradle.org/plugin/org.springframework.boot
      */
-    id 'org.springframework.boot' version '3.3.5'
+    id 'org.springframework.boot' version '4.0.0'
     id 'io.spring.dependency-management' version '1.1.5'
 //    id 'name.remal.sonarlint' version '1.5.0'
 }
 
 // did not work => ${springVersion}
 ext {
-    springVersion = '3.3.5'
+    springVersion = '4.0.0'
 }
 
 repositories {
@@ -31,14 +31,16 @@ application {
 
 dependencies {
 
-    def springVersion = "3.3.5"
+    def springVersion = "4.0.0"
     def log4jVersion = '2.23.0'
-    def jacksonVersion = '2.15.0'
+    def jacksonVersion = '2.20.1'
+    def lombokVersion = '1.18.22'
+    def micrometerVersion = '1.16.0'
 
     implementation project(':retailstore-rest-schema')
 
-    implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
-    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
+    implementation group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
 
     implementation group: 'io.github.resilience4j', name: 'resilience4j-spring-boot3', version: '2.2.0'
     implementation group: 'com.zaxxer', name: 'HikariCP', version: '5.1.0'
@@ -62,7 +64,6 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-reactor-netty:${springVersion}"
     implementation "org.springframework.boot:spring-boot-starter-actuator:${springVersion}"
 
-    def micrometerVersion = '1.10.6'
 //    compile 'io.micrometer:micrometer-registry-atlas:latest.release'
     implementation group: 'io.micrometer', name: 'micrometer-core', version: micrometerVersion
     implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus', version: micrometerVersion
