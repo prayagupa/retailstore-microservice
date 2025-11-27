@@ -7,9 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.actuate.metrics.AutoConfigureMetrics;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -33,17 +31,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 //@ContextConfiguration(classes = UnitTestConfigForJUnit5.class)
 //@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest
-@AutoConfigureMetrics
+//@AutoConfigureMockMvc
 @SuppressWarnings({"java:S5786"})
 public class ServiceControllerComponentTest {
 
+    @Autowired
     private MockMvc httpEndpoint;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-    @MockBean
-    MeterRegistry meterRegistry;
+//    @MockBean
+//    MeterRegistry meterRegistry;
 
     @BeforeEach
     public void setup() {

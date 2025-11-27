@@ -31,11 +31,13 @@ application {
 
 dependencies {
 
-    def springVersion = "4.0.0"
+    def springBootVersion = "4.0.0"
     def log4jVersion = '2.23.0'
     def jacksonVersion = '2.20.1'
     def lombokVersion = '1.18.22'
     def micrometerVersion = '1.16.0'
+    def junitVersion = '6.0.1'
+    def springVersion = '7.0.0'
 
     implementation project(':retailstore-rest-schema')
 
@@ -60,9 +62,9 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: jacksonVersion
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: jacksonVersion
 
-    implementation "org.springframework.boot:spring-boot-starter-webflux:${springVersion}"
-    implementation "org.springframework.boot:spring-boot-starter-reactor-netty:${springVersion}"
-    implementation "org.springframework.boot:spring-boot-starter-actuator:${springVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-webflux:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-reactor-netty:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
 
 //    compile 'io.micrometer:micrometer-registry-atlas:latest.release'
     implementation group: 'io.micrometer', name: 'micrometer-core', version: micrometerVersion
@@ -71,15 +73,15 @@ dependencies {
 //    implementation group: 'io.micrometer', name: 'micrometer-registry-statsd', version: micrometerVersion
 
 //    implementation group: 'org.springframework.boot', name: 'spring-boot', version: springVersion
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: springVersion
-    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springVersion) {
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: springBootVersion
+    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion) {
         exclude module: "spring-boot-starter-logging"
         exclude module: "logback-classic"
     }
 
-    implementation group: 'org.springframework', name: 'spring-aspects', version: '5.3.19'
+    implementation group: 'org.springframework', name: 'spring-aspects', version: springVersion
 
-    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: springVersion) {
+    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: springBootVersion) {
         exclude module: "spring-boot-starter-logging"
         exclude module: "logback-classic"
     }
@@ -87,17 +89,19 @@ dependencies {
     /**
      * test deps
      */
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.7.2'
-    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.7.2'
-    testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.8.1'
+
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junitVersion
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitVersion
+    testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: junitVersion
 
 //    testImplementation group: 'pl.pragmatists', name: 'JUnitParams', version: '1.1.1'
 
-    testImplementation(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springVersion) {
+    testImplementation(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion) {
         exclude module: "logback-classic"
         exclude module: "spring-boot-starter-logging"
     }
-    testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '5.5.1'
+
+    testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: springVersion
     testImplementation group: 'com.tngtech.java', name: 'junit-dataprovider', version: '1.13.1'
     testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.12.2'
 }

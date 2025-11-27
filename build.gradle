@@ -33,7 +33,7 @@ subprojects {
 
     jar {
         /**
-         * Execution failed for task ':eccount-rest-schema:jar'.
+         * Execution failed for task ':retailstore-rest-schema:jar'.
          > Entry META-INF/services/javax.annotation.processing.Processor is a duplicate but no duplicate handling strategy has been set.
          Please refer to https://docs.gradle.org/7.0/dsl/org.gradle.api.file.CopySpec.html#org.gradle.api.file.CopySpec:duplicatesStrategy
          for details.
@@ -57,9 +57,9 @@ subprojects {
         }
         /**
          * two JARs are built
-         * $ ls -l eccount-rest-server/build/libs/
-         -rw-r--r--  1 prayagupd  NA\Domain Users      7102 Sep 14 14:56 eccount-rest-server-1.0-SNAPSHOT-plain.jar
-         -rw-r--r--  1 prayagupd  NA\Domain Users  31661792 Sep 14 14:55 eccount-rest-server-1.0-SNAPSHOT.jar
+         * $ ls -l retailstore-rest-server/build/libs/
+         -rw-r--r--  1 prayagupd  NA\Domain Users      7102 Sep 14 14:56 retailstore-rest-server-1.0-SNAPSHOT-plain.jar
+         -rw-r--r--  1 prayagupd  NA\Domain Users  31661792 Sep 14 14:55 retailstore-rest-server-1.0-SNAPSHOT.jar
          */
 //        from {
 //            configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
