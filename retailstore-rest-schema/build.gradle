@@ -4,9 +4,9 @@ description = 'eccount rest schema'
 apply plugin:'java'
 
 dependencies {
-    def log4jVersion = '2.23.0'
-    def jacksonVersion = '2.20.1'
-    def lombokVersion = '1.18.22'
+    def log4jVersion = '2.24.3'
+    def jacksonVersion = '2.18.3'
+    def lombokVersion = '1.18.36'
 
     implementation group: 'org.projectlombok', name: 'lombok', version: lombokVersion
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion

@@ -1,11 +1,8 @@
-
-Java HTTP/REST micro-service
-==========================
+# Java HTTP/REST Micro-service
 
 ![Retail store](https://github.com/prayagupa/retailstore-microservice/actions/workflows/cicd.yaml/badge.svg)
 
-
-This is a micro-service implementation in java 17, spring-boot `4.0.x`
+A micro-service implementation in Java 21, Spring Boot `4.0.x`.
 
 ```
 |                   |                          |
@@ -14,18 +11,29 @@ This is a micro-service implementation in java 17, spring-boot `4.0.x`
 |        |          |                          |
 |        v          |                          |
 |     schema JAR    |                          |
-
 ```
 
+---
 
-- [unit tests](#unit-tests)
-- [build/ run-app in x env](#Run-application)
-- [Deployment + Load balancing](devops/README.md)
-- [build artifact](#build-artifact)
-- [performance](perf/README.md)
+## Table of Contents
 
-unit-tests
------
+- [Unit Tests](#unit-tests)
+- [Run Application](#run-application)
+  - [Environment Profiles](#environment-profiles)
+  - [Verify the Endpoint](#verify-the-endpoint)
+- [Build Artifact](#build-artifact)
+  - [Gradle Build](#gradle-build)
+  - [Maven Build](#maven-build)
+  - [REST API Dependency Sizes](#rest-api-dependency-sizes)
+- [App Start Time](#app-start-time)
+- [Monitoring](#monitoring)
+- [Deployment & Load Balancing](devops/README.md)
+- [Performance](perf/README.md)
+- [See Also](#see-also)
+
+---
+
+## Unit Tests
 
 ```bash
 ## using gradle build tool
@@ -35,16 +43,18 @@ unit-tests
 ## mvn test
 ```
 
-Run application
-----------------------------------------------------------------------------------------------------------
+---
 
-Application can be with different profiles. In actual development cycle, there are
-multiple environment a software goes through. A Software Engineer first build locally, if that succeeds
-pushes the JAR to higher environments like dev, test, stage/prod-like and finally production.
+## Run Application
 
-Environment specific information are stored in properties file in `src/main/resources`.
+Application can be run with different profiles. In a typical development cycle, a software goes through
+multiple environments — local, dev, test, stage/prod-like, and finally production.
 
-[with `application.properties` configured to `stage`](http://stackoverflow.com/a/35757421/432903)
+Environment-specific configuration is stored in properties files under `src/main/resources`.
+
+### Environment Profiles
+
+[Configuring `application.properties` with a profile](http://stackoverflow.com/a/35757421/432903)
 
 ```bash
 export SPRING_PROFILES_ACTIVE=dev
@@ -52,12 +62,11 @@ export SPRING_PROFILES_ACTIVE=dev
 ./gradlew run
 
 ## You will see logs mentioning the active profile
-#2022-12-29 20:13:37.946  INFO INFOid --- [           main] c.a.RESTApplication                      : The following profiles are active: dev
+#2022-12-29 20:13:37.946  INFO INFOid --- [           main] c.a.RESTApplication : The following profiles are active: dev
 ```
 
-Usually the Infrastructure team have certain environment variable set to represent the 
-environment in higher environments, which can be set to update `spring.profiles.active` so that Spring picks the right
-profile.
+In higher environments, the infrastructure team typically sets an environment variable that can be
+mapped to `spring.profiles.active`:
 
 ```bash
 ## If environment machines have env APP_ENVIRONMENT available
@@ -67,24 +76,23 @@ export APP_ENVIRONMENT=production
 spring.profiles.active=${APP_ENVIRONMENT}
 ```
 
-Verify the Endpoint
--------------------
+### Verify the Endpoint
 
 ```bash
-curl -v -XGET http://localhost:8080/health-blocking | python -m json.tool
+curl -v -XGET http://localhost:8080/retailstore/health-blocking | python -m json.tool
 Note: Unnecessary use of -X or --request, GET is already inferred.
 *   Trying 127.0.0.1:8080...
-> GET /health-blocking HTTP/1.1
+> GET /retailstore/health-blocking HTTP/1.1
 > Host: localhost:8080
 > User-Agent: curl/7.79.1
 > Accept: */*
-> 
+>
 * Mark bundle as not supporting multiuse
-< HTTP/1.1 200 
+< HTTP/1.1 200
 < Content-Type: application/json
 < Transfer-Encoding: chunked
 < Date: Fri, 30 Dec 2022 21:55:50 GMT
-< 
+<
 { [94 bytes data]
 * Connection #0 to host localhost left intact
 {
@@ -94,8 +102,11 @@ Note: Unnecessary use of -X or --request, GET is already inferred.
 }
 ```
 
-Build
-------
+---
+
+## Build Artifact
+
+### Gradle Build
 
 ```bash
 ./gradlew clean build
@@ -105,7 +116,7 @@ total 71488
 -rw-r--r--  1 prayagupd  staff    13K Apr 11 07:08 retailstore-rest-server-1.0-SNAPSHOT-plain.jar
 -rw-r--r--  1 prayagupd  staff    35M Apr 11 07:08 retailstore-rest-server-1.0-SNAPSHOT.jar
 
-## 
+##
 upadhyay_lab $ jar -tf retailstore-rest-server/build/libs/retailstore-rest-server-1.0-SNAPSHOT.jar
 META-INF/
 META-INF/MANIFEST.MF
@@ -289,15 +300,16 @@ BOOT-INF/classpath.idx
 BOOT-INF/layers.idx
 ```
 
-Using maven, 
+Service uses base container image — https://github.com/lamatola-os/java-microservice-base-image
+
+### Maven Build
+
 ```bash
 upadhyay_lab $ ls -lh retailstore-rest-server/target/retailstore-rest.jar
--rwxr--r--  1 prayagupd  staff    28M Apr 11 07:56 retailstore-rest-server/target/retailstore-rest.jar
+-rwxr--r--  1 prayagupa  staff    28M Apr 11 07:56 retailstore-rest-server/target/retailstore-rest.jar
 ```
 
-Service uses base container image - https://github.com/lamatola-os/java-microservice-base-image
-
-REST API deps size
+### REST API Dependency Sizes
 
 ```bash
 $ du -sh target/restapi/WEB-INF/lib/spring-* | sort
@@ -316,15 +328,22 @@ $ du -sh target/restapi/WEB-INF/lib/spring-* | sort
 896K	target/restapi/WEB-INF/lib/spring-webmvc-4.3.6.RELEASE.jar
 ```
 
-Monitoring
--------
+---
+
+## App Start Time
+
+| Java | Spring Boot | Startup |
+|------|-------------|---------|
+| 21   | 4.0.0       | 695 ms  |
+
+## Monitoring
 
 ```bash
-curl "http://localhost:9080/metrics/system.cpu.usage"
+curl "http://localhost:8080/retailstore/actuator/metrics/system.cpu.usage"
 
 ## export prometheus metrics
 ## look for http_server_requests
-curl localhost:8080/actuator/prometheus
+curl localhost:8080/retailstore/actuator/prometheus
 # HELP jvm_memory_committed_bytes The amount of memory in bytes that is committed for the Java virtual machine to use
 # TYPE jvm_memory_committed_bytes gauge
 jvm_memory_committed_bytes{area="nonheap",id="CodeHeap 'profiled nmethods'",} 9764864.0
@@ -364,23 +383,23 @@ jvm_gc_pause_seconds_sum{action="end of minor GC",cause="G1 Evacuation Pause",} 
 # TYPE jvm_gc_pause_seconds_max gauge
 jvm_gc_pause_seconds_max{action="end of minor GC",cause="Metadata GC Threshold",} 0.008
 jvm_gc_pause_seconds_max{action="end of minor GC",cause="G1 Evacuation Pause",} 0.005
-# HELP http_server_requests_seconds  
+# HELP http_server_requests_seconds
 # TYPE http_server_requests_seconds summary
-http_server_requests_seconds_count{exception="None",method="GET",outcome="SUCCESS",status="200",uri="/actuator/prometheus",} 1.0
-http_server_requests_seconds_sum{exception="None",method="GET",outcome="SUCCESS",status="200",uri="/actuator/prometheus",} 0.054369136
-http_server_requests_seconds_count{exception="None",method="GET",outcome="SUCCESS",status="200",uri="/health",} 1.0
-http_server_requests_seconds_sum{exception="None",method="GET",outcome="SUCCESS",status="200",uri="/health",} 0.130059295
+http_server_requests_seconds_count{exception="None",method="GET",outcome="SUCCESS",status="200",uri="/retailstore/actuator/prometheus",} 1.0
+http_server_requests_seconds_sum{exception="None",method="GET",outcome="SUCCESS",status="200",uri="/retailstore/actuator/prometheus",} 0.054369136
+http_server_requests_seconds_count{exception="None",method="GET",outcome="SUCCESS",status="200",uri="/retailstore/health",} 1.0
+http_server_requests_seconds_sum{exception="None",method="GET",outcome="SUCCESS",status="200",uri="/retailstore/health",} 0.130059295
 http_server_requests_seconds_count{exception="None",method="GET",outcome="CLIENT_ERROR",status="404",uri="/**",} 1.0
 http_server_requests_seconds_sum{exception="None",method="GET",outcome="CLIENT_ERROR",status="404",uri="/**",} 0.006792914
-# HELP http_server_requests_seconds_max  
+# HELP http_server_requests_seconds_max
 # TYPE http_server_requests_seconds_max gauge
-http_server_requests_seconds_max{exception="None",method="GET",outcome="SUCCESS",status="200",uri="/actuator/prometheus",} 0.054369136
-http_server_requests_seconds_max{exception="None",method="GET",outcome="SUCCESS",status="200",uri="/health",} 0.130059295
+http_server_requests_seconds_max{exception="None",method="GET",outcome="SUCCESS",status="200",uri="/retailstore/actuator/prometheus",} 0.054369136
+http_server_requests_seconds_max{exception="None",method="GET",outcome="SUCCESS",status="200",uri="/retailstore/health",} 0.130059295
 http_server_requests_seconds_max{exception="None",method="GET",outcome="CLIENT_ERROR",status="404",uri="/**",} 0.006792914
 # HELP jvm_classes_unloaded_classes_total The total number of classes unloaded since the Java virtual machine has started execution
 # TYPE jvm_classes_unloaded_classes_total counter
 jvm_classes_unloaded_classes_total 0.0
-# HELP tomcat_sessions_active_max_sessions  
+# HELP tomcat_sessions_active_max_sessions
 # TYPE tomcat_sessions_active_max_sessions gauge
 tomcat_sessions_active_max_sessions 0.0
 # HELP jvm_memory_used_bytes The amount of used memory
@@ -393,7 +412,7 @@ jvm_memory_used_bytes{area="nonheap",id="CodeHeap 'non-nmethods'",} 1228672.0
 jvm_memory_used_bytes{area="heap",id="G1 Eden Space",} 1.4680064E7
 jvm_memory_used_bytes{area="nonheap",id="Compressed Class Space",} 5388176.0
 jvm_memory_used_bytes{area="nonheap",id="CodeHeap 'non-profiled nmethods'",} 2423936.0
-# HELP tomcat_sessions_rejected_sessions_total  
+# HELP tomcat_sessions_rejected_sessions_total
 # TYPE tomcat_sessions_rejected_sessions_total counter
 tomcat_sessions_rejected_sessions_total 0.0
 # HELP system_cpu_count The number of processors available to the Java virtual machine
@@ -402,19 +421,19 @@ system_cpu_count 12.0
 # HELP jvm_classes_loaded_classes The number of classes that are currently loaded in the Java virtual machine
 # TYPE jvm_classes_loaded_classes gauge
 jvm_classes_loaded_classes 8821.0
-# HELP tomcat_sessions_active_current_sessions  
+# HELP tomcat_sessions_active_current_sessions
 # TYPE tomcat_sessions_active_current_sessions gauge
 tomcat_sessions_active_current_sessions 0.0
 # HELP jvm_gc_max_data_size_bytes Max size of long-lived heap memory pool
 # TYPE jvm_gc_max_data_size_bytes gauge
 jvm_gc_max_data_size_bytes 8.589934592E9
-# HELP tomcat_sessions_alive_max_seconds  
+# HELP tomcat_sessions_alive_max_seconds
 # TYPE tomcat_sessions_alive_max_seconds gauge
 tomcat_sessions_alive_max_seconds 0.0
 # HELP system_cpu_usage The "recent cpu usage" for the whole system
 # TYPE system_cpu_usage gauge
 system_cpu_usage 0.06535340634957493
-# HELP tomcat_sessions_expired_sessions_total  
+# HELP tomcat_sessions_expired_sessions_total
 # TYPE tomcat_sessions_expired_sessions_total counter
 tomcat_sessions_expired_sessions_total 0.0
 # HELP jvm_threads_live_threads The current number of live threads including both daemon and non-daemon threads
@@ -426,7 +445,7 @@ jvm_gc_memory_promoted_bytes_total 2010296.0
 # HELP jvm_threads_daemon_threads The current number of live daemon threads
 # TYPE jvm_threads_daemon_threads gauge
 jvm_threads_daemon_threads 16.0
-# HELP tomcat_sessions_created_sessions_total  
+# HELP tomcat_sessions_created_sessions_total
 # TYPE tomcat_sessions_created_sessions_total counter
 tomcat_sessions_created_sessions_total 0.0
 # HELP jvm_buffer_memory_used_bytes An estimate of the memory that the Java virtual machine is using for this buffer pool
@@ -477,9 +496,9 @@ jvm_threads_states_threads{state="terminated",} 0.0
 jvm_threads_peak_threads 21.0
 ```
 
+---
 
-Also see
---
+## See Also
 
 - https://github.com/parayaluyanta/retailstore-microservice-nio (`~6.978ms/request`)
 - https://github.com/lamatola-os/chat-server_reactive-spring (`~22.860ms/request`)

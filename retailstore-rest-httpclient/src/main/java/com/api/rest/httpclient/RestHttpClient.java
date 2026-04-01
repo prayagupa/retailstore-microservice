@@ -1,81 +1,51 @@
 package com.api.rest.httpclient;
 
 import com.api.rest.schema.HealthStatus;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asynchttpclient.AsyncHttpClient;
-import org.asynchttpclient.Dsl;
+import org.springframework.web.client.RestClient;
 
-import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
- * read - LIFO, FIFO pool
- * https://github.com/AsyncHttpClient/async-http-client/wiki/Connection-pooling#defaultchannelpool
- *
- * https://github.com/AsyncHttpClient/async-http-client/blob/master/client/src/main/java/org/asynchttpclient/netty/channel/DefaultChannelPool.java#L230
+ * Spring RestClient (Spring 6.1+, Spring-free, no Boot required)
  *
  * TODOs
  * - retry
  * - circuit breaker
  */
-//@AllArgsConstructor
 public class RestHttpClient {
 
-    /**
-     * there is only one target host being used, so
-     * total = max per host
-     */
-    private static final int MAX_CONNECTIONS_PER_TARGET_HOST = 100;
+    private static final Logger logger = LogManager.getLogger();
+    private static final ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
 
-    private String baseUri;
-
-    AsyncHttpClient httpClient = Dsl.asyncHttpClient(Dsl.config()
-            .setMaxConnections(MAX_CONNECTIONS_PER_TARGET_HOST)
-            .setMaxConnectionsPerHost(MAX_CONNECTIONS_PER_TARGET_HOST)
-            .setPooledConnectionIdleTimeout(100)
-            .setConnectionTtl(500)
-    );
-
-    private final static ObjectMapper encoder = new ObjectMapper();
-    private final static Logger logger = LogManager.getLogger();
+    private final RestClient restClient;
 
     public RestHttpClient(String baseUri) {
-        this.baseUri = baseUri;
+        this.restClient = RestClient.builder()
+                .baseUrl(baseUri)
+                .build();
     }
 
-    public CompletableFuture<HealthStatus> getHealthStatus(UUID requestId,
-                                                           String sourceApi) {
-        CompletableFuture<HealthStatus> response = httpClient.prepareGet(baseUri + "/health")
-                .addHeader("x-request-id", requestId)
-                .addHeader("x-source-api", sourceApi)
-                .execute()
-                .toCompletableFuture()
-                .thenCompose(r -> {
-                    try {
-                        logger.error("requestId: {}, response: {}", requestId, r.getResponseBody());
-                        var healthStatus = encoder.readValue(r.getResponseBody(), HealthStatus.class);
-                        return CompletableFuture.completedFuture(healthStatus);
-                    } catch (IOException e) {
-                        logger.error("requestId: {}, error decoding response: ", requestId, e);
-                        return CompletableFuture.failedFuture(new RuntimeException("Error decoding http response", e));
-                    }
-                });
-
-        CompletableFuture<HealthStatus> httpResponse = new CompletableFuture<>();
-
-        response.whenComplete((s, e) -> {
+    public CompletableFuture<HealthStatus> getHealthStatus(UUID requestId, String sourceApi) {
+        return CompletableFuture.supplyAsync(() -> {
+            logger.debug("requestId: {}, fetching health status", requestId);
+            return restClient.get()
+                    .uri("/health")
+                    .header("x-request-id", requestId.toString())
+                    .header("x-source-api", sourceApi)
+                    .retrieve()
+                    .body(HealthStatus.class);
+        }, executor).whenComplete((s, e) -> {
             if (e != null) {
-                httpResponse.completeExceptionally(new RuntimeException("Unknown service error", e));
+                logger.error("requestId: {}, error fetching health status: ", requestId, e);
             } else {
-                httpResponse.complete(s);
+                logger.debug("requestId: {}, response: {}", requestId, s);
             }
         });
-
-        return httpResponse;
     }
 
     public static void main(String[] args) throws InterruptedException {
@@ -84,7 +54,8 @@ public class RestHttpClient {
         Thread.sleep(1000);
 
         resp.whenComplete((s, e) -> {
-            e.printStackTrace();
+            if (e != null) logger.error("error fetching health status: ", e);
+            else System.out.println(s);
         });
     }
 }

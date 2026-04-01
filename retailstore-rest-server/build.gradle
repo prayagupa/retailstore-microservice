@@ -32,11 +32,11 @@ application {
 dependencies {
 
     def springBootVersion = "4.0.0"
-    def log4jVersion = '2.23.0'
-    def jacksonVersion = '2.20.1'
-    def lombokVersion = '1.18.22'
-    def micrometerVersion = '1.16.0'
-    def junitVersion = '6.0.1'
+    def log4jVersion = '2.24.3'
+    def jacksonVersion = '2.18.3'
+    def lombokVersion = '1.18.36'
+    def micrometerVersion = '1.14.4'
+    def junitVersion = '5.11.4'
     def springVersion = '7.0.0'
 
     implementation project(':retailstore-rest-schema')
@@ -92,7 +92,7 @@ dependencies {
 
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junitVersion
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitVersion
-    testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: junitVersion
+    testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.11.4'
 
 //    testImplementation group: 'pl.pragmatists', name: 'JUnitParams', version: '1.1.1'
 
