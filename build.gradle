@@ -4,7 +4,11 @@ buildscript {
     }
     dependencies {
         classpath group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '4.32.0'
+        // Force commons-compress >= 1.26 — JFrog 4.32 pulls in 1.22 which breaks
+        // Spring Boot bootJar (ZipArchiveOutputStream API incompatibility)
+        classpath group: 'org.apache.commons', name: 'commons-compress', version: '1.27.1'
     }
+    configurations.classpath.resolutionStrategy.force 'org.apache.commons:commons-compress:1.27.1'
 }
 
 subprojects {
