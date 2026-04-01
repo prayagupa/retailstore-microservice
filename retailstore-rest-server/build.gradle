@@ -36,7 +36,8 @@ dependencies {
     def jacksonVersion = '2.18.3'
     def lombokVersion = '1.18.36'
     def micrometerVersion = '1.14.4'
-    def junitVersion = '5.11.4'
+    // junitVersion intentionally omitted — Spring Boot 4 BOM manages JUnit 6.x
+    // def junitVersion = '6'
     def springVersion = '7.0.0'
 
     implementation project(':retailstore-rest-schema')
@@ -90,9 +91,10 @@ dependencies {
      * test deps
      */
 
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junitVersion
-    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitVersion
-    testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.11.4'
+    // JUnit Jupiter versions managed by Spring Boot 4 BOM
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api'
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine'
+    testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher'
 
 //    testImplementation group: 'pl.pragmatists', name: 'JUnitParams', version: '1.1.1'
 

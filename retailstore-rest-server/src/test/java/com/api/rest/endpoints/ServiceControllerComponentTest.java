@@ -2,7 +2,6 @@ package com.api.rest.endpoints;
 
 //import org.junit.Test;
 
-import io.micrometer.core.instrument.MeterRegistry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,7 +34,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SuppressWarnings({"java:S5786"})
 public class ServiceControllerComponentTest {
 
-    @Autowired
     private MockMvc httpEndpoint;
 
     @Autowired
