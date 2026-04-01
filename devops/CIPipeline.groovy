@@ -9,6 +9,6 @@ job('retailstore-build') {
         scm('H/15 * * * *')
     }
     steps {
-        maven('-e clean test')
+        gradle('compileJava')
     }
 }
