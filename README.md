@@ -6,9 +6,29 @@ A micro-service implementation in Java 21, Spring Boot `4.0.x`.
 
 ```mermaid
 flowchart LR
-    client(["HTTP Client"]) --> endpoint["/endpoint"]
-    endpoint --> service["Service"]
-    endpoint --> schema["Schema JAR"]
+
+    subgraph springboot["Spring Boot Application"]
+        direction TB
+        endpoint["/endpoint\n(Controller)"]
+        service["Service"]
+        schema["Schema JAR"]
+        endpoint --> service
+        endpoint --> schema
+    end
+    
+    subgraph tomcat["Tomcat 11 (Servlet Container)"]
+        direction TB
+        connector["HTTP Connector\n(port 8080)"]
+        threadpool["Thread Pool\nserver.tomcat.threads.max=4"]
+        dispatcher["DispatcherServlet\n(Spring MVC)"]
+        connector --> threadpool --> dispatcher
+    end
+
+    client(["HTTP Client"])
+    
+    client -->|"HTTP request"| connector
+    dispatcher -->|"route"| endpoint
+    service -->|"HTTP response"| client
 ```
 
 ---
@@ -19,7 +39,7 @@ flowchart LR
 - [Run Application](#run-application)
   - [Environment Profiles](#environment-profiles)
   - [Verify the Endpoint](#verify-the-endpoint)
-- [Build Artifact](docs/Artifact.md)
+- [Build Artifact](docs/artifact.md)
 - [App Start Time](#app-start-time)
 - [Monitoring](docs/monitoring.md)
 - [Build & Run in Docker (Single Core)](docs/build-and-run.md)
