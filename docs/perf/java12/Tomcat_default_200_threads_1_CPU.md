@@ -18,7 +18,7 @@ Tool: [Apache Bench (ab)](https://httpd.apache.org/docs/current/programs/ab.html
 | Container | Docker (bridge network) |
 | Endpoint | `GET /health-benchmark` |
 | Concurrency | 100 concurrent clients (`-c 100`) |
-| Keep-Alive | disabled |
+| Keep-Alive | disabled — `ab` run without `-k` flag (0 / 100 000 established) |
 
 ---
 
@@ -246,6 +246,7 @@ Total:          6  255 705.4    167   19606
 
 ## Observations
 
+- **Keep-Alive not used** — `ab` was run without the `-k` flag, so no `Connection: keep-alive` header was ever sent. `Keep-Alive requests: 0` across all three results confirms every request opened and closed its own TCP connection. This alone accounts for significant overhead at scale — each of the 100K requests paid a full TCP three-way handshake on the loopback interface.
 - **Thread pool saturation** — throughput drops ~7× from 10K (3 950 req/s) to 20K (540 req/s) runs, indicating the 200-thread pool is exhausted and requests begin queueing in the `accept-count=100` backlog under sustained load on a single CPU.
 - **Latency spikes with scale** — p99 grows from 80 ms at 10K to 1 029 ms at 100K; the 13 s and 19 s max values are connection-queue timeouts, not processing delays.
 - **Memory is not the bottleneck** — container memory stays at 26% (203 MiB) throughout the 100K run; the constraint is CPU + thread scheduling.
