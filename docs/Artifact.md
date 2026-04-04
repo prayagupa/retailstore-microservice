@@ -1,9 +1,19 @@
+# Build Artifact
+
+```bash
+./gradlew clean build
+```
+
+### JAR sizes
+
 ```bash
 ls -lh retailstore-rest-server/build/libs/
 total 130168
 -rw-r--r--@ 1 upadhyay  staff    11K Apr  3 21:58 retailstore-rest-server-1.0-SNAPSHOT-plain.jar
 -rw-r--r--@ 1 upadhyay  staff    64M Apr  3 21:58 retailstore-rest-server-1.0-SNAPSHOT.jar
 ```
+
+### JAR contents
 
 ```bash
 jar -tf retailstore-rest-server/build/libs/retailstore-rest-server-1.0-SNAPSHOT.jar

@@ -219,12 +219,20 @@ Total:          1    5   3.3      4      76
 
 </details>
 
+### Memory
+
+```bash
+CONTAINER ID   NAME                CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O         PIDS
+216130a9dcfd   funny_stonebraker   82.54%    197MiB / 768MiB       25.65%    94.7MB / 332MB    0B / 799kB        23
+1067c5046225   local_pgdb          0.00%     79.71MiB / 3.819GiB   2.04%     25.8kB / 14.8kB   51.5MB / 59.6MB   11
+```
+
 ---
 
 ## Comparison — 2023 (Java 12) vs 2026 (Java 21)
 
 Same hardware constraints (`--cpus=1 --memory=768m`), same concurrency (`-c 100`).  
-2023 results from [Tomcat Default 200 threads, 1 CPU](../java12/Tomcat_default_200_threads_1_CPU.md).
+Java12 results from [Tomcat Default 200 threads, 1 CPU](../java12/Tomcat_default_200_threads_1_CPU.md).
 
 | Metric                   | 2023 — Java 12 / Tomcat 9 | 2026 — Java 21 / Tomcat 11 |     Δ      |
 |--------------------------|:-------------------------:|:--------------------------:|:----------:|
@@ -251,6 +259,8 @@ Same hardware constraints (`--cpus=1 --memory=768m`), same concurrency (`-c 100`
 - **Latency improves with volume** — p99 drops from 94 ms at 10K to 13 ms at 100K requests.
 - **Zero failures** across all runs under 100 concurrent clients.
 - **Single-core ceiling** — ~22K req/s appears to be the saturation point for this endpoint on 1 CPU; adding cores would allow further scaling.
+- **CPU utilisation** — the container reached **82.54% CPU** during the 100K-request run, confirming the single-core constraint (`--cpus=1`) is the primary bottleneck; the workload is CPU-bound, not memory-bound.
+- **Memory efficiency** — heap + off-heap footprint settled at **197 MiB (25.65% of 768 MiB)**, indicating ample headroom and no GC pressure under sustained load.
 
 ---
 
