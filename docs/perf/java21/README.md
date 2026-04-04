@@ -224,7 +224,7 @@ Total:          1    5   3.3      4      76
 ## Comparison — 2023 (Java 12) vs 2026 (Java 21)
 
 Same hardware constraints (`--cpus=1 --memory=768m`), same concurrency (`-c 100`).  
-2023 results from [Tomcat Default 200 threads, 1 CPU](../Tomcat_default_200_threads_1_CPU.md).
+2023 results from [Tomcat Default 200 threads, 1 CPU](../java12/Tomcat_default_200_threads_1_CPU.md).
 
 | Metric                   | 2023 — Java 12 / Tomcat 9 | 2026 — Java 21 / Tomcat 11 |     Δ      |
 |--------------------------|:-------------------------:|:--------------------------:|:----------:|

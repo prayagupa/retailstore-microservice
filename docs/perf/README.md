@@ -42,7 +42,7 @@ new connections are dropped. This is exploited by slow-loris style attacks, wher
 client holds connections open by sending HTTP headers one byte per second, exhausting the
 thread pool with minimal bandwidth.
 
-See [2023 benchmark results](Tomcat_default_200_threads_1_CPU.md) for empirical evidence:
+See [2023 benchmark results](java12/Tomcat_default_200_threads_1_CPU.md) for empirical evidence:
 throughput collapsed from ~3 950 req/s at 10K requests to ~391 req/s at 100K on a single CPU,
 with p99 exceeding 1 second — a direct consequence of pool saturation.
 
@@ -88,9 +88,76 @@ cryptographic operations) it blocks the event loop, starving all other connectio
 thread. The mitigation is offloading CPU work to a separate executor (virtual threads in
 Java 21, `subscribeOn` in Project Reactor, `@Async` thread pools).
 
-See [2026 benchmark results](2026/README.md): with Java 21 + Tomcat 11 NIO and HTTP
+See [2026 benchmark results](java21/README.md): with Java 21 + Tomcat 11 NIO and HTTP
 Keep-Alive, the same single-CPU container sustains **~22K req/s at 100K requests** —
 a 56× improvement over the 2023 blocking results.
+
+---
+
+## How `epoll` / `kqueue` Works
+
+Both `epoll` (Linux) and `kqueue` (macOS/BSD) are kernel subsystems that let a single
+user-space thread monitor thousands of file descriptors (sockets, pipes, files) simultaneously,
+without polling or blocking on any individual one.
+
+### Lifecycle
+
+```mermaid
+flowchart TD
+    A["epoll_create()\nAllocate interest table in kernel"] --> B
+
+    B["epoll_ctl(EPOLL_CTL_ADD, fd, EPOLLIN)\nRegister socket fd — 'notify me when readable'"]
+
+    B --> C["epoll_wait()\nThread blocks here — surrenders CPU\nuntil ≥1 fd is ready"]
+
+    C -->|"Kernel fires I/O interrupt\n(NIC DMA complete / TCP ACK)"| D["Kernel marks fd ready\nin the readiness list"]
+
+    D --> E["epoll_wait() returns\nlist of ready events"]
+
+    E --> F{"For each\nready fd"}
+
+    F -->|readable| G["read(fd) — guaranteed non-blocking\ndata already in kernel buffer"]
+    F -->|writable| H["write(fd) — guaranteed non-blocking\nsocket send buffer has space"]
+
+    G --> I["Dispatch to handler\n(Tomcat NIO Poller → worker thread)"]
+    H --> I
+
+    I --> B
+```
+
+### Key Kernel Mechanisms
+
+| Mechanism | Description |
+|-----------|-------------|
+| **Interest table** | A red-black tree in kernel space mapping `fd → event mask`. `epoll_ctl` O(log n) insert/delete. |
+| **Readiness list** | A linked list of fds that have become ready since the last `epoll_wait`. O(1) traversal — you only see *ready* fds, never scan all. |
+| **Edge-triggered (ET)** | Notified once when fd transitions from not-ready to ready. Requires draining the fd completely; missed reads cause silent stalls. |
+| **Level-triggered (LT)** | Notified on every `epoll_wait` call while fd remains ready. Safer default; used by Tomcat NIO and most JVM frameworks. |
+| **`kqueue` (macOS/BSD)** | Equivalent API — `kevent()` replaces `epoll_ctl`/`epoll_wait`. Supports file, process, signal, and timer events in addition to sockets. |
+
+### Why This Matters for Tomcat NIO
+
+```mermaid
+sequenceDiagram
+    participant NIC as NIC / Kernel
+    participant EP as epoll (kernel)
+    participant P as Tomcat Poller (1 thread)
+    participant W as Worker Thread Pool
+
+    NIC->>EP: TCP segment arrives → fd becomes readable
+    EP-->>P: epoll_wait() returns [fd1, fd2, fd7]
+    P->>W: dispatch fd1 to worker
+    P->>W: dispatch fd2 to worker
+    P->>W: dispatch fd7 to worker
+    Note over P: Poller immediately loops back<br/>to epoll_wait() — never blocked
+    W-->>NIC: write response (fd1)
+    W-->>NIC: write response (fd2)
+```
+
+A single Poller thread can handle tens of thousands of concurrent keep-alive connections
+because it never blocks — it only calls `epoll_wait`, hands ready connections to the worker
+pool, and immediately returns to waiting. The [2026 benchmarks](java21/README.md) sustain
+**~22K req/s** on a single CPU using exactly this model.
 
 ---
 

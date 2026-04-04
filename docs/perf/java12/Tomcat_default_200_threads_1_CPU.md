@@ -250,14 +250,14 @@ Total:          6  255 705.4    167   19606
 - **Latency spikes with scale** — p99 grows from 80 ms at 10K to 1 029 ms at 100K; the 13 s and 19 s max values are connection-queue timeouts, not processing delays.
 - **Memory is not the bottleneck** — container memory stays at 26% (203 MiB) throughout the 100K run; the constraint is CPU + thread scheduling.
 - **CPU ceiling** — CPU hovers at ~75% during the 100K run, suggesting head-room exists but is consumed by thread context-switching rather than actual request processing.
-- **Comparison** — see [2026 benchmarks](2026/README.md) for results with the upgraded Tomcat 11 / Java 21 stack, which achieves ~22K req/s on the same single-core constraint.
+- **Comparison** — see [2026 benchmarks](../java21/README.md) for results with the upgraded Tomcat 11 / Java 21 stack, which achieves ~22K req/s on the same single-core constraint.
 
 ---
 
 ## See Also
 
-- [2026 Benchmarks — Tomcat 11 / Java 21](2026/README.md)
-- [Tomcat Blocking (single-threaded)](Tomcat_Blocking.md)
-- [Tomcat NIO (single-threaded)](2020/Tomcat_Nio_SingleThreaded.md)
-- [Build & Run in Docker](../build-and-run.md)
+- [2026 Benchmarks — Tomcat 11 / Java 21](../java21/README.md)
+- [Tomcat Blocking (single-threaded)](../Tomcat_Blocking.md)
+- [Tomcat NIO (single-threaded)](../2020/Tomcat_Nio_SingleThreaded.md)
+- [Build & Run in Docker](../../build-and-run.md)
 

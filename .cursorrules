@@ -1,0 +1,71 @@
+# Cursor Rules — retailstore-microservice
+
+## Project Identity
+
+Java 21 / Spring Boot 4.0 REST microservice. Gradle multi-project build.
+Three modules: `retailstore-rest-schema` (shared POJOs), `retailstore-rest-server` (app),
+`retailstore-rest-httpclient` (consumer + Pact tests).
+
+## Code Generation Rules
+
+### Java
+
+- Target **Java 21**. Use records, sealed interfaces, pattern matching switch, and `var` freely.
+- Prefer **`Thread.ofVirtual().start(...)`** for I/O-bound async work over `ExecutorService`.
+- Constructor injection only — never `@Autowired` on fields.
+- All loggers: `private static final Logger logger = LogManager.getLogger();` (Log4j 2).
+- Response/schema types must be defined in `retailstore-rest-schema`, not inside server module.
+- Use `jakarta.*` — never `javax.*`.
+
+### Spring Boot
+
+- Version: **4.0.0**
+- Controllers → `com.api.rest.endpoints`, thin, delegates to service.
+- Services → `com.api.rest.service`, owns business logic, `final` class.
+- Config → `@ConfigurationProperties` for groups, `@Value` for single properties.
+- Metrics → `@Timed` (Micrometer). Rate limiting → Resilience4j `RateLimiterRegistry`.
+
+### Style
+
+- Checkstyle: `google_checks.xml`. No wildcard imports. `final` on params where not reassigned.
+- Suppress warnings with Sonar rule IDs: `@SuppressWarnings("java:S117")`.
+- Methods ≤ 20 lines. Prefer extraction over comments.
+
+## Build Commands
+
+```bash
+./gradlew test jacocoTestReport   # test + coverage
+./gradlew build -x test           # compile + package, skip tests
+./gradlew clean build             # full clean build
+```
+
+## Docker Commands
+
+```bash
+./docker-containerization.sh      # stop old container, build JAR, build image, run
+docker run -it -p 8080:8080 --cpus=1 --memory=768m retailstore-microservice
+```
+
+Base image: `eclipse-temurin:21-jre-alpine`. User creation: `addgroup`/`adduser` (Alpine).
+
+## Constraints
+
+- Do **not** suggest Maven.
+- Do **not** add `spring-boot-starter-webflux` (Tomcat servlet stack is intentional).
+- Do **not** import `javax.*`.
+- Do **not** lower Jacoco coverage thresholds.
+- Do **not** add new Lombok annotations — migrate existing ones to records instead.
+
+## File Locations
+
+| Concern | Path |
+|---------|------|
+| Endpoints | `retailstore-rest-server/src/main/java/com/api/rest/endpoints/` |
+| Services | `retailstore-rest-server/src/main/java/com/api/rest/service/` |
+| Schema | `retailstore-rest-schema/src/main/java/` |
+| Tests | mirror source tree under `src/test/java/` |
+| Pact contracts | `retailstore-rest-httpclient/target/pacts/` |
+| Perf docs | `docs/perf/` |
+| CI | `.github/workflows/cicd.yaml` |
+| Infra | `devops/` |
+
