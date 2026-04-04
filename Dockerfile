@@ -1,11 +1,15 @@
 ## FROM java-microservice-base-image:latest
-FROM openjdk:11
-## FROM adoptopenjdk/openjdk11:alpine-jre 
+FROM eclipse-temurin:21-jre-alpine
+## FROM openjdk:21
 LABEL name=retailstore-microservice
 
 RUN mkdir -p /usr/local/app
 
-RUN useradd retailuser -d /home/retailuser && chown -R retailuser.retailuser /usr/bin/ && chown -R retailuser.retailuser /usr/lib/ && chown -R retailuser.retailuser /usr/local/ && chown -R retailuser.retailuser /var/log/
+RUN addgroup -S retailuser && adduser -S -D -h /home/retailuser -G retailuser retailuser \
+    && chown -R retailuser:retailuser /usr/bin/ \
+    && chown -R retailuser:retailuser /usr/lib/ \
+    && chown -R retailuser:retailuser /usr/local/ \
+    && chown -R retailuser:retailuser /var/log/
 
 USER retailuser
 

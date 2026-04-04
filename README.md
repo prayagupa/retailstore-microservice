@@ -4,13 +4,11 @@
 
 A micro-service implementation in Java 21, Spring Boot `4.0.x`.
 
-```
-|                   |                          |
-|                   |                          |
-|    /endpoint      |      service             |
-|        |          |                          |
-|        v          |                          |
-|     schema JAR    |                          |
+```mermaid
+flowchart LR
+    client(["HTTP Client"]) --> endpoint["/endpoint"]
+    endpoint --> service["Service"]
+    endpoint --> schema["Schema JAR"]
 ```
 
 ---
@@ -27,8 +25,9 @@ A micro-service implementation in Java 21, Spring Boot `4.0.x`.
   - [REST API Dependency Sizes](#rest-api-dependency-sizes)
 - [App Start Time](#app-start-time)
 - [Monitoring](#monitoring)
+- [Build & Run in Docker (Single Core)](docs/build-and-run.md)
 - [Deployment & Load Balancing](devops/README.md)
-- [Performance](perf/README.md)
+- [Performance](docs/perf/README.md)
 - [See Also](#see-also)
 
 ---
@@ -79,7 +78,7 @@ spring.profiles.active=${APP_ENVIRONMENT}
 ### Verify the Endpoint
 
 ```bash
-curl -v -XGET http://localhost:8080/retailstore/health-blocking | python -m json.tool
+curl -v -XGET http://127.0.0.1:8080/retailstore/health-blocking | python -m json.tool
 Note: Unnecessary use of -X or --request, GET is already inferred.
 *   Trying 127.0.0.1:8080...
 > GET /retailstore/health-blocking HTTP/1.1
