@@ -9,7 +9,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import com.api.rest.schema.ServiceBuildInfo;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -19,6 +21,7 @@ import java.util.concurrent.Executor;
 
 @SpringBootApplication
 @EnableAsync
+@EnableConfigurationProperties(ServiceBuildInfo.class)
 @SuppressWarnings({"java:S1481", "java:S1854", "java:S1488"})
 public class MicroserviceApplication {
 

@@ -6,10 +6,6 @@ apply plugin:'java'
 dependencies {
     def log4jVersion = '2.24.3'
     def jacksonVersion = '2.18.3'
-    def lombokVersion = '1.18.36'
-
-    implementation group: 'org.projectlombok', name: 'lombok', version: lombokVersion
-    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
 
     implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4jVersion
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: log4jVersion

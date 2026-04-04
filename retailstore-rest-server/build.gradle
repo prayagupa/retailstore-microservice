@@ -34,7 +34,6 @@ dependencies {
     def springBootVersion = "4.0.0"
     def log4jVersion = '2.24.3'
     def jacksonVersion = '2.18.3'
-    def lombokVersion = '1.18.36'
     def micrometerVersion = '1.14.4'
     // junitVersion intentionally omitted — Spring Boot 4 BOM manages JUnit 6.x
     // def junitVersion = '6'
@@ -42,8 +41,6 @@ dependencies {
 
     implementation project(':retailstore-rest-schema')
 
-    implementation group: 'org.projectlombok', name: 'lombok', version: lombokVersion
-    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
 
     implementation group: 'io.github.resilience4j', name: 'resilience4j-spring-boot3', version: '2.2.0'
     implementation group: 'com.zaxxer', name: 'HikariCP', version: '5.1.0'

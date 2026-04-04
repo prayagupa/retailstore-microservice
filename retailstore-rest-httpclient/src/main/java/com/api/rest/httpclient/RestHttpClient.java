@@ -34,7 +34,7 @@ public class RestHttpClient {
         return CompletableFuture.supplyAsync(() -> {
             logger.debug("requestId: {}, fetching health status", requestId);
             return restClient.get()
-                    .uri("/health")
+                    .uri("/retailstore//health-blocking")
                     .header("x-request-id", requestId.toString())
                     .header("x-source-api", sourceApi)
                     .retrieve()
@@ -49,7 +49,7 @@ public class RestHttpClient {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        var client = new RestHttpClient("http://localhost:9099");
+        var client = new RestHttpClient("http://localhost:8080");
         var resp = client.getHealthStatus(UUID.randomUUID(), "test");
         Thread.sleep(1000);
 
